@@ -21,6 +21,7 @@ def config():
         'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
         'sender_name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
         'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),
+        'sender_title': os.environ.get('RFP_SENDER_TITLE', ''),
         'sender_phone': os.environ.get('RFP_SENDER_PHONE', ''),
     }
 
@@ -93,7 +94,9 @@ def build_body(venue, night, event):
         "",
         "Thank you,",
         cfg['sender_name'],
-        cfg['sender_org'],
+        # "Director of Events, Impact Analytics" when a title is set, else the
+        # organisation on its own.
+        f"{cfg['sender_title']}, {cfg['sender_org']}" if cfg['sender_title'] else cfg['sender_org'],
     ]
     if cfg['sender_phone']:
         lines.append(cfg['sender_phone'])

@@ -28,6 +28,9 @@ services:
         value: "Impact Analytics — Events Team"
       - key: RFP_SENDER_ORG
         value: "Impact Analytics"
+      # Optional job title; the signature renders as "Title, Impact Analytics".
+      # - key: RFP_SENDER_TITLE
+      #   value: "Director, Field Marketing"
       # - key: RFP_SENDER_PHONE
       #   value: "+1 555 0100"
 
