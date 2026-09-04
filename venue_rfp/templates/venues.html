@@ -122,8 +122,9 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
 .dlg-b{padding:18px 20px;display:flex;flex-direction:column;gap:12px;max-height:62vh;overflow:auto}
 .fld label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;
   text-transform:uppercase;letter-spacing:.04em}
-.fld input,.fld textarea{width:100%;font:inherit;padding:9px 11px;border:1px solid var(--line);
+.fld input,.fld textarea,.fld select{width:100%;font:inherit;padding:9px 11px;border:1px solid var(--line);
   border-radius:9px;background:#fff;color:var(--ink)}
+.senderline{font-size:12px;color:var(--muted);margin-top:5px}
 .fld textarea{min-height:300px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.6}
 .dlg-f{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .dlg-f .spacer{flex:1}
@@ -249,6 +250,17 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
   </form>
   <div class="dlg-b">
     <div class="msg" id="dlgMsg"></div>
+    {% if senders|length > 1 %}
+    <div class="fld">
+      <label for="fSender">Send as</label>
+      <select id="fSender">
+        {% for s in senders %}
+        <option value="{{ s.id }}">{{ s.name }}{% if s.title %} — {{ s.title }}{% endif %} · {{ s.from }}</option>
+        {% endfor %}
+      </select>
+      <div class="senderline" id="fSenderLine"></div>
+    </div>
+    {% endif %}
     <div class="fld"><label for="fTo">To</label><input id="fTo" type="email" autocomplete="off"></div>
     <div class="fld"><label for="fSubj">Subject</label><input id="fSubj" type="text"></div>
     <div class="fld"><label for="fBody">Message</label><textarea id="fBody" spellcheck="true"></textarea></div>
@@ -378,18 +390,28 @@ async function openDraft(card, nightId){
   document.getElementById('fBody').value = 'Loading…';
   dlg.showModal();
 
-  const r = await fetch(`${BASE}/api/draft/${venueId}/${nightId}`);
+  const senderSel = document.getElementById('fSender');
+  const senderQ = senderSel ? `?sender=${encodeURIComponent(senderSel.value)}` : '';
+  const r = await fetch(`${BASE}/api/draft/${venueId}/${nightId}${senderQ}`);
   const d = await r.json();
   if (!r.ok) { msg.className = 'msg err'; msg.textContent = d.error; return; }
   document.getElementById('fTo').value = d.to || '';
   document.getElementById('fSubj').value = d.subject;
   document.getElementById('fBody').value = d.body;
+  const line = document.getElementById('fSenderLine');
+  if (line) line.textContent = `From ${d.from_address} · replies to ${d.reply_to}`;
   current = {venueId, nightId, card};
   if (!d.to) {
     msg.className = 'msg err';
     msg.textContent = d.booking_note || 'This venue takes enquiries through a web form — add an address above, or use the events page link on the card.';
   }
 }
+
+const senderSelect = document.getElementById('fSender');
+if (senderSelect) senderSelect.addEventListener('change', () => {
+  if (!current) return;
+  openDraft(current.card, current.nightId);   // re-draft with the new signature
+});
 
 document.getElementById('bCopy').addEventListener('click', async () => {
   const text = `To: ${document.getElementById('fTo').value}\nSubject: ${document.getElementById('fSubj').value}\n\n${document.getElementById('fBody').value}`;
@@ -414,6 +436,7 @@ document.getElementById('bSend').addEventListener('click', async () => {
       to: document.getElementById('fTo').value,
       subject: document.getElementById('fSubj').value,
       body: document.getElementById('fBody').value,
+      sender_id: senderSelect ? senderSelect.value : null,
     });
     flash('ok', 'RFP sent. Marked as “RFP sent” in the tracker.');
     const row = current.card.querySelector(`.row[data-night="${current.nightId}"]`);

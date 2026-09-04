@@ -1,0 +1,19 @@
+{
+  "_comment": "Who RFPs can be sent as. `from` must be on a domain verified in Resend (impactanalytics.net); `reply_to` can be any mailbox the person actually reads. The first entry is the default selection.",
+  "senders": [
+    {
+      "id": "sender-1",
+      "name": "PLACEHOLDER — first name surname",
+      "title": "PLACEHOLDER — job title",
+      "from": "placeholder1@impactanalytics.net",
+      "reply_to": "placeholder1@impactanalytics.co"
+    },
+    {
+      "id": "sender-2",
+      "name": "PLACEHOLDER — first name surname",
+      "title": "PLACEHOLDER — job title",
+      "from": "placeholder2@impactanalytics.net",
+      "reply_to": "placeholder2@impactanalytics.co"
+    }
+  ]
+}

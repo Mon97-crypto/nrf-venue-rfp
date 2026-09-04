@@ -57,6 +57,27 @@ All optional except the API key, and only for in-app sending.
 | `RFP_SENDER_PHONE` | _unset_ | Added to the signature when set |
 | `VENUE_DB_PATH` | `venue_rfp/data/outreach.db` | SQLite tracker location |
 
+## Who RFPs are sent as
+
+`venue_rfp/data/senders.json` lists the identities an RFP can go out as. When it
+holds more than one, a **Send as** picker appears in the compose dialog and the
+signature, From line and Reply-To all follow the selection; the send log records
+which identity each RFP went out as.
+
+```json
+{ "senders": [
+  { "id": "ab", "name": "A. Beckett", "title": "Director, Field Marketing",
+    "from": "abeckett@impactanalytics.net", "reply_to": "abeckett@impactanalytics.co" }
+]}
+```
+
+`from` must be on a domain verified in Resend (`impactanalytics.net`);
+`reply_to` can be any mailbox the person actually reads. The first entry is the
+default selection. Only a sender **id** is sent from the browser — the From line
+is resolved server-side, so the picker cannot be used to send as an arbitrary
+address. Delete the file, or leave it empty, and the tool falls back to the
+single sender defined by the environment variables above.
+
 ## Editing the shortlist
 
 `venue_rfp/data/venues.json` holds the event brief and the venue records.

@@ -63,6 +63,7 @@ def index():
         statuses=store.STATUSES,
         resend_ready=mailer.is_configured(),
         mail_config=mailer.config(),
+        senders=mailer.senders(),
     )
 
 
@@ -79,10 +80,15 @@ def api_draft(venue_id, night_id):
     night = catalog['event']['nights'].get(night_id)
     if not venue or not night:
         return jsonify({'error': 'Unknown venue or night.'}), 404
+    sender_id = request.args.get('sender') or None
+    cfg = mailer.config(sender_id)
     return jsonify({
         'to': venue.get('email', ''),
-        'subject': mailer.build_subject(venue, night),
-        'body': mailer.build_body(venue, night, catalog['event']),
+        'subject': mailer.build_subject(venue, night, sender_id),
+        'body': mailer.build_body(venue, night, catalog['event'], sender_id),
+        'sender_id': cfg['sender_id'],
+        'from_address': cfg['from_address'],
+        'reply_to': cfg['reply_to'],
         'email_confidence': venue.get('email_confidence', 'unconfirmed'),
         'booking_note': venue.get('booking_note', ''),
     })
@@ -133,17 +139,23 @@ def api_send():
     if not any(v['id'] == venue_id for v in catalog['venues']):
         return jsonify({'error': 'Unknown venue.'}), 400
 
-    ok, message_id, error = mailer.send(to_email, subject, body)
-    store.log_send(venue_id, night_id, to_email, subject, body, message_id, ok, error)
+    # Only an id crosses the wire — the From line is resolved server-side from
+    # the sender list, so a client cannot send as an arbitrary address.
+    sender_id = payload.get('sender_id') or None
+    ok, message_id, error = mailer.send(to_email, subject, body, sender_id=sender_id)
+    resolved = mailer.config(sender_id)['sender_id']
+    store.log_send(venue_id, night_id, to_email, subject, body, message_id, ok, error,
+                   sender_id=resolved)
     if not ok:
         return jsonify({'error': error}), 502
 
     row = store.upsert_outreach(
         venue_id, night_id,
         status='rfp_sent', sent_to=to_email, subject=subject,
-        message_id=message_id, sent_at=store.now(),
+        message_id=message_id, sent_at=store.now(), sender_id=resolved,
     )
-    return jsonify({'ok': True, 'message_id': message_id, 'outreach': row})
+    return jsonify({'ok': True, 'message_id': message_id, 'sender_id': resolved,
+                    'outreach': row})
 
 
 @venue_bp.route('/api/history')

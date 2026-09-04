@@ -44,10 +44,12 @@ def init_db():
                 sent_at      TEXT NOT NULL DEFAULT '',
                 message_id   TEXT NOT NULL DEFAULT '',
                 subject      TEXT NOT NULL DEFAULT '',
+                sender_id    TEXT NOT NULL DEFAULT '',
                 updated_at   TEXT NOT NULL DEFAULT '',
                 PRIMARY KEY (venue_id, night)
             )
         """)
+        _ensure_column(conn, 'outreach', 'sender_id')
         conn.execute("""
             CREATE TABLE IF NOT EXISTS venue_meta (
                 venue_id     TEXT PRIMARY KEY,
@@ -65,11 +67,19 @@ def init_db():
                 subject     TEXT NOT NULL,
                 body        TEXT NOT NULL,
                 message_id  TEXT NOT NULL DEFAULT '',
+                sender_id   TEXT NOT NULL DEFAULT '',
                 ok          INTEGER NOT NULL DEFAULT 0,
                 error       TEXT NOT NULL DEFAULT '',
                 created_at  TEXT NOT NULL
             )
         """)
+        _ensure_column(conn, 'send_log', 'sender_id')
+
+
+def _ensure_column(conn, table, column):
+    existing = {r['name'] for r in conn.execute(f'PRAGMA table_info({table})')}
+    if column not in existing:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} TEXT NOT NULL DEFAULT ''")
 
 
 def _now():
@@ -98,7 +108,7 @@ def all_meta():
 
 
 def upsert_outreach(venue_id, night, **fields):
-    allowed = {'status', 'notes', 'sent_to', 'sent_at', 'message_id', 'subject'}
+    allowed = {'status', 'notes', 'sent_to', 'sent_at', 'message_id', 'subject', 'sender_id'}
     fields = {k: v for k, v in fields.items() if k in allowed and v is not None}
     if fields.get('status') and fields['status'] not in STATUSES:
         raise ValueError(f"unknown status: {fields['status']}")
@@ -139,19 +149,21 @@ def upsert_meta(venue_id, **fields):
     return dict(row)
 
 
-def log_send(venue_id, night, to_email, subject, body, message_id='', ok=False, error=''):
+def log_send(venue_id, night, to_email, subject, body, message_id='', ok=False, error='',
+             sender_id=''):
     with _lock, _connect() as conn:
         conn.execute(
-            'INSERT INTO send_log (venue_id, night, to_email, subject, body, message_id, ok, error, created_at)'
-            ' VALUES (?,?,?,?,?,?,?,?,?)',
-            (venue_id, night, to_email, subject, body, message_id, 1 if ok else 0, error, _now()),
+            'INSERT INTO send_log (venue_id, night, to_email, subject, body, message_id,'
+            ' sender_id, ok, error, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)',
+            (venue_id, night, to_email, subject, body, message_id, sender_id,
+             1 if ok else 0, error, _now()),
         )
 
 
 def send_history(limit=200):
     with _connect() as conn:
         rows = conn.execute(
-            'SELECT venue_id, night, to_email, subject, message_id, ok, error, created_at'
+            'SELECT venue_id, night, to_email, subject, message_id, sender_id, ok, error, created_at'
             ' FROM send_log ORDER BY id DESC LIMIT ?', (limit,)
         ).fetchall()
     return [dict(r) for r in rows]

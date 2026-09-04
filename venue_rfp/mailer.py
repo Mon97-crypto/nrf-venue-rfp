@@ -10,18 +10,70 @@ import urllib.error
 import urllib.request
 
 RESEND_ENDPOINT = 'https://api.resend.com/emails'
+_SENDERS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'senders.json')
 
 
-def config():
+def senders():
+    """The identities an RFP may be sent as.
+
+    Read from data/senders.json. If that is missing or empty the environment
+    variables below define a single sender, which is the original behaviour.
+    """
+    try:
+        with open(_SENDERS_FILE, 'r', encoding='utf-8') as fh:
+            entries = json.load(fh).get('senders') or []
+    except (OSError, ValueError):
+        entries = []
+
+    out = []
+    for e in entries:
+        if not (e.get('id') and e.get('from')):
+            continue
+        out.append({
+            'id': e['id'],
+            'name': e.get('name', ''),
+            'title': e.get('title', ''),
+            'from': e['from'],
+            'reply_to': e.get('reply_to', ''),
+        })
+    if out:
+        return out
+
+    return [{
+        'id': 'default',
+        'name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
+        'title': os.environ.get('RFP_SENDER_TITLE', ''),
+        'from': os.environ.get('RESEND_FROM', 'Impact Analytics Events <events@impactanalytics.net>'),
+        'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
+    }]
+
+
+def resolve_sender(sender_id=None):
+    """Look a sender up by id. Never trust a client-supplied address — the
+    caller passes an id and the From line comes from this list."""
+    options = senders()
+    if sender_id:
+        for s in options:
+            if s['id'] == sender_id:
+                return s
+    return options[0]
+
+
+def config(sender_id=None):
+    s = resolve_sender(sender_id)
+    # A bare address gets the sender's name attached so the From line reads as
+    # a person rather than a mailbox.
+    from_address = s['from'] if '<' in s['from'] else (
+        f"{s['name']} <{s['from']}>" if s['name'] else s['from'])
     return {
         'api_key': os.environ.get('RESEND_API_KEY', ''),
-        # From must be on a domain verified in Resend (impactanalytics.net).
-        'from_address': os.environ.get('RESEND_FROM', 'Impact Analytics Events <events@impactanalytics.net>'),
-        # Reply-To is just a header, so it can be a mailbox on another domain.
-        'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
-        'sender_name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
+        'sender_id': s['id'],
+        'from_address': from_address,
+        # Reply-To is only a header, so it can be a mailbox on another domain.
+        'reply_to': s['reply_to'],
+        'sender_name': s['name'],
+        'sender_title': s['title'],
         'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),
-        'sender_title': os.environ.get('RFP_SENDER_TITLE', ''),
         'sender_phone': os.environ.get('RFP_SENDER_PHONE', ''),
     }
 
@@ -30,10 +82,10 @@ def is_configured():
     return bool(config()['api_key'])
 
 
-def build_subject(venue, night):
+def build_subject(venue, night, sender_id=None):
     return (
         f"Private event enquiry — {night['date']} · "
-        f"{night['headcount']} · {config()['sender_org']}"
+        f"{night['headcount']} · {config(sender_id)['sender_org']}"
     )
 
 
@@ -62,8 +114,8 @@ _ASKS_RECEPTION = [
 ]
 
 
-def build_body(venue, night, event):
-    cfg = config()
+def build_body(venue, night, event, sender_id=None):
+    cfg = config(sender_id)
     space = venue.get('space') or 'your private dining space'
     is_reception = 'reception' in night['format'].lower() or night['id'] == 'saturday'
     asks = _ASKS_COMMON[:1] + (_ASKS_RECEPTION if is_reception else _ASKS_SEATED) + _ASKS_COMMON[1:]
@@ -104,9 +156,9 @@ def build_body(venue, night, event):
     return "\n".join(lines)
 
 
-def send(to_email, subject, body, reply_to=None):
+def send(to_email, subject, body, reply_to=None, sender_id=None):
     """Send via Resend. Returns (ok, message_id, error)."""
-    cfg = config()
+    cfg = config(sender_id)
     if not cfg['api_key']:
         return False, '', 'RESEND_API_KEY is not set on this deployment.'
     payload = {
