@@ -30,7 +30,7 @@ def _monogram(name):
     return letters.upper()
 
 
-def _decorate(catalog):
+def _decorate(catalog, with_links=False):
     """Merge stored outreach state and per-venue overrides onto the catalog."""
     outreach = store.all_outreach()
     meta = store.all_meta()
@@ -44,6 +44,13 @@ def _decorate(catalog):
             v['email'] = override
             v['email_confidence'] = 'user_supplied'
         v['monogram'] = _monogram(v['name'])
+        if with_links:
+            # Rendered into the page as a real href so the click opens Gmail
+            # directly, rather than through JS a popup blocker might catch.
+            v['gmail'] = {
+                night: mailer.gmail_url(v, cfg, catalog['event'])
+                for night, cfg in catalog['event']['nights'].items()
+            }
         v['outreach'] = {
             night: outreach.get(v['id'], {}).get(night, {'status': 'not_contacted', 'notes': ''})
             for night in catalog['event']['nights']
@@ -59,11 +66,10 @@ def index():
     return render_template(
         'venues.html',
         event=catalog['event'],
-        venues=_decorate(catalog),
+        venues=_decorate(catalog, with_links=True),
         statuses=store.STATUSES,
-        resend_ready=mailer.is_configured(),
+        status_labels=store.STATUS_LABELS,
         mail_config=mailer.config(),
-        senders=mailer.senders(),
     )
 
 
@@ -80,15 +86,11 @@ def api_draft(venue_id, night_id):
     night = catalog['event']['nights'].get(night_id)
     if not venue or not night:
         return jsonify({'error': 'Unknown venue or night.'}), 404
-    sender_id = request.args.get('sender') or None
-    cfg = mailer.config(sender_id)
     return jsonify({
         'to': venue.get('email', ''),
-        'subject': mailer.build_subject(venue, night, sender_id),
-        'body': mailer.build_body(venue, night, catalog['event'], sender_id),
-        'sender_id': cfg['sender_id'],
-        'from_address': cfg['from_address'],
-        'reply_to': cfg['reply_to'],
+        'subject': mailer.build_subject(venue, night),
+        'body': mailer.build_body(venue, night, catalog['event']),
+        'gmail_url': mailer.gmail_url(venue, night, catalog['event']),
         'email_confidence': venue.get('email_confidence', 'unconfirmed'),
         'booking_note': venue.get('booking_note', ''),
     })
@@ -117,50 +119,6 @@ def api_meta(venue_id):
         email_override=payload.get('email_override'),
     )
     return jsonify(row)
-
-
-@venue_bp.route('/api/send', methods=['POST'])
-def api_send():
-    payload = request.get_json(silent=True) or {}
-    venue_id = payload.get('venue_id', '')
-    night_id = payload.get('night_id', '')
-    to_email = (payload.get('to') or '').strip()
-    subject = (payload.get('subject') or '').strip()
-    body = payload.get('body') or ''
-
-    if not (venue_id and night_id and to_email and subject and body):
-        return jsonify({'error': 'venue_id, night_id, to, subject and body are all required.'}), 400
-    if '@' not in to_email:
-        return jsonify({'error': f'"{to_email}" is not an email address.'}), 400
-
-    catalog = load_catalog()
-    if night_id not in catalog['event']['nights']:
-        return jsonify({'error': 'Unknown night.'}), 400
-    if not any(v['id'] == venue_id for v in catalog['venues']):
-        return jsonify({'error': 'Unknown venue.'}), 400
-
-    # Only an id crosses the wire — the From line is resolved server-side from
-    # the sender list, so a client cannot send as an arbitrary address.
-    sender_id = payload.get('sender_id') or None
-    ok, message_id, error = mailer.send(to_email, subject, body, sender_id=sender_id)
-    resolved = mailer.config(sender_id)['sender_id']
-    store.log_send(venue_id, night_id, to_email, subject, body, message_id, ok, error,
-                   sender_id=resolved)
-    if not ok:
-        return jsonify({'error': error}), 502
-
-    row = store.upsert_outreach(
-        venue_id, night_id,
-        status='rfp_sent', sent_to=to_email, subject=subject,
-        message_id=message_id, sent_at=store.now(), sender_id=resolved,
-    )
-    return jsonify({'ok': True, 'message_id': message_id, 'sender_id': resolved,
-                    'outreach': row})
-
-
-@venue_bp.route('/api/history')
-def api_history():
-    return jsonify(store.send_history())
 
 
 @venue_bp.route('/api/export')

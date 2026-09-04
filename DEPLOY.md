@@ -1,66 +1,16 @@
 # Deploying this app
 
-Two independent halves: get Resend able to send as you (Part 1), then get the
-app onto Render with the key (Part 2). The tool is useful before either is done
-— *Copy* and *Open in mail app* work with no configuration at all — so you can
-start outreach today and switch on one-click sending later.
+Nothing to configure before it is useful. **Send RFP** opens a prefilled Gmail
+compose window in a new tab — no API key, no verified sending domain, no
+outbound mail from the server at all. The mail leaves the sender's own mailbox,
+so it threads normally, lands in their Sent folder, and replies come straight
+back to them.
 
 ---
 
-## Part 1 — Resend
+## Part 1 — Render
 
-`impactanalytics.net` is already verified in this Resend account, so domain
-setup is done. Two things remain: pick the sending address, and mint a key.
 
-### 1. Pick the From address
-
-Any local part on the verified domain works — Resend does not require the
-mailbox to exist. The default this repo ships is:
-
-```
-Impact Analytics Events <events@impactanalytics.net>
-```
-
-Change it with the `RESEND_FROM` variable if you would rather use
-`marketing@impactanalytics.net` or similar.
-
-> **The sending domain and your inbox are different domains.** Mail goes out as
-> `@impactanalytics.net` (verified for sending) while replies come back to
-> `marketing@impactanalytics.co` (where you actually read mail). That is set by
-> `RFP_REPLY_TO` and is perfectly normal — Reply-To is only a header, and it has
-> no bearing on SPF, DKIM or DMARC, which all authenticate against the From
-> domain.
->
-> One consequence worth knowing: a venue that hits *Reply* lands in your `.co`
-> inbox correctly, but **bounces and out-of-office notices go to the From
-> address**. If nobody monitors `events@impactanalytics.net`, you will not see a
-> bad-address bounce. Either make it a real monitored mailbox or alias, or check
-> Resend's **Emails** log — it records bounces regardless.
-
-### 2. Create a scoped API key
-
-**API Keys → Create API Key**
-
-- Name: `ia-venue-rfp`
-- Permission: **Sending access** — not Full access; this app only sends
-- Domain: restrict it to **impactanalytics.net**
-
-Copy the `re_...` value immediately; Resend shows it exactly once. It goes into
-Render's environment in Part 2, never into git.
-
-> If the key is scoped to a domain and `RESEND_FROM` is on a different one,
-> every send fails with a `403`. That mismatch is the most common configuration
-> error here.
-
-### 3. Check the plan headroom
-
-The free plan allows **3,000 emails/month and 100/day**, with one verified
-domain. The full shortlist is 18 venues × 2 nights = 36 emails, so a single
-day's outreach fits comfortably. If `impactanalytics.net` is already sending
-production mail through this same Resend account, check the daily figure before
-a bulk send.
-
-## Part 2 — Render
 
 This repo holds exactly one app, so there is no ambiguity about what deploys:
 the venue board is served at the **root** of whatever URL Render gives you.
@@ -77,9 +27,7 @@ grant Render access to it.
 **4.** Render reads `render.yaml` and shows one web service — **nrf-venue-rfp**,
 Docker runtime, Free plan. Name the Blueprint and confirm the branch is **main**.
 
-**5.** It prompts for **`RESEND_API_KEY`** (the `sync: false` variable). Paste the
-`re_...` key from Part 1, or leave it blank and add it later — the tool runs
-without one, it just cannot send in-app.
+**5.** There is nothing to fill in — the Blueprint carries every value it needs.
 
 **6. Deploy Blueprint.** The build takes roughly 60–90 seconds: this image is
 Flask and gunicorn only, with no system packages to install.
@@ -91,16 +39,6 @@ Flask and gunicorn only, with no system packages to install.
 `https://nrf-venue-rfp.onrender.com`, possibly with a random suffix if that name
 is already taken globally.
 
-### Adding the key later
-
-If you skipped it in step 5: service → **Environment** → **Add Environment
-Variable** → `RESEND_API_KEY` → **Save Changes**. Saving triggers a redeploy on
-its own.
-
-Note that Render ignores `sync: false` variables when *updating* an existing
-Blueprint, so it will never prompt you again — the dashboard is the only way to
-add it after creation.
-
 ### Redeploying
 
 Pushes to `main` deploy automatically when **Auto-Deploy** is on
@@ -110,14 +48,13 @@ Pushes to `main` deploy automatically when **Auto-Deploy** is on
 
 1. Open the service URL. You should land straight on the venue board — 18 cards,
    no other app in the way.
-2. Check the badge top-right: **“● Resend connected”** in green means the key is
-   live. Amber means it is missing, or the deploy predates it.
-3. Click **Send RFP** on any venue, change the To address to your own, and
-   **Send via Resend**. Confirm it arrives, that Reply-To is
-   `marketing@impactanalytics.co`, that the card flipped to *RFP sent*, and that
-   the send appears in Resend's **Emails** log.
+2. Click **Send RFP** on any venue. A Gmail compose window should open in a new
+   tab, addressed to the venue, with the subject and body filled in — and the
+   card should flip to *RFP sent* behind it.
+3. Close the Gmail tab without sending, then reload the board: the card should
+   still read *RFP sent*, which confirms the tracker is persisting.
 
-Only after that test should you send to an actual venue.
+Then send one to yourself before sending to a venue.
 
 ### If the build fails
 
@@ -144,7 +81,8 @@ deploy and every spin-down. Two ways to handle it:
   survives everything.
 
 For a six-week booking cycle the free plan plus periodic exports is honestly
-fine. Resend's own log is a second record of everything actually sent.
+fine — and your Gmail Sent folder is a second record of everything that went
+out, independent of this app entirely.
 
 ---
 
@@ -152,11 +90,6 @@ fine. Resend's own log is a second record of everything actually sent.
 
 | Symptom | Cause |
 |---|---|
-| Badge still amber after deploy | `RESEND_API_KEY` not saved, or the deploy predates it — redeploy |
-| `Resend returned 403` | Key is domain-scoped and `RESEND_FROM` is on a different domain |
-| `Resend returned 422` | `RESEND_FROM` is malformed, or its domain is not `impactanalytics.net` |
-| `Resend returned 429` | Daily cap (100 on the free plan) reached — resume tomorrow or upgrade |
-| Badge shows the wrong From address | `RESEND_FROM` overridden in the Render dashboard; dashboard values beat `render.yaml` |
-| Replies go missing | Check `RFP_REPLY_TO` on the badge — it should read `marketing@impactanalytics.co` |
-| No bounce ever appears | Bounces go to the From address, not Reply-To — read them in Resend's **Emails** log |
 | Statuses reset overnight | Expected on free — see the durability note above |
+| Gmail opens under the wrong account | Set `GMAIL_ACCOUNT_INDEX` (`0` is the first signed-in account) |
+| Gmail opens with an empty To | The venue has no public address — it is a `form only` card; use their enquiry form |

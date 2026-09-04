@@ -3,7 +3,7 @@
 A shortlist of New York venues for the two evenings around
 [NRF Retail's Big Show 2027](https://nrfbigshow.nrf.com/) (10–12 January, Javits
 Center), and the outreach tooling to actually book one: per-venue RFP drafts,
-one-click sending through [Resend](https://resend.com), and status tracking.
+one-click RFP drafts that open straight in Gmail, and status tracking.
 
 | Night | Date | Format | Headcount |
 |---|---|---|---|
@@ -20,9 +20,10 @@ one-click sending through [Resend](https://resend.com), and status tracking.
 - **Per-venue, per-night RFP drafts.** The asks differ by format: a reception
   brief asks about bar positions, canapé counts and coat check; a dinner brief
   asks about full-room privacy, table layout and AV. Editable before sending.
-- **One-click send** through Resend, logged, flipping the venue to *RFP sent*.
-  Without an API key the draft still copies to the clipboard or opens in your
-  mail client, so the tool is useful before any setup.
+- **Send RFP opens Gmail**, prefilled with the venue's address, subject and
+  body, and marks the card *RFP sent*. Nothing is sent by the server — the mail
+  goes from your own mailbox, so it threads normally and replies come back to
+  you rather than to a service address.
 - **Tracking** — Not contacted → RFP sent → Replied → Proposal → Shortlisted →
   Booked / Declined, with per-night progress and a JSON export.
 
@@ -34,13 +35,12 @@ python3 -m venv .venv
 .venv/bin/python app.py       # http://127.0.0.1:5000
 ```
 
-No configuration needed to browse and draft. To send from inside the app, set
-`RESEND_API_KEY` — see [DEPLOY.md](DEPLOY.md).
+No configuration needed at all — the Gmail hand-off works out of the box.
 
 ## Deploying
 
-[DEPLOY.md](DEPLOY.md) is the full runbook: verifying a sending domain in
-Resend, and standing the service up on Render from `render.yaml`.
+[DEPLOY.md](DEPLOY.md) is the full runbook for standing the service up on
+Render from `render.yaml`.
 
 ## Configuration
 
@@ -48,21 +48,15 @@ All optional except the API key, and only for in-app sending.
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `RESEND_API_KEY` | _unset_ | Enables the "Send via Resend" button |
-| `RESEND_FROM` | `Impact Analytics Events <events@impactanalytics.net>` | Must be a domain verified in Resend |
-| `RFP_REPLY_TO` | `marketing@impactanalytics.co` | Reply-to, and the address in the signature (a different domain to the sender is fine) |
-| `RFP_SENDER_NAME` | `Impact Analytics — Events Team` | Signature name |
-| `RFP_SENDER_TITLE` | _unset_ | Job title in the signature; renders as "Title, Org" |
 | `RFP_SENDER_ORG` | `Impact Analytics` | Used in the subject and body |
+| `GMAIL_ACCOUNT_INDEX` | _unset_ | Set to `0`, `1`… if Gmail opens under the wrong signed-in account |
 | `RFP_SENDER_PHONE` | _unset_ | Added to the signature when set |
 | `VENUE_DB_PATH` | `venue_rfp/data/outreach.db` | SQLite tracker location |
 
 ## Who RFPs are sent as
 
-`venue_rfp/data/senders.json` lists the identities an RFP can go out as. When it
-holds more than one, a **Send as** picker appears in the compose dialog and the
-signature, From line and Reply-To all follow the selection; the send log records
-which identity each RFP went out as.
+`venue_rfp/data/senders.json` holds the name, title and contact address used to
+sign every RFP. The first entry is the one used.
 
 ```json
 { "senders": [
@@ -71,12 +65,10 @@ which identity each RFP went out as.
 ]}
 ```
 
-`from` must be on a domain verified in Resend (`impactanalytics.net`);
-`reply_to` can be any mailbox the person actually reads. The first entry is the
-default selection. Only a sender **id** is sent from the browser — the From line
-is resolved server-side, so the picker cannot be used to send as an arbitrary
-address. Delete the file, or leave it empty, and the tool falls back to the
-single sender defined by the environment variables above.
+`reply_to` is the address printed in the signature. Since Gmail sends the mail,
+the actual From line is whichever Google account is composing — this file only
+controls how the RFP is signed. Delete the file, or leave it empty, and the tool
+falls back to the environment variables above.
 
 ## Editing the shortlist
 
@@ -97,7 +89,7 @@ override the JSON, so the data file stays the clean source of record.
 app.py                        Flask entrypoint; mounts the blueprint at /
 venue_rfp/
   blueprint.py                routes
-  mailer.py                   RFP composition + Resend delivery (stdlib urllib)
+  mailer.py                   the generic RFP body + Gmail compose URLs
   store.py                    SQLite tracker
   data/venues.json            the brief and the shortlist
   templates/venues.html       the whole UI
@@ -114,9 +106,7 @@ point, so both work.
 |---|---|
 | `GET /` | The board |
 | `GET /api/venues` | Catalog merged with tracker state |
-| `GET /api/draft/<venue>/<night>` | Prefilled to/subject/body |
-| `POST /api/send` | Send via Resend, log it, mark as sent |
+| `GET /api/draft/<venue>/<night>` | Prefilled to/subject/body plus the Gmail URL |
 | `POST /api/outreach/<venue>/<night>` | Status and notes |
 | `POST /api/meta/<venue>` | Cover image / email override |
-| `GET /api/history` | Send log |
 | `GET /api/export` | Download the tracker as JSON |

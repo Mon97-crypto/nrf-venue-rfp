@@ -1,41 +1,36 @@
-"""RFP body generation and Resend delivery.
+"""RFP composition and Gmail hand-off.
 
-Resend is called over plain urllib so the tool adds no new dependency. When
-RESEND_API_KEY is unset the UI still composes and copies the RFP — it just
-cannot send it.
+There is one generic RFP body. It is parameterised by venue and by night, so a
+reception brief and a dinner brief differ in their details rather than in their
+structure. Nothing is sent from this app: each draft becomes a prefilled Gmail
+compose URL, so the mail leaves the sender's own mailbox, threads normally, and
+lands in their Sent folder.
 """
 import json
 import os
-import urllib.error
-import urllib.request
+import urllib.parse
 
-RESEND_ENDPOINT = 'https://api.resend.com/emails'
+GMAIL_COMPOSE = 'https://mail.google.com/mail/'
 _SENDERS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'senders.json')
 
 
 def senders():
-    """The identities an RFP may be sent as.
-
-    Read from data/senders.json. If that is missing or empty the environment
-    variables below define a single sender, which is the original behaviour.
-    """
+    """The identities an RFP can be signed as (first entry is the default)."""
     try:
         with open(_SENDERS_FILE, 'r', encoding='utf-8') as fh:
             entries = json.load(fh).get('senders') or []
     except (OSError, ValueError):
         entries = []
 
-    out = []
-    for e in entries:
-        if not (e.get('id') and e.get('from')):
-            continue
-        out.append({
+    out = [
+        {
             'id': e['id'],
             'name': e.get('name', ''),
             'title': e.get('title', ''),
-            'from': e['from'],
             'reply_to': e.get('reply_to', ''),
-        })
+        }
+        for e in entries if e.get('id')
+    ]
     if out:
         return out
 
@@ -43,14 +38,11 @@ def senders():
         'id': 'default',
         'name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
         'title': os.environ.get('RFP_SENDER_TITLE', ''),
-        'from': os.environ.get('RESEND_FROM', 'Impact Analytics Events <events@impactanalytics.net>'),
         'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
     }]
 
 
 def resolve_sender(sender_id=None):
-    """Look a sender up by id. Never trust a client-supplied address — the
-    caller passes an id and the From line comes from this list."""
     options = senders()
     if sender_id:
         for s in options:
@@ -61,25 +53,17 @@ def resolve_sender(sender_id=None):
 
 def config(sender_id=None):
     s = resolve_sender(sender_id)
-    # A bare address gets the sender's name attached so the From line reads as
-    # a person rather than a mailbox.
-    from_address = s['from'] if '<' in s['from'] else (
-        f"{s['name']} <{s['from']}>" if s['name'] else s['from'])
     return {
-        'api_key': os.environ.get('RESEND_API_KEY', ''),
         'sender_id': s['id'],
-        'from_address': from_address,
-        # Reply-To is only a header, so it can be a mailbox on another domain.
-        'reply_to': s['reply_to'],
         'sender_name': s['name'],
         'sender_title': s['title'],
+        'sender_email': s['reply_to'],
         'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),
         'sender_phone': os.environ.get('RFP_SENDER_PHONE', ''),
+        # Set when the sender keeps several Google accounts signed in and the
+        # compose window opens under the wrong one.
+        'gmail_account': os.environ.get('GMAIL_ACCOUNT_INDEX', ''),
     }
-
-
-def is_configured():
-    return bool(config()['api_key'])
 
 
 def build_subject(venue, night, sender_id=None):
@@ -89,36 +73,25 @@ def build_subject(venue, night, sender_id=None):
     )
 
 
-_ASKS_COMMON = [
+# One generic set of asks, worded to suit a standing reception and a seated
+# dinner alike.
+_ASKS = [
     "Availability on the date above, and the largest hold you can place while we confirm",
+    "Confirmation the space takes this many guests comfortably in this format, rather than at capacity",
+    "Food and drink options you would recommend at this headcount, and the format you would advise",
     "Food & beverage minimum and/or room fee — and whether NRF week carries a premium",
     "Beverage packages, including a substantial non-alcoholic selection",
+    "Whether the space is private or semi-private, and what else is running in the room that evening",
+    "AV and a microphone, in case we open with a short welcome",
     "Deposit schedule, payment terms and the cancellation policy",
     "Dietary accommodation — we expect vegetarian, vegan, halal and gluten-free guests",
-    "Whether service charge, administrative fee and tax are included in the quoted figures",
-]
-
-_ASKS_SEATED = [
-    "Confirmation that the room is fully private, with no other diners seated in it",
-    "Menu formats you would recommend at this headcount — set menu, family style or tasting",
-    "AV: screen or projector, and a microphone for a short five-minute welcome",
-    "Room layout options — one long table versus rounds — and your recommendation for conversation",
-]
-
-_ASKS_RECEPTION = [
-    "Confirmation the space holds this many guests standing, comfortably rather than at capacity",
-    "Passed canapé and station options, and how many pieces per guest you would advise",
-    "Bar setup — number of bar positions and staffing for a group this size",
-    "Coat check, and whether guests can arrive across a window rather than all at once",
-    "Background music or a sound system we could plug into, and whether a short welcome is workable",
+    "Whether service charge, administrative fee and tax are included in the figures you quote",
 ]
 
 
 def build_body(venue, night, event, sender_id=None):
     cfg = config(sender_id)
     space = venue.get('space') or 'your private dining space'
-    is_reception = 'reception' in night['format'].lower() or night['id'] == 'saturday'
-    asks = _ASKS_COMMON[:1] + (_ASKS_RECEPTION if is_reception else _ASKS_SEATED) + _ASKS_COMMON[1:]
 
     lines = [
         f"Hello {venue['name']} events team,",
@@ -137,7 +110,7 @@ def build_body(venue, night, event, sender_id=None):
         "Could you please come back to me on the following:",
         "",
     ]
-    lines += [f"  {i}. {ask}" for i, ask in enumerate(asks, start=1)]
+    lines += [f"  {i}. {ask}" for i, ask in enumerate(_ASKS, start=1)]
     lines += [
         "",
         "We are comparing a short list of venues over the next two weeks and will "
@@ -146,46 +119,26 @@ def build_body(venue, night, event, sender_id=None):
         "",
         "Thank you,",
         cfg['sender_name'],
-        # "Director of Events, Impact Analytics" when a title is set, else the
-        # organisation on its own.
         f"{cfg['sender_title']}, {cfg['sender_org']}" if cfg['sender_title'] else cfg['sender_org'],
     ]
     if cfg['sender_phone']:
         lines.append(cfg['sender_phone'])
-    lines.append(cfg['reply_to'])
+    lines.append(cfg['sender_email'])
     return "\n".join(lines)
 
 
-def send(to_email, subject, body, reply_to=None, sender_id=None):
-    """Send via Resend. Returns (ok, message_id, error)."""
+def gmail_url(venue, night, event, sender_id=None):
+    """A Gmail compose URL, prefilled. Rendered into the page as a plain link so
+    the click opens a tab directly and is never caught by a popup blocker."""
     cfg = config(sender_id)
-    if not cfg['api_key']:
-        return False, '', 'RESEND_API_KEY is not set on this deployment.'
-    payload = {
-        'from': cfg['from_address'],
-        'to': [to_email],
-        'subject': subject,
-        'text': body,
+    base = GMAIL_COMPOSE
+    if cfg['gmail_account']:
+        base = f"{GMAIL_COMPOSE}u/{cfg['gmail_account']}/"
+    params = {
+        'view': 'cm',
+        'fs': '1',
+        'to': venue.get('email', ''),
+        'su': build_subject(venue, night, sender_id),
+        'body': build_body(venue, night, event, sender_id),
     }
-    reply = reply_to or cfg['reply_to']
-    if reply:
-        payload['reply_to'] = reply
-
-    req = urllib.request.Request(
-        RESEND_ENDPOINT,
-        data=json.dumps(payload).encode('utf-8'),
-        headers={
-            'Authorization': f"Bearer {cfg['api_key']}",
-            'Content-Type': 'application/json',
-        },
-        method='POST',
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            data = json.loads(resp.read().decode('utf-8') or '{}')
-        return True, data.get('id', ''), ''
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode('utf-8', 'replace')[:400]
-        return False, '', f'Resend returned {exc.code}: {detail}'
-    except Exception as exc:  # network, timeout, bad JSON
-        return False, '', f'{type(exc).__name__}: {exc}'
+    return base + '?' + urllib.parse.urlencode(params)

@@ -8,29 +8,17 @@ services:
       - key: PORT
         value: 10000
 
-      # Secret — set the value in the Render dashboard. `sync: false` keeps it
-      # out of git; Render prompts for it when the Blueprint is first created.
-      - key: RESEND_API_KEY
-        sync: false
+      # Nothing is sent by this app — "Send RFP" opens a prefilled Gmail
+      # compose window, so the mail leaves the sender's own mailbox. No API
+      # key and no verified sending domain are needed.
 
-      # Must be an address on a domain verified in Resend.
-      # impactanalytics.net is the verified sending domain; impactanalytics.co
-      # is where replies go, which is why the two differ.
-      - key: RESEND_FROM
-        value: "Impact Analytics Events <events@impactanalytics.net>"
-
-      # Where venues' replies land — a Reply-To header, not a sending identity,
-      # so a normal mailbox on the root domain is fine.
-      - key: RFP_REPLY_TO
-        value: "marketing@impactanalytics.co"
-
-      - key: RFP_SENDER_NAME
-        value: "Impact Analytics — Events Team"
       - key: RFP_SENDER_ORG
         value: "Impact Analytics"
-      # Optional job title; the signature renders as "Title, Impact Analytics".
-      # - key: RFP_SENDER_TITLE
-      #   value: "Director, Field Marketing"
+
+      # Set only if the sender keeps several Google accounts signed in and the
+      # compose window opens under the wrong one (0 is the first account).
+      # - key: GMAIL_ACCOUNT_INDEX
+      #   value: "0"
       # - key: RFP_SENDER_PHONE
       #   value: "+1 555 0100"
 

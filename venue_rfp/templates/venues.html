@@ -33,6 +33,7 @@ header.top .wrap{padding-bottom:0}
   padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#D7DCE6}
 .pill.live{border-color:rgba(61,212,153,.5);color:var(--green)}
 .pill.off{border-color:rgba(180,105,14,.6);color:#F0B65B}
+.pill.manual{border-color:rgba(255,255,255,.3);color:#D7DCE6}
 .nights{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin:24px 0 0;padding-bottom:28px}
 .night{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
   border-radius:var(--radius);padding:16px 18px}
@@ -103,7 +104,9 @@ header.top .wrap{padding-bottom:0}
 .row select{font:inherit;font-size:12.5px;padding:5px 8px;border-radius:8px;
   border:1px solid var(--line);background:#fff;flex:1;min-width:0}
 .row .send{font:inherit;font-size:12.5px;font-weight:500;padding:5px 10px;border-radius:8px;
-  border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;flex:none}
+  border:1px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;flex:none;
+  text-decoration:none;white-space:nowrap}
+.row .send:hover{text-decoration:none}
 .row .send:hover{background:var(--blue-2)}
 .row .send.done{background:#fff;color:var(--blue)}
 .row.na{opacity:.45}
@@ -113,24 +116,6 @@ header.top .wrap{padding-bottom:0}
 .dot.booked{background:#146C43} .dot.declined{background:var(--red)}
 .links{display:flex;gap:12px;font-size:12.5px;padding-top:2px}
 
-/* ── modal ──────────────────────────────────────────── */
-dialog{border:0;border-radius:16px;padding:0;width:min(720px,94vw);box-shadow:0 24px 64px rgba(16,24,40,.28)}
-dialog::backdrop{background:rgba(16,24,40,.45)}
-.dlg-h{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-.dlg-h h3{margin:0;font-size:17px;font-weight:600}
-.dlg-h .s{color:var(--muted);font-size:13px;margin-top:2px}
-.dlg-b{padding:18px 20px;display:flex;flex-direction:column;gap:12px;max-height:62vh;overflow:auto}
-.fld label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;
-  text-transform:uppercase;letter-spacing:.04em}
-.fld input,.fld textarea,.fld select{width:100%;font:inherit;padding:9px 11px;border:1px solid var(--line);
-  border-radius:9px;background:#fff;color:var(--ink)}
-.senderline{font-size:12px;color:var(--muted);margin-top:5px}
-.fld textarea{min-height:300px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.6}
-.dlg-f{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.dlg-f .spacer{flex:1}
-.msg{font-size:12.5px;padding:8px 11px;border-radius:9px;display:none}
-.msg.ok{display:block;background:#EAF7F1;color:#146C43}
-.msg.err{display:block;background:#FDECEA;color:var(--red)}
 .empty{text-align:center;padding:60px 20px;color:var(--muted)}
 @media (max-width:600px){.wrap{padding:0 14px 48px}.controls{position:static}}
 </style>
@@ -144,11 +129,8 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
         <h1>{{ event.name }} — venue RFPs</h1>
         <div class="sub">{{ event.conference_dates }} · {{ event.conference_venue }}</div>
       </div>
-      {% if resend_ready %}
-        <span class="pill live" title="From: {{ mail_config.from_address }}&#10;Reply-To: {{ mail_config.reply_to }}">● Resend connected — from {{ mail_config.from_address }} · replies to {{ mail_config.reply_to }}</span>
-      {% else %}
-        <span class="pill off">● Resend not configured — set RESEND_API_KEY to enable one-click send</span>
-      {% endif %}
+      <span class="pill manual" title="RFPs open as a prefilled Gmail draft. Nothing is sent by this app.">
+        ● Opens in Gmail as {{ mail_config.sender_email }} — replies come straight back to you</span>
     </div>
     <div class="nights">
       {% for key, n in event.nights.items() %}
@@ -176,7 +158,7 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
     <input type="search" id="q" placeholder="Search venue, neighbourhood or cuisine…" autocomplete="off">
     <select id="statusFilter">
       <option value="all">Any status</option>
-      {% for s in statuses %}<option value="{{ s }}">{{ s.replace('_',' ')|title }}</option>{% endfor %}
+      {% for s in statuses %}<option value="{{ s }}">{{ status_labels[s] }}</option>{% endfor %}
     </select>
     <div class="spacer"></div>
     <a class="btn" href="{{ url_for('venues.api_export') }}">Export tracker</a>
@@ -218,12 +200,13 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
             <span class="lbl">{{ 'SAT' if key == 'saturday' else 'SUN' }}</span>
             <select data-status>
               {% for s in statuses %}
-              <option value="{{ s }}" {% if v.outreach[key].status == s %}selected{% endif %}>{{ s.replace('_',' ')|title }}</option>
+              <option value="{{ s }}" {% if v.outreach[key].status == s %}selected{% endif %}>{{ status_labels[s] }}</option>
               {% endfor %}
             </select>
-            <button class="send {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}" type="button" data-draft>
+            <a class="send {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
+               href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft>
               {% if v.outreach[key].status == 'not_contacted' %}Send RFP{% else %}Resend{% endif %}
-            </button>
+            </a>
           </div>
           {% endfor %}
         </div>
@@ -238,47 +221,12 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
   <div class="empty" id="empty" style="display:none">No venues match that filter.</div>
 </div>
 
-<dialog id="dlg">
-  <form method="dialog" style="margin:0">
-    <div class="dlg-h">
-      <div>
-        <h3 id="dlgTitle">Draft RFP</h3>
-        <div class="s" id="dlgSub"></div>
-      </div>
-      <button class="btn" value="cancel" type="submit">Close</button>
-    </div>
-  </form>
-  <div class="dlg-b">
-    <div class="msg" id="dlgMsg"></div>
-    {% if senders|length > 1 %}
-    <div class="fld">
-      <label for="fSender">Send as</label>
-      <select id="fSender">
-        {% for s in senders %}
-        <option value="{{ s.id }}">{{ s.name }}{% if s.title %} — {{ s.title }}{% endif %} · {{ s.from }}</option>
-        {% endfor %}
-      </select>
-      <div class="senderline" id="fSenderLine"></div>
-    </div>
-    {% endif %}
-    <div class="fld"><label for="fTo">To</label><input id="fTo" type="email" autocomplete="off"></div>
-    <div class="fld"><label for="fSubj">Subject</label><input id="fSubj" type="text"></div>
-    <div class="fld"><label for="fBody">Message</label><textarea id="fBody" spellcheck="true"></textarea></div>
-  </div>
-  <div class="dlg-f">
-    <button class="btn" type="button" id="bCopy">Copy</button>
-    <button class="btn" type="button" id="bMail">Open in mail app</button>
-    <div class="spacer"></div>
-    <button class="btn primary" type="button" id="bSend" {% if not resend_ready %}disabled title="Set RESEND_API_KEY to enable"{% endif %}>Send via Resend</button>
-  </div>
-</dialog>
 
 <script>
 const NIGHT_LABEL = {{ event.nights|tojson }};
 // Where this blueprint is mounted ('' at the site root, '/venues' when sub-mounted).
 const BASE = {{ url_for('venues.index')|tojson }}.replace(/\/$/, '');
-const dlg = document.getElementById('dlg');
-let current = null;   // {venueId, nightId, row}
+let current = null;   // {venueId, nightId, card}
 
 /* ── filtering ─────────────────────────────────────── */
 let nightFilter = 'all';
@@ -375,85 +323,23 @@ document.getElementById('grid').addEventListener('click', async e => {
     return;
   }
 
+  // The Send RFP link opens Gmail on its own; we only record it.
   const draft = e.target.closest('[data-draft]');
-  if (draft) openDraft(card, draft.closest('.row').dataset.night);
+  if (draft) markSent(card, draft.closest('.row').dataset.night);
 });
 
-/* ── draft + send ──────────────────────────────────── */
-async function openDraft(card, nightId){
-  const venueId = card.dataset.id;
-  const msg = document.getElementById('dlgMsg');
-  msg.className = 'msg'; msg.textContent = '';
-  document.getElementById('dlgTitle').textContent = card.querySelector('h3').textContent;
-  document.getElementById('dlgSub').textContent =
-    `${NIGHT_LABEL[nightId].label} · ${NIGHT_LABEL[nightId].date} · ${NIGHT_LABEL[nightId].headcount}`;
-  document.getElementById('fBody').value = 'Loading…';
-  dlg.showModal();
-
-  const senderSel = document.getElementById('fSender');
-  const senderQ = senderSel ? `?sender=${encodeURIComponent(senderSel.value)}` : '';
-  const r = await fetch(`${BASE}/api/draft/${venueId}/${nightId}${senderQ}`);
-  const d = await r.json();
-  if (!r.ok) { msg.className = 'msg err'; msg.textContent = d.error; return; }
-  document.getElementById('fTo').value = d.to || '';
-  document.getElementById('fSubj').value = d.subject;
-  document.getElementById('fBody').value = d.body;
-  const line = document.getElementById('fSenderLine');
-  if (line) line.textContent = `From ${d.from_address} · replies to ${d.reply_to}`;
-  current = {venueId, nightId, card};
-  if (!d.to) {
-    msg.className = 'msg err';
-    msg.textContent = d.booking_note || 'This venue takes enquiries through a web form — add an address above, or use the events page link on the card.';
-  }
-}
-
-const senderSelect = document.getElementById('fSender');
-if (senderSelect) senderSelect.addEventListener('change', () => {
-  if (!current) return;
-  openDraft(current.card, current.nightId);   // re-draft with the new signature
-});
-
-document.getElementById('bCopy').addEventListener('click', async () => {
-  const text = `To: ${document.getElementById('fTo').value}\nSubject: ${document.getElementById('fSubj').value}\n\n${document.getElementById('fBody').value}`;
-  try { await navigator.clipboard.writeText(text); flash('ok', 'Copied to clipboard.'); }
-  catch { flash('err', 'Clipboard blocked — select the text manually.'); }
-});
-
-document.getElementById('bMail').addEventListener('click', () => {
-  const to = encodeURIComponent(document.getElementById('fTo').value);
-  const s = encodeURIComponent(document.getElementById('fSubj').value);
-  const b = encodeURIComponent(document.getElementById('fBody').value);
-  window.location.href = `mailto:${to}?subject=${s}&body=${b}`;
-});
-
-document.getElementById('bSend').addEventListener('click', async () => {
-  if (!current) return;
-  const btn = document.getElementById('bSend');
-  btn.disabled = true; btn.textContent = 'Sending…';
-  try {
-    await post(`${BASE}/api/send`, {
-      venue_id: current.venueId, night_id: current.nightId,
-      to: document.getElementById('fTo').value,
-      subject: document.getElementById('fSubj').value,
-      body: document.getElementById('fBody').value,
-      sender_id: senderSelect ? senderSelect.value : null,
-    });
-    flash('ok', 'RFP sent. Marked as “RFP sent” in the tracker.');
-    const row = current.card.querySelector(`.row[data-night="${current.nightId}"]`);
-    row.querySelector('[data-status]').value = 'rfp_sent';
-    row.querySelector('[data-dot]').className = 'dot rfp_sent';
-    const b = row.querySelector('[data-draft]'); b.textContent = 'Resend'; b.classList.add('done');
-    refreshProgress();
-  } catch (err) {
-    flash('err', err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Send via Resend';
-  }
-});
-
-function flash(kind, text){
-  const m = document.getElementById('dlgMsg');
-  m.className = 'msg ' + kind; m.textContent = text;
+/* ── send: the link opens Gmail; we record that it went out ─────────── */
+async function markSent(card, nightId){
+  const row = card.querySelector(`.row[data-night="${nightId}"]`);
+  const sel = row.querySelector('[data-status]');
+  if (sel.value !== 'not_contacted') return;      // already tracked, leave it
+  sel.value = 'rfp_sent';
+  row.querySelector('[data-dot]').className = 'dot rfp_sent';
+  const link = row.querySelector('[data-draft]');
+  link.textContent = 'Resend'; link.classList.add('done');
+  refreshProgress(); applyFilters();
+  try { await post(`${BASE}/api/outreach/${card.dataset.id}/${nightId}`, {status: 'rfp_sent'}); }
+  catch (err) { alert('Opened Gmail, but could not save the status: ' + err.message); }
 }
 
 refreshProgress();
