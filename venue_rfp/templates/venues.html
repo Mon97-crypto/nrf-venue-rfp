@@ -85,6 +85,13 @@ select.ctl{padding:9px 11px;border:1px solid var(--line);border-radius:10px;
 .lnk{font-size:13px;color:var(--muted);padding:9px 12px;border-radius:10px;
   border:1px solid var(--line);background:var(--card)}
 .lnk:hover{color:var(--ink);text-decoration:none;background:var(--line-2)}
+button.lnk{cursor:pointer}
+button.lnk:disabled{opacity:.55;cursor:progress}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;
+  background:var(--ink);color:#fff;font-size:13px;padding:11px 18px;border-radius:11px;
+  box-shadow:var(--sh-2);max-width:min(560px,92vw);display:none}
+.toast.on{display:block}
+.toast b{font-weight:600}
 .count{font-size:12.5px;color:var(--muted);padding:0 2px}
 
 /* ─── grid ─────────────────────────────────────────────────── */
@@ -107,10 +114,19 @@ select.ctl{padding:9px 11px;border:1px solid var(--line);border-radius:10px;
 .cover .fits{position:absolute;top:11px;left:13px;display:flex;gap:5px;z-index:1}
 .fit{font-size:10px;font-weight:600;letter-spacing:.05em;padding:3px 7px;
   border-radius:5px;background:rgba(255,255,255,.9);color:var(--ink)}
-.cover .pencil{position:absolute;top:9px;right:11px;z-index:2;border:0;cursor:pointer;
-  background:rgba(0,0,0,.4);color:#fff;font-size:11px;padding:4px 9px;
-  border-radius:7px;opacity:0;transition:.15s}
+.cover .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center;z-index:0}
+.cover .pencil{position:absolute;top:9px;right:11px;z-index:2;display:flex;gap:4px;
+  opacity:0;transition:.15s}
+.cover .pencil button{border:0;cursor:pointer;background:rgba(0,0,0,.5);color:#fff;
+  font-size:10.5px;font-weight:500;padding:4px 8px;border-radius:6px;
+  backdrop-filter:blur(4px)}
+.cover .pencil button:hover{background:rgba(0,0,0,.75)}
 .card:hover .pencil{opacity:1}
+.cover.busy::after{content:'';position:absolute;inset:0;z-index:3;
+  background:rgba(20,21,26,.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M12 3a9 9 0 1 0 9 9'/%3E%3C/svg%3E") center/22px no-repeat;
+  animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .body{padding:16px;display:flex;flex-direction:column;gap:11px;flex:1}
 .hd h3{margin:0;font-size:17.5px;font-weight:600;letter-spacing:-.015em}
@@ -253,6 +269,7 @@ body.list .nrow select{width:120px;flex:none}
       <button data-view="list" aria-pressed="false">List</button>
     </div>
     <span class="count" id="count"></span>
+    <button class="lnk" type="button" id="getAll">Get photos</button>
     <a class="lnk" href="{{ url_for('venues.api_export') }}">Export</a>
   </div>
 </div>
@@ -267,15 +284,19 @@ body.list .nrow select{width:120px;flex:none}
              data-reception="{{ v.reception_max or 0 }}"
              data-name="{{ v.name|lower }}"
              data-search="{{ (v.name ~ ' ' ~ v.neighborhood ~ ' ' ~ v.cuisine ~ ' ' ~ (v.space or ''))|lower }}">
-      <div class="cover" data-cover
-           style="{% if v.cover_image %}background-image:url('{{ v.cover_image }}');{% else %}background:linear-gradient(150deg,{{ v.accent }},#15161B);{% endif %}">
+      <div class="cover" data-cover style="background:linear-gradient(150deg,{{ v.accent }},#15161B)">
+        {% if v.cover_image %}<img class="shot" src="{{ v.cover_image }}" alt="" loading="lazy"
+             referrerpolicy="no-referrer" onerror="this.remove()">{% endif %}
         <span class="veil"></span>
         <span class="mono">{{ v.monogram }}</span>
         <span class="fits">
           {% if 'saturday' in v.fits %}<span class="fit">SAT</span>{% endif %}
           {% if 'sunday' in v.fits %}<span class="fit">SUN</span>{% endif %}
         </span>
-        <button class="pencil" type="button" data-editcover>Cover</button>
+        <span class="pencil">
+          <button type="button" data-getcover title="Fetch this venue's own photo from its site">Get photo</button>
+          <button type="button" data-editcover title="Paste an image URL">URL</button>
+        </span>
         <span class="cuisine">{{ v.cuisine }}</span>
       </div>
 
@@ -332,6 +353,7 @@ body.list .nrow select{width:120px;flex:none}
     </article>
   {% endfor %}
   </div>
+  <div class="toast" id="toast"></div>
   <div class="empty" id="empty" hidden><h3>Nothing matches</h3><p>Try a different filter or search.</p></div>
 </div>
 
@@ -427,6 +449,60 @@ grid.addEventListener('change', async e => {
   catch (err) { alert('Could not save status: ' + err.message); }
 });
 
+/* ── cover photos ──────────────────────────────────────────── */
+function paintCover(card, url){
+  const cover = card.querySelector('[data-cover]');
+  cover.querySelector('.shot')?.remove();
+  if (!url) return;
+  const img = document.createElement('img');
+  img.className = 'shot'; img.alt = ''; img.loading = 'lazy';
+  img.referrerPolicy = 'no-referrer';
+  img.onerror = () => img.remove();        // dead URL falls back to the gradient
+  img.src = url;
+  cover.prepend(img);
+}
+
+let toastTimer;
+function toast(html, ms = 6000){
+  const t = document.getElementById('toast');
+  t.innerHTML = html; t.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), ms);
+}
+
+async function getCover(card){
+  const cover = card.querySelector('[data-cover]');
+  cover.classList.add('busy');
+  try {
+    const d = await post(`${BASE}/api/cover/${card.dataset.id}`, {});
+    paintCover(card, d.cover_image);
+    toast(`Found a photo for <b>${d.venue}</b>.`, 3500);
+  } catch (err) {
+    toast(`No photo found for <b>${card.querySelector('h3').textContent}</b> — ${err.message}`);
+  } finally { cover.classList.remove('busy'); }
+}
+
+document.getElementById('getAll').addEventListener('click', async e => {
+  const btn = e.currentTarget;
+  btn.disabled = true; btn.textContent = 'Fetching…';
+  cards.forEach(c => c.querySelector('[data-cover]').classList.add('busy'));
+  try {
+    const d = await post(`${BASE}/api/covers`, {});
+    d.results.forEach(r => {
+      if (r.status !== 'fetched') return;
+      paintCover(document.querySelector(`.card[data-id="${r.id}"]`), r.cover_image);
+    });
+    const failed = d.results.filter(r => r.status === 'failed').map(r => r.name);
+    toast(`<b>${d.fetched}</b> photos fetched, <b>${d.kept}</b> already set` +
+      (failed.length ? `, <b>${failed.length}</b> without one: ${failed.join(', ')}` : '.'),
+      failed.length ? 11000 : 4000);
+  } catch (err) {
+    toast(`Could not fetch photos — ${err.message}`);
+  } finally {
+    cards.forEach(c => c.querySelector('[data-cover]').classList.remove('busy'));
+    btn.disabled = false; btn.textContent = 'Get photos';
+  }
+});
+
 /* ── the Send RFP link opens Gmail; we record that it went ─── */
 async function markSent(card, night){
   const row = card.querySelector(`.nrow[data-night="${night}"]`);
@@ -444,12 +520,14 @@ async function markSent(card, night){
 grid.addEventListener('click', async e => {
   const card = e.target.closest('.card'); if (!card) return;
 
+  if (e.target.closest('[data-getcover]')) { getCover(card); return; }
+
   if (e.target.closest('[data-editcover]')) {
     const url = prompt(`Cover image URL for ${card.querySelector('h3').textContent}\n(blank restores the generated cover)`);
     if (url === null) return;
     try {
       await post(`${BASE}/api/meta/${card.dataset.id}`, {cover_image: url.trim()});
-      card.querySelector('[data-cover]').style.backgroundImage = url.trim() ? `url('${url.trim()}')` : '';
+      paintCover(card, url.trim());
     } catch (err) { alert('Could not save image: ' + err.message); }
     return;
   }

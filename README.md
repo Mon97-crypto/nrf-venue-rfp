@@ -72,6 +72,23 @@ are signed in. The actual From line, and any signature, come from Gmail itself �
 the drafted body deliberately ends at "Thank you," so Gmail's own signature is
 the only one on the message. Override with `GMAIL_SENDING_ACCOUNT`.
 
+## Venue photos
+
+Each card can show the venue's own photograph. **Get photos** in the toolbar
+walks the shortlist and, for each venue, reads the Open Graph image its own
+website publishes — the picture the restaurant already nominates for sharing —
+and stores the URL against that venue. **Get photo** on a single card does one;
+**URL** pastes one by hand.
+
+Fetching happens on the server, so it needs outbound network access from
+wherever the app is deployed. A venue that publishes no `og:image` keeps its
+generated gradient cover, as does one whose image URL later dies — the `<img>`
+removes itself on error and the gradient underneath shows through. Nothing
+breaks; some cards just stay abstract.
+
+Images are hot-linked from the venue's own site rather than copied, so they
+stay current and no asset is redistributed.
+
 ## Editing the shortlist
 
 `venue_rfp/data/venues.json` holds the event brief and the venue records.
@@ -92,6 +109,7 @@ app.py                        Flask entrypoint; mounts the blueprint at /
 venue_rfp/
   blueprint.py                routes
   mailer.py                   the generic RFP body + Gmail compose URLs
+  covers.py                   pulls each venue's own photo from its site
   store.py                    SQLite tracker
   data/venues.json            the brief and the shortlist
   templates/venues.html       the whole UI
@@ -111,4 +129,6 @@ point, so both work.
 | `GET /api/draft/<venue>/<night>` | Prefilled to/subject/body plus the Gmail URL |
 | `POST /api/outreach/<venue>/<night>` | Status and notes |
 | `POST /api/meta/<venue>` | Cover image / email override |
+| `POST /api/cover/<venue>` | Fetch one venue's photo from its website |
+| `POST /api/covers` | Fetch every missing photo (`{"force":true}` to redo all) |
 | `GET /api/export` | Download the tracker as JSON |

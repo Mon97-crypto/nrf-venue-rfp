@@ -5,7 +5,7 @@ import re
 
 from flask import Blueprint, jsonify, render_template, request, Response
 
-from . import mailer, store
+from . import covers, mailer, store
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _DATA = os.path.join(_HERE, 'data', 'venues.json')
@@ -119,6 +119,49 @@ def api_meta(venue_id):
         email_override=payload.get('email_override'),
     )
     return jsonify(row)
+
+
+@venue_bp.route('/api/cover/<venue_id>', methods=['POST'])
+def api_cover(venue_id):
+    """Pull this venue's own hero image off its own website and store it."""
+    catalog = load_catalog()
+    venue = next((v for v in catalog['venues'] if v['id'] == venue_id), None)
+    if not venue:
+        return jsonify({'error': 'Unknown venue.'}), 404
+    try:
+        url = covers.fetch_cover(venue.get('website', ''))
+    except covers.CoverError as exc:
+        return jsonify({'error': str(exc), 'venue': venue['name']}), 502
+    store.upsert_meta(venue_id, cover_image=url)
+    return jsonify({'ok': True, 'venue': venue['name'], 'cover_image': url})
+
+
+@venue_bp.route('/api/covers', methods=['POST'])
+def api_covers():
+    """Fetch every missing cover in one pass, reporting per venue."""
+    catalog = load_catalog()
+    force = bool((request.get_json(silent=True) or {}).get('force'))
+    have = store.all_meta()
+    results = []
+    for v in catalog['venues']:
+        if not force and have.get(v['id'], {}).get('cover_image'):
+            results.append({'id': v['id'], 'name': v['name'], 'status': 'kept'})
+            continue
+        try:
+            url = covers.fetch_cover(v.get('website', ''))
+        except covers.CoverError as exc:
+            results.append({'id': v['id'], 'name': v['name'], 'status': 'failed',
+                            'error': str(exc)})
+            continue
+        store.upsert_meta(v['id'], cover_image=url)
+        results.append({'id': v['id'], 'name': v['name'], 'status': 'fetched',
+                        'cover_image': url})
+    return jsonify({
+        'fetched': sum(1 for r in results if r['status'] == 'fetched'),
+        'failed': sum(1 for r in results if r['status'] == 'failed'),
+        'kept': sum(1 for r in results if r['status'] == 'kept'),
+        'results': results,
+    })
 
 
 @venue_bp.route('/api/export')
