@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: nrf-venue-rfp
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 10000
+
+      # Secret — set the value in the Render dashboard. `sync: false` keeps it
+      # out of git; Render prompts for it when the Blueprint is first created.
+      - key: RESEND_API_KEY
+        sync: false
+
+      # Must be an address on a domain verified in Resend. The `send.`
+      # subdomain keeps Resend's MX record away from the root domain's
+      # existing corporate mail.
+      - key: RESEND_FROM
+        value: "Impact Analytics Events <events@send.impactanalytics.co>"
+
+      # Where venues' replies land — a Reply-To header, not a sending identity,
+      # so a normal mailbox on the root domain is fine.
+      - key: RFP_REPLY_TO
+        value: "marketing@impactanalytics.co"
+
+      - key: RFP_SENDER_NAME
+        value: "Impact Analytics — Events Team"
+      - key: RFP_SENDER_ORG
+        value: "Impact Analytics"
+      # - key: RFP_SENDER_PHONE
+      #   value: "+1 555 0100"
+
+      # Outreach tracker (SQLite). Free instances cannot mount a disk, so this
+      # resets on redeploy and spin-down — use the "Export tracker" button, or
+      # move to a paid instance and uncomment this and the `disk:` block.
+      # - key: VENUE_DB_PATH
+      #   value: /var/data/outreach.db
+
+    # Requires a paid instance type (Starter+). Free web services cannot
+    # attach a disk.
+    # disk:
+    #   name: venue-tracker
+    #   mountPath: /var/data
+    #   sizeGB: 1
