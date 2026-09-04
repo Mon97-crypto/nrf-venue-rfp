@@ -21,7 +21,9 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
   brief asks about bar positions, canapé counts and coat check; a dinner brief
   asks about full-room privacy, table layout and AV. Editable before sending.
 - **Send RFP opens Gmail**, prefilled with the venue's address, subject and
-  body, and marks the card *RFP sent*. Nothing is sent by the server — the mail
+  body, and marks the card *RFP sent*. The body names no conference and no
+  date — it describes the shape of the evening and asks what the venue has
+  available, so dates get settled in the reply. Nothing is sent by the server — the mail
   goes from your own mailbox, so it threads normally and replies come back to
   you rather than to a service address.
 - **Tracking** — Not contacted → RFP sent → Replied → Proposal → Shortlisted →
@@ -49,26 +51,22 @@ All optional except the API key, and only for in-app sending.
 | Variable | Default | Purpose |
 |---|---|---|
 | `RFP_SENDER_ORG` | `Impact Analytics` | Used in the subject and body |
-| `GMAIL_ACCOUNT_INDEX` | _unset_ | Set to `0`, `1`… if Gmail opens under the wrong signed-in account |
-| `RFP_SENDER_PHONE` | _unset_ | Added to the signature when set |
+| `GMAIL_SENDING_ACCOUNT` | from `senders.json` | Google account the compose window opens under |
 | `VENUE_DB_PATH` | `venue_rfp/data/outreach.db` | SQLite tracker location |
 
-## Who RFPs are sent as
+## Who RFPs are sent from
 
-`venue_rfp/data/senders.json` holds the name, title and contact address used to
-sign every RFP. The first entry is the one used.
+`venue_rfp/data/senders.json` names the Google account the compose window opens
+under:
 
 ```json
-{ "senders": [
-  { "id": "ab", "name": "A. Beckett", "title": "Director, Field Marketing",
-    "from": "abeckett@impactanalytics.net", "reply_to": "abeckett@impactanalytics.co" }
-]}
+{ "sending_account": "maggie.dryden@impactanalytics.ai" }
 ```
 
-`reply_to` is the address printed in the signature. Since Gmail sends the mail,
-the actual From line is whichever Google account is composing — this file only
-controls how the RFP is signed. Delete the file, or leave it empty, and the tool
-falls back to the environment variables above.
+It is passed to Gmail as `authuser`, which picks the right account when several
+are signed in. The actual From line, and any signature, come from Gmail itself —
+the drafted body deliberately ends at "Thank you," so Gmail's own signature is
+the only one on the message. Override with `GMAIL_SENDING_ACCOUNT`.
 
 ## Editing the shortlist
 

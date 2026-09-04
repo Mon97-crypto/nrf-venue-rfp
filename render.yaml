@@ -15,12 +15,10 @@ services:
       - key: RFP_SENDER_ORG
         value: "Impact Analytics"
 
-      # Set only if the sender keeps several Google accounts signed in and the
-      # compose window opens under the wrong one (0 is the first account).
-      # - key: GMAIL_ACCOUNT_INDEX
-      #   value: "0"
-      # - key: RFP_SENDER_PHONE
-      #   value: "+1 555 0100"
+      # The Google account the compose window opens under. Defaults to
+      # sending_account in venue_rfp/data/senders.json.
+      # - key: GMAIL_SENDING_ACCOUNT
+      #   value: "maggie.dryden@impactanalytics.ai"
 
       # Outreach tracker (SQLite). Free instances cannot mount a disk, so this
       # resets on redeploy and spin-down — use the "Export tracker" button, or

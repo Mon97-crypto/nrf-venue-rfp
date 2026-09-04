@@ -130,7 +130,7 @@ header.top .wrap{padding-bottom:0}
         <div class="sub">{{ event.conference_dates }} · {{ event.conference_venue }}</div>
       </div>
       <span class="pill manual" title="RFPs open as a prefilled Gmail draft. Nothing is sent by this app.">
-        ● Opens in Gmail as {{ mail_config.sender_email }} — replies come straight back to you</span>
+        ● Opens in Gmail as {{ mail_config.sending_account }} — replies come straight back to you</span>
     </div>
     <div class="nights">
       {% for key, n in event.nights.items() %}

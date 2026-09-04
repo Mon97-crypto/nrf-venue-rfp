@@ -91,5 +91,6 @@ out, independent of this app entirely.
 | Symptom | Cause |
 |---|---|
 | Statuses reset overnight | Expected on free — see the durability note above |
-| Gmail opens under the wrong account | Set `GMAIL_ACCOUNT_INDEX` (`0` is the first signed-in account) |
+| Gmail opens under the wrong account | Check `sending_account` in `senders.json`, or set `GMAIL_SENDING_ACCOUNT` |
+| Gmail asks you to sign in | The sending account is not signed into that browser |
 | Gmail opens with an empty To | The venue has no public address — it is a `form only` card; use their enquiry form |

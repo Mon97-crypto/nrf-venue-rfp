@@ -1,10 +1,12 @@
 """RFP composition and Gmail hand-off.
 
-There is one generic RFP body. It is parameterised by venue and by night, so a
-reception brief and a dinner brief differ in their details rather than in their
-structure. Nothing is sent from this app: each draft becomes a prefilled Gmail
-compose URL, so the mail leaves the sender's own mailbox, threads normally, and
-lands in their Sent folder.
+One generic RFP body, deliberately free of any conference name or date: it
+describes the shape of the evening — format, headcount, timing, space — and
+asks the venue what they can do. Whoever sends it adds the date in Gmail, or
+settles it in the reply.
+
+The body carries no sign-off block either, so Gmail's own signature is the only
+one on the message.
 """
 import json
 import os
@@ -14,74 +16,38 @@ GMAIL_COMPOSE = 'https://mail.google.com/mail/'
 _SENDERS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'senders.json')
 
 
-def senders():
-    """The identities an RFP can be signed as (first entry is the default)."""
+def sending_account():
+    """The Google account the compose window should open under."""
+    env = os.environ.get('GMAIL_SENDING_ACCOUNT', '')
+    if env:
+        return env
     try:
         with open(_SENDERS_FILE, 'r', encoding='utf-8') as fh:
-            entries = json.load(fh).get('senders') or []
+            return json.load(fh).get('sending_account', '') or ''
     except (OSError, ValueError):
-        entries = []
-
-    out = [
-        {
-            'id': e['id'],
-            'name': e.get('name', ''),
-            'title': e.get('title', ''),
-            'reply_to': e.get('reply_to', ''),
-        }
-        for e in entries if e.get('id')
-    ]
-    if out:
-        return out
-
-    return [{
-        'id': 'default',
-        'name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
-        'title': os.environ.get('RFP_SENDER_TITLE', ''),
-        'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
-    }]
+        return ''
 
 
-def resolve_sender(sender_id=None):
-    options = senders()
-    if sender_id:
-        for s in options:
-            if s['id'] == sender_id:
-                return s
-    return options[0]
-
-
-def config(sender_id=None):
-    s = resolve_sender(sender_id)
+def config():
     return {
-        'sender_id': s['id'],
-        'sender_name': s['name'],
-        'sender_title': s['title'],
-        'sender_email': s['reply_to'],
+        'sending_account': sending_account(),
         'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),
-        'sender_phone': os.environ.get('RFP_SENDER_PHONE', ''),
-        # Set when the sender keeps several Google accounts signed in and the
-        # compose window opens under the wrong one.
-        'gmail_account': os.environ.get('GMAIL_ACCOUNT_INDEX', ''),
     }
 
 
-def build_subject(venue, night, sender_id=None):
-    return (
-        f"Private event enquiry — {night['date']} · "
-        f"{night['headcount']} · {config(sender_id)['sender_org']}"
-    )
+def build_subject(venue, night):
+    return f"Private event enquiry — {night['headcount']} · {config()['sender_org']}"
 
 
 # One generic set of asks, worded to suit a standing reception and a seated
-# dinner alike.
+# dinner alike. No date is quoted anywhere, so availability is the opening ask.
 _ASKS = [
-    "Availability on the date above, and the largest hold you can place while we confirm",
+    "Your availability, and how far ahead you take bookings of this size",
     "Confirmation the space takes this many guests comfortably in this format, rather than at capacity",
     "Food and drink options you would recommend at this headcount, and the format you would advise",
-    "Food & beverage minimum and/or room fee — and whether NRF week carries a premium",
+    "Food & beverage minimum and/or room fee, and how that varies by day of the week",
     "Beverage packages, including a substantial non-alcoholic selection",
-    "Whether the space is private or semi-private, and what else is running in the room that evening",
+    "Whether the space is private or semi-private, and what else would be running in the room",
     "AV and a microphone, in case we open with a short welcome",
     "Deposit schedule, payment terms and the cancellation policy",
     "Dietary accommodation — we expect vegetarian, vegan, halal and gluten-free guests",
@@ -89,18 +55,17 @@ _ASKS = [
 ]
 
 
-def build_body(venue, night, event, sender_id=None):
-    cfg = config(sender_id)
+def build_body(venue, night, event=None):
+    cfg = config()
     space = venue.get('space') or 'your private dining space'
 
     lines = [
         f"Hello {venue['name']} events team,",
         "",
-        f"I'm writing from {cfg['sender_org']} about a private event during "
-        f"{event['name']} week in January ({event['conference_dates']}, Javits Center).",
+        f"I'm writing from {cfg['sender_org']} about a private event we are "
+        f"planning in New York.",
         "",
         f"  Event      {night['format']}",
-        f"  Date       {night['date']}",
         f"  Guests     {night['headcount']}",
         f"  Timing     approximately {night['window']}",
         f"  Space      {space}",
@@ -113,32 +78,27 @@ def build_body(venue, night, event, sender_id=None):
     lines += [f"  {i}. {ask}" for i, ask in enumerate(_ASKS, start=1)]
     lines += [
         "",
-        "We are comparing a short list of venues over the next two weeks and will "
-        "move quickly once we have proposals in hand. A PDF pack or a call both work — "
-        "whichever is easier for you.",
+        "I'm happy to share exact dates once we know what you have available. "
+        "A PDF pack or a call both work — whichever is easier for you.",
         "",
         "Thank you,",
-        cfg['sender_name'],
-        f"{cfg['sender_title']}, {cfg['sender_org']}" if cfg['sender_title'] else cfg['sender_org'],
     ]
-    if cfg['sender_phone']:
-        lines.append(cfg['sender_phone'])
-    lines.append(cfg['sender_email'])
     return "\n".join(lines)
 
 
-def gmail_url(venue, night, event, sender_id=None):
+def gmail_url(venue, night, event=None):
     """A Gmail compose URL, prefilled. Rendered into the page as a plain link so
     the click opens a tab directly and is never caught by a popup blocker."""
-    cfg = config(sender_id)
-    base = GMAIL_COMPOSE
-    if cfg['gmail_account']:
-        base = f"{GMAIL_COMPOSE}u/{cfg['gmail_account']}/"
     params = {
         'view': 'cm',
         'fs': '1',
         'to': venue.get('email', ''),
-        'su': build_subject(venue, night, sender_id),
-        'body': build_body(venue, night, event, sender_id),
+        'su': build_subject(venue, night),
+        'body': build_body(venue, night),
     }
-    return base + '?' + urllib.parse.urlencode(params)
+    # Ask Google to open the compose window under the sending account, for
+    # people signed into several at once.
+    account = sending_account()
+    if account:
+        params['authuser'] = account
+    return GMAIL_COMPOSE + '?' + urllib.parse.urlencode(params)

@@ -1,12 +1,4 @@
 {
-  "_comment": "Who RFPs can be sent as. `from` MUST be on a domain verified in Resend (impactanalytics.net); `reply_to` can be any mailbox the person actually reads. The first entry is the default selection. With two or more entries a 'Send as' picker appears in the compose dialog.",
-  "senders": [
-    {
-      "id": "monica-a",
-      "name": "Monica A",
-      "title": "BI Analyst",
-      "from": "monica.a@impactanalytics.net",
-      "reply_to": "monica.a@impactanalytics.co"
-    }
-  ]
+  "_comment": "The Google account RFPs are composed from. Used to pick the right account when several are signed in, and shown on the board so it is obvious which mailbox replies will come back to. The From line itself is whatever Gmail is composing as.",
+  "sending_account": "maggie.dryden@impactanalytics.ai"
 }
