@@ -11,6 +11,8 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
 | Sunday exec dinner | Sun 10 Jan 2027 | Seated, private or fully partitioned room | 30–35 |
 
 18 venues are shortlisted, ranked by walking distance from the Javits Center.
+Every venue's trading status and events-page link was re-checked on 2026-09-04
+(`links_verified` in the data file).
 
 ## What it does
 
@@ -27,7 +29,9 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
   goes from your own mailbox, so it threads normally and replies come back to
   you rather than to a service address.
 - **Tracking** — Not contacted → RFP sent → Replied → Proposal → Shortlisted →
-  Booked / Declined, with per-night progress and a JSON export.
+  Booked / Declined, with per-night progress rings and a JSON export.
+- **Two views** — cards for browsing, a dense list for working through the
+  shortlist; sort by distance, seated capacity, reception capacity or name.
 
 ## Running it locally
 

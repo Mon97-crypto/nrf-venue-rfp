@@ -22,34 +22,37 @@
         "audience": "senior retail executives",
         "window": "7:00–10:30 PM"
       }
-    }
+    },
+    "links_verified": "2026-09-04"
   },
   "venues": [
     {
-      "id": "legacy-records",
-      "name": "Legacy Records",
-      "space": "Private dining rooms + full buyout (7 spaces)",
-      "cuisine": "Contemporary Mediterranean-American",
-      "address": "517 W 38th St, New York, NY 10018",
-      "neighborhood": "Hudson Yards / Hell's Kitchen",
-      "proximity": "≈6 min walk from Javits",
+      "id": "ci-siamo",
+      "name": "Ci Siamo",
+      "space": "Private dining room + terrace",
+      "cuisine": "Live-fire Italian (Union Square Hospitality Group)",
+      "address": "440 W 33rd St (100 Manhattan West Plaza), New York, NY 10001",
+      "neighborhood": "Manhattan West",
       "proximity_rank": 1,
-      "website": "https://www.legacyrecordsrestaurant.com/private-events-1/",
-      "phone": "(212) 736-1200",
-      "email": "events@dhgnyc.com",
-      "email_confidence": "verified",
-      "seated_max": 100,
-      "reception_max": 500,
+      "proximity": "≈7 min walk from Javits",
+      "website": "https://www.ushg.com/private-events-venue/ci-siamo/",
+      "phone": "",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "USHG events enquiry form — no public events address published.",
+      "seated_max": 50,
+      "reception_max": 75,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#264CD7",
-      "why": "The single closest serious room to Javits — guests can walk. Seven configurable spaces including two private dining rooms and a glass-roofed atrium, so the same venue can hold a 50-person standing reception and a 35-seat dinner on consecutive nights. Delicious Hospitality Group (Charlie Bird, Pasquale Jones) runs the events team centrally.",
+      "why": "The closest serious room to Javits now that Legacy Records has gone — guests can walk. The private dining room takes 50 seated or 75 standing with an adjacent terrace, so it covers a 50-person reception and a 35-seat dinner from one contact. Danny Meyer's live-fire Italian, and Yelp's number one restaurant in the country for 2026. Published minimums are around $2,500 at lunch and $7,500 at dinner outside December.",
       "sources": [
-        "https://www.legacyrecordsrestaurant.com/private-events-1/",
-        "https://www.dhgnyc.com/private-events-venue/legacy-records/"
-      ]
+        "https://www.ushg.com/private-events-venue/ci-siamo/",
+        "https://www.cisiamo.com/private-dining/"
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "zou-zous",
@@ -77,7 +80,8 @@
         "https://www.zouzousnyc.com/private-events/",
         "https://www.qualitybranded.com/private-events-venue/zou-zous/",
         "https://www.chezzou.com/private-events/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "keens-bullmoose",
@@ -103,7 +107,8 @@
       "sources": [
         "https://www.keens.com/privateevents/",
         "https://thevendry.com/venue/43652/keens-steakhouse-new-york-ny/space/644"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "le-bernardin",
@@ -129,7 +134,8 @@
       "sources": [
         "https://www.le-bernardin.com/private-dining/les-salons-bernardin",
         "https://www.le-bernardinprive.com/contact"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "aquavit",
@@ -140,7 +146,7 @@
       "neighborhood": "Midtown East",
       "proximity_rank": 7,
       "proximity": "≈15 min car from Javits",
-      "website": "http://www.aquavit.org/private-dining-1",
+      "website": "https://www.aquavit.org/private-dining-1",
       "phone": "(212) 957-9045",
       "email": "events@aquavit.org",
       "email_confidence": "verified",
@@ -155,7 +161,8 @@
       "sources": [
         "http://www.aquavit.org/private-dining-1",
         "https://static1.squarespace.com/static/54288085e4b0461906627747/t/6723e17d60030479058d5762/1730404733588/AQUAVIT+Private+Dining+Kit+FALL+2024.pdf"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "manhatta",
@@ -182,7 +189,8 @@
       "sources": [
         "https://www.manhattarestaurant.com/private-events/",
         "https://www.manhattarestaurant.com/private-events-venue/private-dining-room/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "saga",
@@ -209,7 +217,8 @@
         "https://www.saga-nyc.com/private-dining-and-events",
         "https://www.overstory-nyc.com/",
         "https://eventup.com/venue/kent-hospitality-group-at-70-pine/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "cote",
@@ -235,7 +244,8 @@
       "sources": [
         "https://www.cotekoreansteakhouse.com/events",
         "https://thevendry.com/venue/22678/cote-korean-steakhouse-new-york-ny/space/1234"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "gramercy-tavern",
@@ -262,7 +272,8 @@
       "sources": [
         "https://www.gramercytavern.com/private-events-venue/the-vault-room/",
         "https://www.gramercytavern.com/private-dining/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "torrisi",
@@ -288,13 +299,14 @@
       "sources": [
         "https://torrisinyc.com/contact",
         "https://thevendry.com/venue/167952/torrisi-bar-restaurant-new-york-ny"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "jungsik",
       "name": "Jungsik",
       "space": "Private dining room (16) · full buyout (35)",
-      "cuisine": "Contemporary Korean — two Michelin stars",
+      "cuisine": "Contemporary Korean — three Michelin stars",
       "address": "2 Harrison St, New York, NY 10013",
       "neighborhood": "Tribeca",
       "proximity_rank": 12,
@@ -309,11 +321,12 @@
         "sunday"
       ],
       "accent": "#264CD7",
-      "why": "From your sheet — and the buyout number is exactly 35, so a Sunday exec dinner takes the entire two-Michelin-star restaurant with no other diners in the room. That total-privacy quality is hard to buy at this level. Note the correct groups address is events@jungsik.com, not the general info@ line on your sheet.",
+      "why": "From your sheet — and the buyout number is exactly 35, so a Sunday exec dinner takes the entire three-Michelin-star restaurant with no other diners in the room. That total-privacy quality is hard to buy at this level. Note the correct groups address is events@jungsik.com, not the general info@ line on your sheet.",
       "sources": [
         "https://www.jungsik.com/private-dining/",
         "https://thevendry.com/venue/55508/jungsik-new-york-ny/space/1001"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "milos-hudson-yards",
@@ -340,7 +353,8 @@
       "sources": [
         "https://www.estiatoriomilos.com/location/nyhudsonyards/events/",
         "https://eventup.com/venue/estiatorio-milos-hudson-yards/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "peak-hudson-yards",
@@ -366,7 +380,8 @@
       "sources": [
         "https://www.peaknyc.com/private-events/",
         "https://taogroup.com/venues/peak-restaurant-new-york/private-dining/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "semma",
@@ -391,7 +406,8 @@
       "sources": [
         "https://www.semma.nyc/private-events",
         "https://thevendry.com/venue/165004/semma-new-york-ny/space/67411"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "tatiana",
@@ -417,7 +433,8 @@
       "sources": [
         "https://www.tatiananyc.com/private-events/",
         "https://www.tatiananyc.com/location/tatiana-by-kwame-onwuachi/"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "kabawa",
@@ -443,7 +460,8 @@
       "sources": [
         "https://www.momofuku.com/restaurants/kabawa/events",
         "https://www.momofuku.com/restaurants/kabawa"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     },
     {
       "id": "aska",
@@ -469,7 +487,9 @@
       "sources": [
         "https://www.askanyc.com/",
         "https://thevendry.com/venue/43463/atomix-new-york-ny"
-      ]
+      ],
+      "booking_note": "Listings disagree on whether Aska is currently trading — confirm it is open before building an evening around it.",
+      "verified_on": "2026-09-04"
     },
     {
       "id": "eleven-madison-park",
@@ -495,7 +515,8 @@
       "sources": [
         "https://www.elevenmadisonpark.com/events",
         "https://www.elevenmadisonpark.com/contact"
-      ]
+      ],
+      "verified_on": "2026-09-04"
     }
   ]
 }
