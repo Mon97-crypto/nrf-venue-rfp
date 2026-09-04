@@ -13,11 +13,11 @@ services:
       - key: RESEND_API_KEY
         sync: false
 
-      # Must be an address on a domain verified in Resend. The `send.`
-      # subdomain keeps Resend's MX record away from the root domain's
-      # existing corporate mail.
+      # Must be an address on a domain verified in Resend.
+      # impactanalytics.net is the verified sending domain; impactanalytics.co
+      # is where replies go, which is why the two differ.
       - key: RESEND_FROM
-        value: "Impact Analytics Events <events@send.impactanalytics.co>"
+        value: "Impact Analytics Events <events@impactanalytics.net>"
 
       # Where venues' replies land — a Reply-To header, not a sending identity,
       # so a normal mailbox on the root domain is fine.

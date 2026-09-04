@@ -49,8 +49,8 @@ All optional except the API key, and only for in-app sending.
 | Variable | Default | Purpose |
 |---|---|---|
 | `RESEND_API_KEY` | _unset_ | Enables the "Send via Resend" button |
-| `RESEND_FROM` | `Impact Analytics Events <events@impactanalytics.co>` | Must be a domain verified in Resend |
-| `RFP_REPLY_TO` | `marketing@impactanalytics.co` | Reply-to, and the address in the signature |
+| `RESEND_FROM` | `Impact Analytics Events <events@impactanalytics.net>` | Must be a domain verified in Resend |
+| `RFP_REPLY_TO` | `marketing@impactanalytics.co` | Reply-to, and the address in the signature (a different domain to the sender is fine) |
 | `RFP_SENDER_NAME` | `Impact Analytics — Events Team` | Signature name |
 | `RFP_SENDER_ORG` | `Impact Analytics` | Used in the subject and body |
 | `RFP_SENDER_PHONE` | _unset_ | Added to the signature when set |

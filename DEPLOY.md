@@ -9,65 +9,56 @@ start outreach today and switch on one-click sending later.
 
 ## Part 1 — Resend
 
-### 1. Create the account
-Sign up at [resend.com](https://resend.com). The free plan covers this project
-comfortably: **3,000 emails/month, 100/day, one verified domain, 30-day log
-retention**. The full shortlist is 18 venues × 2 nights = 36 emails.
+`impactanalytics.net` is already verified in this Resend account, so domain
+setup is done. Two things remain: pick the sending address, and mint a key.
 
-### 2. Add a *sending subdomain*, not the root domain
-**Domains → Add Domain →** enter `send.impactanalytics.co`.
+### 1. Pick the From address
 
-> ⚠️ Use the `send.` subdomain. Resend asks for an **MX record** for bounce
-> handling, and putting that on the root `impactanalytics.co` would collide with
-> the MX records that deliver your actual company email. On a subdomain it is
-> isolated and cannot affect the main mailbox.
+Any local part on the verified domain works — Resend does not require the
+mailbox to exist. The default this repo ships is:
 
-Pick the region closest to your recipients (US East for New York venues).
+```
+Impact Analytics Events <events@impactanalytics.net>
+```
 
-### 3. Add the DNS records
-Resend shows three records on the **Records** tab. Copy them **verbatim** into
-your DNS host (whoever runs `impactanalytics.co` — Cloudflare, GoDaddy, Route 53,
-or your IT team):
+Change it with the `RESEND_FROM` variable if you would rather use
+`marketing@impactanalytics.net` or similar.
 
-| Type | Name | Purpose |
-|---|---|---|
-| `MX` | `send` | Bounce and complaint handling |
-| `TXT` | `send` | SPF — authorises Resend to send |
-| `TXT` | `resend._domainkey` | DKIM — cryptographic signature |
+> **The sending domain and your inbox are different domains.** Mail goes out as
+> `@impactanalytics.net` (verified for sending) while replies come back to
+> `marketing@impactanalytics.co` (where you actually read mail). That is set by
+> `RFP_REPLY_TO` and is perfectly normal — Reply-To is only a header, and it has
+> no bearing on SPF, DKIM or DMARC, which all authenticate against the From
+> domain.
+>
+> One consequence worth knowing: a venue that hits *Reply* lands in your `.co`
+> inbox correctly, but **bounces and out-of-office notices go to the From
+> address**. If nobody monitors `events@impactanalytics.net`, you will not see a
+> bad-address bounce. Either make it a real monitored mailbox or alias, or check
+> Resend's **Emails** log — it records bounces regardless.
 
-Do not retype these by hand; the DKIM value is a long public key and one wrong
-character fails verification silently.
+### 2. Create a scoped API key
 
-### 4. Verify
-Click **Verify DNS Records**. Most domains go green within 15 minutes;
-propagation can take up to 24 hours. SPF/DKIM warnings during that window are
-normal and clear themselves.
-
-### 5. Create a scoped API key
 **API Keys → Create API Key**
 
 - Name: `ia-venue-rfp`
-- Permission: **Sending access** (not Full access — this app only sends)
-- Domain: restrict it to `send.impactanalytics.co`
+- Permission: **Sending access** — not Full access; this app only sends
+- Domain: restrict it to **impactanalytics.net**
 
-Copy the `re_...` value immediately — Resend shows it exactly once. Treat it as
-a password: it goes in Render's environment, never in git.
+Copy the `re_...` value immediately; Resend shows it exactly once. It goes into
+Render's environment in Part 2, never into git.
 
-### 6. Tell IT, briefly
-If `impactanalytics.co` publishes a DMARC policy, mention that a new sending
-subdomain is live. SPF and DKIM both align to the organisational domain under
-relaxed alignment, so a `p=reject` policy on the root will not bounce these —
-but it is a courtesy that avoids a surprised security ticket.
+> If the key is scoped to a domain and `RESEND_FROM` is on a different one,
+> every send fails with a `403`. That mismatch is the most common configuration
+> error here.
 
-### Sending before DNS verifies
-Resend lets a brand-new account send from the shared address
-`onboarding@resend.dev`, but **only to the email address you signed up with**.
-That is enough to prove the plumbing works end to end. Set
-`RESEND_FROM=onboarding@resend.dev`, send yourself one RFP, then switch to the
-real address once the domain is green. Never point it at a venue while on that
-address — it will not be delivered.
+### 3. Check the plan headroom
 
----
+The free plan allows **3,000 emails/month and 100/day**, with one verified
+domain. The full shortlist is 18 venues × 2 nights = 36 emails, so a single
+day's outreach fits comfortably. If `impactanalytics.net` is already sending
+production mail through this same Resend account, check the daily figure before
+a bulk send.
 
 ## Part 2 — Render
 
@@ -163,6 +154,9 @@ fine. Resend's own log is a second record of everything actually sent.
 |---|---|
 | Badge still amber after deploy | `RESEND_API_KEY` not saved, or the deploy predates it — redeploy |
 | `Resend returned 403` | Key is domain-scoped and `RESEND_FROM` is on a different domain |
-| `Resend returned 422` | The `from` domain is not verified yet, or the address is malformed |
-| Email sends but never arrives | Still on `onboarding@resend.dev`, which only delivers to your own account address |
+| `Resend returned 422` | `RESEND_FROM` is malformed, or its domain is not `impactanalytics.net` |
+| `Resend returned 429` | Daily cap (100 on the free plan) reached — resume tomorrow or upgrade |
+| Badge shows the wrong From address | `RESEND_FROM` overridden in the Render dashboard; dashboard values beat `render.yaml` |
+| Replies go missing | Check `RFP_REPLY_TO` on the badge — it should read `marketing@impactanalytics.co` |
+| No bounce ever appears | Bounces go to the From address, not Reply-To — read them in Resend's **Emails** log |
 | Statuses reset overnight | Expected on free — see the durability note above |

@@ -15,7 +15,9 @@ RESEND_ENDPOINT = 'https://api.resend.com/emails'
 def config():
     return {
         'api_key': os.environ.get('RESEND_API_KEY', ''),
-        'from_address': os.environ.get('RESEND_FROM', 'Impact Analytics Events <events@impactanalytics.co>'),
+        # From must be on a domain verified in Resend (impactanalytics.net).
+        'from_address': os.environ.get('RESEND_FROM', 'Impact Analytics Events <events@impactanalytics.net>'),
+        # Reply-To is just a header, so it can be a mailbox on another domain.
         'reply_to': os.environ.get('RFP_REPLY_TO', 'marketing@impactanalytics.co'),
         'sender_name': os.environ.get('RFP_SENDER_NAME', 'Impact Analytics — Events Team'),
         'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),

@@ -144,7 +144,7 @@ dialog::backdrop{background:rgba(16,24,40,.45)}
         <div class="sub">{{ event.conference_dates }} · {{ event.conference_venue }}</div>
       </div>
       {% if resend_ready %}
-        <span class="pill live">● Resend connected — sending as {{ mail_config.from_address }}</span>
+        <span class="pill live" title="From: {{ mail_config.from_address }}&#10;Reply-To: {{ mail_config.reply_to }}">● Resend connected — from {{ mail_config.from_address }} · replies to {{ mail_config.reply_to }}</span>
       {% else %}
         <span class="pill off">● Resend not configured — set RESEND_API_KEY to enable one-click send</span>
       {% endif %}
