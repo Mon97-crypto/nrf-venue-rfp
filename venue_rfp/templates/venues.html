@@ -195,7 +195,7 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .fitb{flex:none;font-size:10px;font-weight:600;letter-spacing:.03em;padding:3px 6px;
   border-radius:5px;text-transform:uppercase;cursor:help}
 .fitb.good{background:var(--green-50);color:var(--green)}
-.fitb.tight{background:var(--amber-50);color:var(--amber)}
+.fitb.tight,.fitb.just_under{background:var(--amber-50);color:var(--amber)}
 .fitb.too_small{background:var(--red-50);color:var(--red)}
 .fitb.buyout_only{background:#F7F4FF;color:#5B43B8}
 .fitb.oversized{background:#EFEAFB;color:#5B43B8}
@@ -310,7 +310,7 @@ body.short .card:not(.starred){display:none!important}
     {% endfor %}
     {% if event.reference %}<p class="refnote"><b>Brief:</b> {{ event.reference }}</p>{% endif %}
     {% if event.capacity_note %}<p class="refnote alt"><b>Reading the numbers:</b> {{ event.capacity_note }}
-      <span class="lg"><b>fits</b> covers your range · <b>tight</b> is under the top of it ·
+      <span class="lg"><b>fits</b> covers your range · <b>tight</b> is under the top of it, or just under the bottom — hover for which ·
       <b>buyout</b> only fits by taking the whole restaurant · <b>small</b> does not fit at all ·
       <b>large</b> means ask what they close off ·
       <b>?</b> means nothing published · <b>*</b> inferred from a seated figure</span></p>{% endif %}
@@ -435,7 +435,8 @@ body.short .card:not(.starred){display:none!important}
               {% endfor %}
             </select>
             <span class="fitb {{ v.fit[key] }}{% if v.fit_basis[key] == 'derived' %} derived{% endif %}"
-              title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range','too_small':'Too small for this headcount, with or without a buyout','buyout_only':'The private rooms are too small, but a full buyout reaches this headcount — a different proposition and a different price','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','too_small':'small','buyout_only':'buyout','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
+              title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range',
+                    'just_under':'Slightly below your minimum on the published figure — close enough to be worth asking whether they will take your number','too_small':'Too small for this headcount, with or without a buyout','buyout_only':'The private rooms are too small, but a full buyout reaches this headcount — a different proposition and a different price','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','just_under':'tight','too_small':'small','buyout_only':'buyout','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
             <a class="go {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
                href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft
 >

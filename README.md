@@ -13,7 +13,7 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
 Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of
 occasion, ideally a view — without that price point.
 
-32 venues are shortlisted, ranked by walking distance from the Javits Center.
+34 venues are shortlisted, ranked by walking distance from the Javits Center.
 Every venue's trading status and events-page link was re-checked on 2026-09-04
 (`links_verified` in the data file).
 
@@ -116,11 +116,16 @@ Each venue carries a `rooms` list with the individual spaces, a `capacity_source
 naming where the figures came from, and `verified_on`.
 
 Fit is `fits` / `tight` / `buyout` / `large` / `?`, computed against the real
-headcounts. `buyout` means the private rooms are under the headcount but taking
-the whole restaurant reaches it — a real option at a different price, so it is
-kept rather than written off. A venue that cannot reach a night's minimum even
-with a buyout does not offer that night at all, and one that cannot serve either
-night is not in the shortlist. It also carries a **basis**:
+headcounts.
+
+`tight` covers two cases, separated in the tooltip: under the top of the range,
+and slightly under the bottom of it. A room quoted at 28 will often seat 30, so
+a near miss is a negotiation rather than a disqualification — the badge stays
+calm and the published figure is always on the card.
+
+`buyout` means the private rooms are under the headcount but taking the whole
+restaurant reaches it — a real option at a different price. A venue that cannot
+reach a night's minimum even that way simply does not offer that night. It also carries a **basis**:
 
 - **published** — the venue publishes a figure for this format.
 - **derived** (shown with `*`) — only a seated figure exists and it is used as a

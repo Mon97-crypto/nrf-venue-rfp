@@ -57,9 +57,15 @@ def _fit(venue, night):
         return 'unknown', 'none'
     lo, hi = night.get('target_min') or 0, night.get('target_max') or 0
     if cap < lo:
-        # A private room under the headcount is not the end of it: several
-        # venues reach it by taking the whole restaurant. That is a real
-        # option at a different price, so say so rather than writing it off.
+        # Within a short reach of the minimum is a negotiation, not a
+        # disqualification — a room quoted at 28 will often seat 30. Marked
+        # separately so the tooltip can say it is under while the badge stays
+        # calm; the figure itself is always on the card.
+        if cap >= lo * 0.85:
+            return 'just_under', basis
+        # Otherwise: several venues reach the headcount only by taking the
+        # whole restaurant. That is a real option at a different price, so say
+        # so rather than writing it off.
         if night.get('measure') == 'seated':
             bo = venue.get('buyout_seated') or 0
         else:
