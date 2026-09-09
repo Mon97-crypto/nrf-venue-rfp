@@ -53,19 +53,26 @@ def init_db():
                 notes        TEXT NOT NULL DEFAULT '',
                 sent_at      TEXT NOT NULL DEFAULT '',
                 sender_id    TEXT NOT NULL DEFAULT '',
+                quote        TEXT NOT NULL DEFAULT '',
+                fees         TEXT NOT NULL DEFAULT '',
                 updated_at   TEXT NOT NULL DEFAULT '',
                 PRIMARY KEY (venue_id, night)
             )
         """)
-        _ensure_column(conn, 'outreach', 'sender_id')
+        for col in ('sender_id', 'quote', 'fees'):
+            _ensure_column(conn, 'outreach', col)
         conn.execute("""
             CREATE TABLE IF NOT EXISTS venue_meta (
                 venue_id     TEXT PRIMARY KEY,
                 cover_image  TEXT NOT NULL DEFAULT '',
                 email_override TEXT NOT NULL DEFAULT '',
+                starred      TEXT NOT NULL DEFAULT '',
+                owner        TEXT NOT NULL DEFAULT '',
                 updated_at   TEXT NOT NULL DEFAULT ''
             )
         """)
+        for col in ('starred', 'owner'):
+            _ensure_column(conn, 'venue_meta', col)
 
 
 def _ensure_column(conn, table, column):
@@ -100,7 +107,7 @@ def all_meta():
 
 
 def upsert_outreach(venue_id, night, **fields):
-    allowed = {'status', 'notes', 'sent_at', 'sender_id'}
+    allowed = {'status', 'notes', 'sent_at', 'sender_id', 'quote', 'fees'}
     fields = {k: v for k, v in fields.items() if k in allowed and v is not None}
     if fields.get('status') and fields['status'] not in STATUSES:
         raise ValueError(f"unknown status: {fields['status']}")
@@ -122,7 +129,7 @@ def upsert_outreach(venue_id, night, **fields):
 
 
 def upsert_meta(venue_id, **fields):
-    allowed = {'cover_image', 'email_override'}
+    allowed = {'cover_image', 'email_override', 'starred', 'owner'}
     fields = {k: v for k, v in fields.items() if k in allowed and v is not None}
     with _lock, _connect() as conn:
         conn.execute(

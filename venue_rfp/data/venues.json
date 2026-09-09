@@ -7,23 +7,30 @@
       "saturday": {
         "id": "saturday",
         "label": "Saturday reception",
-        "date": "Saturday, January 9, 2027",
-        "format": "Standing cocktail reception with passed food",
-        "headcount": "Up to 50 guests",
+        "date": "Saturday, 9 January 2027",
+        "format": "Standing reception with food stations and cocktails",
+        "headcount": "40–60 guests",
         "audience": "international colleagues and partners",
-        "window": "7:00–10:00 PM"
+        "window": "5:00–8:00 PM",
+        "target_min": 40,
+        "target_max": 60,
+        "measure": "reception"
       },
       "sunday": {
         "id": "sunday",
         "label": "Sunday executive dinner",
-        "date": "Sunday, January 10, 2027",
-        "format": "Seated dinner, private or fully partitioned room",
+        "date": "Sunday, 10 January 2027",
+        "format": "Seated dinner in a private space, opening with cocktails",
         "headcount": "30–35 guests",
         "audience": "senior retail executives",
-        "window": "7:00–10:30 PM"
+        "window": "cocktails 6:00–6:30 PM, dinner 6:30–9:00 PM",
+        "target_min": 30,
+        "target_max": 35,
+        "measure": "seated"
       }
     },
-    "links_verified": "2026-09-04"
+    "links_verified": "2026-09-09",
+    "reference": "Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of occasion, ideally a view — without that price point."
   },
   "venues": [
     {
@@ -37,9 +44,9 @@
       "proximity": "≈7 min walk from Javits",
       "website": "https://www.ushg.com/private-events-venue/ci-siamo/",
       "phone": "",
-      "email": "",
-      "email_confidence": "form_only",
-      "booking_note": "USHG events enquiry form — no public events address published.",
+      "email": "infonyc@cisiamo.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Address from the external list — not independently verified; the USHG form is the safe fallback.",
       "seated_max": 50,
       "reception_max": 75,
       "fits": [
@@ -517,6 +524,445 @@
         "https://www.elevenmadisonpark.com/contact"
       ],
       "verified_on": "2026-09-04"
+    },
+    {
+      "id": "electric-lemon",
+      "name": "Electric Lemon",
+      "space": "Private dining room · bar-lounge · terrace",
+      "cuisine": "Seasonal American (Equinox Hotel)",
+      "address": "33 Hudson Yards, 24th Floor, New York, NY 10001",
+      "neighborhood": "Hudson Yards",
+      "proximity_rank": 2,
+      "proximity": "≈10 min walk from Javits",
+      "website": "https://electriclemonnyc.com/",
+      "phone": "(212) 812-9300",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Group enquiry via the site — no events address verified.",
+      "seated_max": 72,
+      "reception_max": 100,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#D4E157",
+      "why": "24th floor of the Equinox Hotel with Manhattan's largest hotel terrace, ten minutes' walk from the show floor. The private dining room takes 72 seated or 100 standing, so a 40–60 reception sits in it comfortably and a 35-seat dinner has room to breathe. The closest thing on this list to the Nubeluz feeling without leaving Hudson Yards.",
+      "sources": [
+        "https://electriclemonnyc.com/",
+        "https://equinox-hotels.com/nyc/restaurants-bars/electric-lemon/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "boqueria-w40",
+      "name": "Boqueria W40th",
+      "space": "Private dining room · full buyout",
+      "cuisine": "Spanish tapas",
+      "address": "259 W 40th St, New York, NY 10018",
+      "neighborhood": "Times Square / Garment District",
+      "proximity_rank": 4,
+      "proximity": "≈12 min walk from Javits",
+      "website": "https://boqueriarestaurant.com/location/nyc/events/",
+      "phone": "(212) 838-8860",
+      "email": "events@boqueriannyc.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "The address on the source list reads events@boqueriannyc.com, which looks like a typo — confirm before sending, or use the site form.",
+      "seated_max": 100,
+      "reception_max": 175,
+      "fits": [
+        "saturday"
+      ],
+      "accent": "#B4690E",
+      "why": "The strongest match on the list for the food-station format specifically: giant paellas and Jamón Ibérico carving stations are their standard event set-up, not a special request. The private room only holds 35 standing, so 40–60 means the larger space or a buyout — which takes 175 for a reception.",
+      "sources": [
+        "https://boqueriarestaurant.com/location/nyc/events/",
+        "https://boqueriarestaurant.com/private-dining-in-times-square/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "bad-roman",
+      "name": "Bad Roman",
+      "space": "Piazza Room · Lazzeri Room · combined",
+      "cuisine": "Italian-American (Quality Branded)",
+      "address": "10 Columbus Circle, 3rd Floor, New York, NY 10019",
+      "neighborhood": "Columbus Circle",
+      "proximity_rank": 8,
+      "proximity": "≈14 min car from Javits",
+      "website": "https://www.badromanrestaurants.com/private-events/",
+      "phone": "(646) 807-8446",
+      "email": "pjadoonanan@qualitybranded.com",
+      "email_confidence": "unconfirmed",
+      "seated_max": 80,
+      "reception_max": 100,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#C4B5E3",
+      "why": "The cleanest numbers on the list for your two briefs: the Piazza Room takes 48 seated or 60 standing, the Lazzeri Room 40 seated or 50 standing, and combined they reach 80 seated / 100 standing. So Saturday at 60 and Sunday at 35 both land inside a single room, in the same venue, on one contract. Central Park views from the Deutsche Bank Center.",
+      "sources": [
+        "https://www.qualitybranded.com/private-events-venue/bad-roman/",
+        "https://www.badromanrestaurants.com/private-events/"
+      ],
+      "verified_on": "2026-09-09",
+      "booking_note": ""
+    },
+    {
+      "id": "quality-italian",
+      "name": "Quality Italian",
+      "space": "The 57 Room (32) · Trophy Room (60)",
+      "cuisine": "Italian steakhouse (Quality Branded)",
+      "address": "57 W 57th St, New York, NY 10019",
+      "neighborhood": "Midtown",
+      "proximity_rank": 9,
+      "proximity": "≈15 min car from Javits",
+      "website": "https://www.qualityitalian.com/private-events/",
+      "phone": "(212) 390-1111",
+      "email": "dbryant@qualitybranded.com",
+      "email_confidence": "unconfirmed",
+      "seated_max": 60,
+      "reception_max": 60,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#17375E",
+      "why": "Two rooms that map onto your two nights: the 57 Room seats 32 — the Sunday number almost exactly — and the Trophy Room takes 60, which is the top of your Saturday range. Same Quality Branded events desk as Zou Zou's and Bad Roman, so all three can be quoted together.",
+      "sources": [
+        "https://www.qualityitalian.com/private-events/",
+        "https://www.qualitybranded.com/private-events-venue/quality-italian/"
+      ],
+      "verified_on": "2026-09-09",
+      "booking_note": ""
+    },
+    {
+      "id": "crown-shy",
+      "name": "Crown Shy",
+      "space": "Pearl + Cedar Rooms · Nook · full buyout",
+      "cuisine": "New American — one Michelin star (Kent Hospitality)",
+      "address": "70 Pine St, New York, NY 10005",
+      "neighborhood": "Financial District",
+      "proximity_rank": 15,
+      "proximity": "≈20 min car from Javits",
+      "website": "https://www.crownshy.nyc/private-dining/",
+      "phone": "(212) 517-1932",
+      "email": "events@crownshy.nyc",
+      "email_confidence": "verified",
+      "seated_max": 125,
+      "reception_max": 300,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#0F9D6B",
+      "why": "The Pearl and Cedar rooms together take 50 seated or 80 standing, which covers both briefs without a buyout, and a buyout reaches 125 seated / 300 standing if the count grows. Ground floor of 70 Pine, the same Art Deco tower as SAGA and Overstory — so one enquiry to Kent Hospitality can price all three at once.",
+      "sources": [
+        "https://www.crownshy.nyc/private-dining/",
+        "https://www.crownshy.nyc/private-events-venue/pearl-room/"
+      ],
+      "verified_on": "2026-09-09",
+      "booking_note": ""
+    },
+    {
+      "id": "temple-court",
+      "name": "Temple Court",
+      "space": "Chapel Street (20) · Kelly Room (70 seated) · Full Cellar",
+      "cuisine": "American — Tom Colicchio (The Beekman)",
+      "address": "5 Beekman St, New York, NY 10038",
+      "neighborhood": "Financial District",
+      "proximity_rank": 16,
+      "proximity": "≈20 min car from Javits",
+      "website": "https://www.templecourtnyc.com/private-events/",
+      "phone": "(212) 658-1848",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Enquiry form on templecourtnyc.com — no events address published.",
+      "seated_max": 100,
+      "reception_max": 225,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#264CD7",
+      "why": "A nine-storey Victorian atrium that does the work Nubeluz does — a room people photograph — at restaurant rather than sky-lounge prices. The Kelly Room seats 70 or holds 80 for a party, and the Full Cellar takes 225 for a cocktail reception, so 40–60 has several options. Tom Colicchio's kitchen.",
+      "sources": [
+        "https://www.templecourtnyc.com/private-events/",
+        "https://www.templecourtnyc.com/private-events-venue/farnsworth/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "the-view",
+      "name": "The View",
+      "space": "47th-floor restaurant · 48th-floor lounge",
+      "cuisine": "New York's only revolving restaurant (Marriott Marquis)",
+      "address": "1535 Broadway, 47th–48th Floor, New York, NY 10036",
+      "neighborhood": "Times Square",
+      "proximity_rank": 7,
+      "proximity": "≈13 min car from Javits",
+      "website": "https://www.theviewnewyorkcity.com/book-an-event/",
+      "phone": "(212) 704-8900",
+      "email": "NYMarquisRestaurantEvents@marriott.com",
+      "email_confidence": "verified",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#3A5EE3",
+      "why": "The closest match to the Nubeluz brief: a revolving room 48 floors above Times Square, and catering by Union Square Events, whose standard reception format is exactly the mobile bars and food stations you described. Capacities are not published — ask for them alongside the minimum. Hotel pricing rather than sky-lounge pricing.",
+      "sources": [
+        "https://www.theviewnewyorkcity.com/book-an-event/",
+        "https://www.unionsquareevents.com/private-events-venue/new-york-marriott-marquis/"
+      ],
+      "verified_on": "2026-09-09",
+      "booking_note": ""
+    },
+    {
+      "id": "the-grill-pool",
+      "name": "The Grill & The Pool",
+      "space": "The Salon (15) · Gallery (22) · The Pool · The Grill",
+      "cuisine": "American — Major Food Group (Seagram Building)",
+      "address": "99 E 52nd St, New York, NY 10022",
+      "neighborhood": "Midtown East",
+      "proximity_rank": 12,
+      "proximity": "≈17 min car from Javits",
+      "website": "https://thegrillnewyork.com/private-dining/",
+      "phone": "(212) 375-9001",
+      "email": "reservations@thegrillnewyork.com",
+      "email_confidence": "unconfirmed",
+      "seated_max": 180,
+      "reception_max": 350,
+      "fits": [
+        "sunday",
+        "saturday"
+      ],
+      "accent": "#1C1B1B",
+      "why": "A landmark room, and the successor to the Four Seasons. The catch is sizing: the Salon takes 15 and the Gallery 22 — both under your Sunday number — while The Pool seats 180 and The Grill holds 350 for a reception, both well over. Ask specifically what they can close off for 35; the answer decides whether this is on the list.",
+      "sources": [
+        "https://thegrillnewyork.com/private-dining/",
+        "https://thegrillnewyork.com/wp-content/uploads/2018/01/The-Seagram-Building-Events-Overview.pdf"
+      ],
+      "verified_on": "2026-09-09",
+      "booking_note": ""
+    },
+    {
+      "id": "the-modern",
+      "name": "The Modern",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "New American — Michelin (MoMA)",
+      "address": "9 W 53rd St, New York, NY 10019",
+      "neighborhood": "Midtown",
+      "proximity_rank": 11,
+      "proximity": "≈16 min car from Javits",
+      "website": "https://www.themodernnyc.com/private-dining/",
+      "phone": "",
+      "email": "info@themodernnyc.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#3DD499",
+      "why": "Danny Meyer inside MoMA, with the sculpture garden through the glass — a strong Sunday room if the budget stretches. Capacities were not verified; info@ is the general line, so expect to be routed to the events desk.",
+      "sources": [
+        "https://www.themodernnyc.com/private-dining/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "marea",
+      "name": "Marea",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "Italian seafood — Michelin (Altamarea)",
+      "address": "240 Central Park S, New York, NY 10019",
+      "neighborhood": "Central Park South",
+      "proximity_rank": 13,
+      "proximity": "≈16 min car from Javits",
+      "website": "https://www.marearestaurant.com/new-york/catering-events",
+      "phone": "",
+      "email": "mareaevents@altamareagroup.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#264CD7",
+      "why": "Premium Sunday option on Central Park South. Carried from the source list; capacities not independently verified.",
+      "sources": [
+        "https://www.marearestaurant.com/new-york/catering-events"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "smith-wollensky",
+      "name": "Smith & Wollensky",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "Classic steakhouse",
+      "address": "797 3rd Ave, New York, NY 10022",
+      "neighborhood": "Midtown East",
+      "proximity_rank": 14,
+      "proximity": "≈18 min car from Javits",
+      "website": "https://www.smithandwollenskynyc.com/private-dining/",
+      "phone": "",
+      "email": "mquayle@qualitybranded.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#B4690E",
+      "why": "A steakhouse with several private rooms and a Quality Branded events contact, so it can be quoted alongside Zou Zou's, Bad Roman and Quality Italian. Capacities not independently verified.",
+      "sources": [
+        "https://www.smithandwollenskynyc.com/private-dining/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "amali",
+      "name": "Amali",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "Mediterranean",
+      "address": "115 E 60th St, New York, NY 10022",
+      "neighborhood": "Upper East Side",
+      "proximity_rank": 17,
+      "proximity": "≈20 min car from Javits",
+      "website": "https://www.amalinyc.com/private-events/",
+      "phone": "",
+      "email": "events@amalinyc.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#0F9D6B",
+      "why": "Flagged on the source list as the value option for both nights. Capacities not independently verified — worth an early enquiry if the minimums elsewhere come back high.",
+      "sources": [
+        "https://www.amalinyc.com/private-events/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "tucci",
+      "name": "Tucci",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "Italian",
+      "address": "207 2nd Ave, New York, NY 10003",
+      "neighborhood": "East Village",
+      "proximity_rank": 18,
+      "proximity": "≈20 min car from Javits",
+      "website": "https://www.tuccinyc.com/private-events/",
+      "phone": "",
+      "email": "info@tuccinyc.com",
+      "email_confidence": "unconfirmed",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#C4B5E3",
+      "why": "Listed as a strong capacity match for both briefs. Carried from the source list; capacities and the events route are not independently verified.",
+      "sources": [
+        "https://www.tuccinyc.com/private-events/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "freemans",
+      "name": "Freemans",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "American",
+      "address": "8 Rivington St, New York, NY 10002",
+      "neighborhood": "Lower East Side",
+      "proximity_rank": 19,
+      "proximity": "≈22 min car from Javits",
+      "website": "https://www.freemansrestaurant.com/private-dining",
+      "phone": "",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#17375E",
+      "why": "A distinctive downtown room at the end of an alley — character rather than views. Booking is through the private dining page; no events address verified.",
+      "sources": [
+        "https://www.freemansrestaurant.com/private-dining"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "the-landing",
+      "name": "The Landing",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "American",
+      "address": "",
+      "neighborhood": "",
+      "proximity_rank": 20,
+      "proximity": "Confirm location",
+      "website": "https://www.thelanding.nyc/private-events-and-catering/",
+      "phone": "",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#3A5EE3",
+      "why": "Carried from the source list as corporate-friendly for both nights. Neither the address nor the capacities were verified — check what and where this is before spending an enquiry on it.",
+      "sources": [
+        "https://www.thelanding.nyc/private-events-and-catering/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
+      "id": "one-fifth",
+      "name": "Trattoria One Fifth",
+      "space": "Private dining — confirm rooms",
+      "cuisine": "Italian",
+      "address": "1 Fifth Ave, New York, NY 10003",
+      "neighborhood": "Greenwich Village",
+      "proximity_rank": 21,
+      "proximity": "≈18 min car from Javits",
+      "website": "https://www.onefifthnyc.com/private-dining/",
+      "phone": "",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "seated_max": 0,
+      "reception_max": 0,
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#D4E157",
+      "why": "Downtown character for the Sunday dinner. Carried from the source list; capacities not independently verified.",
+      "sources": [
+        "https://www.onefifthnyc.com/private-dining/"
+      ],
+      "verified_on": "2026-09-09"
     }
   ]
 }

@@ -30,6 +30,24 @@ def _monogram(name):
     return letters.upper()
 
 
+def _fit(venue, night):
+    """How well the venue's published capacity covers this night's headcount.
+
+    'unknown' is deliberately distinct from 'tight' — several venues carry no
+    published figure, and guessing at one would be worse than saying so.
+    """
+    cap = venue.get('seated_max' if night.get('measure') == 'seated' else 'reception_max') or 0
+    if not cap:
+        return 'unknown'
+    if cap < (night.get('target_min') or 0):
+        return 'too_small'
+    if cap < (night.get('target_max') or 0):
+        return 'tight'
+    if cap > (night.get('target_max') or 0) * 4:
+        return 'oversized'
+    return 'good'
+
+
 def _decorate(catalog, with_links=False):
     """Merge stored outreach state and per-venue overrides onto the catalog."""
     outreach = store.all_outreach()
@@ -51,10 +69,14 @@ def _decorate(catalog, with_links=False):
                 night: mailer.gmail_url(v, cfg, catalog['event'])
                 for night, cfg in catalog['event']['nights'].items()
             }
+        v['starred'] = bool(m.get('starred'))
+        v['owner'] = m.get('owner', '')
         v['outreach'] = {
-            night: outreach.get(v['id'], {}).get(night, {'status': 'not_contacted', 'notes': ''})
+            night: outreach.get(v['id'], {}).get(
+                night, {'status': 'not_contacted', 'notes': '', 'quote': '', 'fees': ''})
             for night in catalog['event']['nights']
         }
+        v['fit'] = {night: _fit(v, cfg) for night, cfg in catalog['event']['nights'].items()}
         venues.append(v)
     venues.sort(key=lambda x: x.get('proximity_rank', 99))
     return venues
@@ -102,8 +124,7 @@ def api_outreach(venue_id, night_id):
     try:
         row = store.upsert_outreach(
             venue_id, night_id,
-            status=payload.get('status'),
-            notes=payload.get('notes'),
+            **{k: payload[k] for k in ('status', 'notes', 'quote', 'fees') if k in payload}
         )
     except ValueError as exc:
         return jsonify({'error': str(exc)}), 400
@@ -115,8 +136,8 @@ def api_meta(venue_id):
     payload = request.get_json(silent=True) or {}
     row = store.upsert_meta(
         venue_id,
-        cover_image=payload.get('cover_image'),
-        email_override=payload.get('email_override'),
+        **{k: payload[k] for k in ('cover_image', 'email_override', 'starred', 'owner')
+           if k in payload}
     )
     return jsonify(row)
 

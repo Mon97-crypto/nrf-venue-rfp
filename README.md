@@ -7,10 +7,13 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
 
 | Night | Date | Format | Headcount |
 |---|---|---|---|
-| Saturday reception | Sat 9 Jan 2027 | Standing cocktail, passed food | up to 50 |
-| Sunday exec dinner | Sun 10 Jan 2027 | Seated, private or fully partitioned room | 30–35 |
+| Saturday reception | Sat 9 Jan 2027, 5–8 PM | Standing, food stations and cocktails | 40–60 |
+| Sunday exec dinner | Sun 10 Jan 2027, cocktails 6–6:30, dinner 6:30–9 | Seated, private space | 30–35 |
 
-18 venues are shortlisted, ranked by walking distance from the Javits Center.
+Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of
+occasion, ideally a view — without that price point.
+
+34 venues are shortlisted, ranked by walking distance from the Javits Center.
 Every venue's trading status and events-page link was re-checked on 2026-09-04
 (`links_verified` in the data file).
 
@@ -30,8 +33,20 @@ Every venue's trading status and events-page link was re-checked on 2026-09-04
   you rather than to a service address.
 - **Tracking** — Not contacted → RFP sent → Replied → Proposal → Shortlisted →
   Booked / Declined, with per-night progress rings and a JSON export.
-- **Two views** — cards for browsing, a dense list for working through the
-  shortlist; sort by distance, seated capacity, reception capacity or name.
+- **Three views** — cards for browsing, a dense list for working through the
+  shortlist, and a starred-only shortlist; sort by distance, seated capacity,
+  reception capacity or name.
+- **Capacity fit** is computed against the real headcounts, so each night shows
+  `fits` / `tight` / `small` / `large` / `?` rather than leaving you to compare
+  numbers by eye. `?` means the venue publishes no figure — deliberately
+  distinct from a bad fit.
+- **Quotes and notes per venue per night** — the F&B minimum, the other fees,
+  and what the venue actually said, saved as you type.
+- **Shortlist and roll-up** — star the contenders; the bar totals how many are
+  shortlisted, how many suit each night, and how many quotes are in.
+- **Print** produces a one-page summary of whatever is on screen, laid out as a
+  document rather than a screenshot of an app — for circulating to leadership.
+- **Countdown** on each brief, so how long is left is never a mental sum.
 
 ## Running it locally
 

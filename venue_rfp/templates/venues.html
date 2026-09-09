@@ -54,6 +54,11 @@ button,select,input{font:inherit}
   text-transform:uppercase;color:var(--blue)}
 .brief h2{margin:5px 0 3px;font-size:17px;font-weight:600;letter-spacing:-.01em}
 .brief p{margin:0;color:var(--muted);font-size:13px}
+.brief .when{margin-top:3px;color:var(--ink-2);font-size:12.5px}
+.away{display:inline-block;margin-left:6px;font-size:11px;font-weight:600;
+  padding:2px 7px;border-radius:999px;background:var(--blue-50);color:var(--blue)}
+.refnote{grid-column:1/-1;margin:0;padding:11px 15px;border-radius:var(--r);
+  background:var(--blue-50);border:1px solid var(--blue-100);color:#22348C;font-size:12.5px}
 .brief .cnt{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
 .brief .cnt b{color:var(--ink);font-weight:600}
 .ring{flex:none;width:64px;height:64px;position:relative}
@@ -70,20 +75,22 @@ button,select,input{font:inherit}
   max-width:1400px;margin:0 auto}
 .seg{display:inline-flex;background:var(--line-2);border-radius:10px;padding:3px;gap:2px}
 .seg button{border:0;background:transparent;font-weight:500;color:var(--muted);
-  padding:7px 15px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
+  padding:7px 13px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
 .seg button:hover{color:var(--ink)}
 .seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:var(--sh-1)}
 .fld{position:relative;display:flex;align-items:center}
 .fld svg{position:absolute;left:11px;color:var(--faint);pointer-events:none}
 input[type=search]{padding:9px 12px 9px 34px;border:1px solid var(--line);
-  border-radius:10px;background:var(--card);min-width:230px;flex:1}
+  border-radius:10px;background:var(--card);min-width:150px;width:100%}
+.fld.grow{flex:1 1 170px;min-width:150px}
 input[type=search]:focus,select:focus{outline:2px solid var(--blue-100);
   outline-offset:0;border-color:var(--blue)}
 select.ctl{padding:9px 11px;border:1px solid var(--line);border-radius:10px;
   background:var(--card);color:var(--ink-2);cursor:pointer}
 .grow{flex:1}
-.lnk{font-size:13px;color:var(--muted);padding:9px 12px;border-radius:10px;
-  border:1px solid var(--line);background:var(--card)}
+.lnk{font-size:13px;color:var(--muted);padding:9px 11px;border-radius:10px;
+  border:1px solid var(--line);background:var(--card);white-space:nowrap}
+.acts{display:flex;gap:6px;margin-left:auto}
 .lnk:hover{color:var(--ink);text-decoration:none;background:var(--line-2)}
 button.lnk{cursor:pointer}
 button.lnk:disabled{opacity:.55;cursor:progress}
@@ -111,7 +118,12 @@ button.lnk:disabled{opacity:.55;cursor:progress}
   color:rgba(255,255,255,.15);line-height:1;letter-spacing:-.05em;user-select:none}
 .cover .cuisine{position:relative;color:#fff;font-size:11px;font-weight:500;
   letter-spacing:.05em;text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.cover .fits{position:absolute;top:11px;left:13px;display:flex;gap:5px;z-index:1}
+.cover .fits{position:absolute;top:11px;left:41px;display:flex;gap:5px;z-index:1}
+.star{position:absolute;top:8px;left:11px;z-index:2;border:0;cursor:pointer;width:24px;
+  height:24px;border-radius:7px;background:rgba(0,0,0,.4);color:rgba(255,255,255,.55);
+  font-size:14px;line-height:1;padding:0;backdrop-filter:blur(4px);transition:.15s}
+.star:hover{color:#fff;background:rgba(0,0,0,.62)}
+.star.on{background:#F5B301;color:#fff}
 .fit{font-size:10px;font-weight:600;letter-spacing:.05em;padding:3px 7px;
   border-radius:5px;background:rgba(255,255,255,.9);color:var(--ink)}
 .cover .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
@@ -170,6 +182,21 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .dot.declined{background:var(--red)}
 .nrow .day{font-size:11px;font-weight:600;color:var(--muted);width:30px;flex:none;
   letter-spacing:.04em}
+.fitb{flex:none;font-size:10px;font-weight:600;letter-spacing:.03em;padding:3px 6px;
+  border-radius:5px;text-transform:uppercase;cursor:help}
+.fitb.good{background:var(--green-50);color:var(--green)}
+.fitb.tight{background:var(--amber-50);color:var(--amber)}
+.fitb.too_small{background:var(--red-50);color:var(--red)}
+.fitb.oversized{background:#EFEAFB;color:#5B43B8}
+.fitb.unknown{background:var(--line-2);color:var(--muted)}
+.disc{padding:3px 7px;line-height:1}
+.detail{display:flex;flex-direction:column;gap:6px;padding:9px 0 4px 38px}
+.detail[hidden]{display:none}
+.drow{display:flex;gap:6px}
+.detail input,.detail textarea{width:100%;font:inherit;font-size:12.5px;padding:6px 9px;
+  border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card);color:var(--ink)}
+.detail textarea{resize:vertical;min-height:44px}
+.detail input:focus,.detail textarea:focus{outline:2px solid var(--blue-100);border-color:var(--blue)}
 .nrow select{flex:1;min-width:0;padding:6px 9px;border:1px solid var(--line);
   border-radius:var(--r-sm);background:var(--card);font-size:12.5px;color:var(--ink-2);
   cursor:pointer}
@@ -202,6 +229,35 @@ body.list .nights{border:0;padding:0;flex-direction:row;gap:10px;margin-left:aut
 body.list .nrow select{width:120px;flex:none}
 @media(max-width:900px){body.list .card{flex-wrap:wrap}body.list .hd{width:auto}}
 
+.rollup{display:flex;gap:26px;align-items:center;flex-wrap:wrap;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 20px;margin-top:22px;
+  box-shadow:var(--sh-1)}
+.rollup .k{font-size:21px;font-weight:600;letter-spacing:-.02em;display:block}
+.rollup .l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.rollup .hint{font-size:12.5px;color:var(--muted);margin-left:auto;max-width:330px}
+body.short .card:not(.starred){display:none!important}
+
+/* Printed summary: a document, not a screenshot of an app. */
+@media print{
+  .mast,.tools,.rollup .hint,.star,.pencil,.go,.disc,.foot a,.empty,.toast{display:none!important}
+  body{background:#fff;font-size:11px}
+  .wrap{max-width:none;padding:0}
+  .briefs{page-break-after:avoid}
+  .brief,.card,.rollup{box-shadow:none;border-color:#CBD0DB;break-inside:avoid}
+  .grid{display:block!important}
+  .card{flex-direction:row!important;align-items:flex-start;gap:14px;padding:11px 0!important;
+    border:0;border-bottom:1px solid #E1E5EE;border-radius:0}
+  .cover{width:0!important;height:0!important;padding:0!important;overflow:hidden}
+  .body{flex-direction:row!important;gap:14px;padding:0!important}
+  .hd{width:150px;flex:none}
+  .why,.flag,.caps .l,.meta .tag:not(.walk){display:none}
+  .contact{border:0;padding:0;width:170px;flex:none}
+  .nights{border:0;padding:0;margin-left:auto;width:290px;flex:none}
+  .detail{display:flex!important;padding-left:0}
+  .detail input,.detail textarea{border:0;padding:2px 0}
+  a{color:#000;text-decoration:none}
+  @page{margin:14mm}
+}
 .empty{text-align:center;padding:70px 20px;color:var(--muted)}
 .empty h3{color:var(--ink);font-size:16px;margin:0 0 4px}
 </style>
@@ -225,7 +281,8 @@ body.list .nrow select{width:120px;flex:none}
       <div class="txt">
         <div class="eyebrow">{{ n.label }}</div>
         <h2>{{ n.headcount }}</h2>
-        <p>{{ n.format }} · {{ n.window }}</p>
+        <p>{{ n.format }}</p>
+        <p class="when">{{ n.date }} · {{ n.window }} <span class="away" data-away="{{ n.date }}"></span></p>
         <div class="cnt"><b data-done="{{ key }}">0</b> of <b data-total="{{ key }}">0</b> contacted</div>
       </div>
       <div class="ring">
@@ -239,6 +296,7 @@ body.list .nrow select{width:120px;flex:none}
       </div>
     </article>
     {% endfor %}
+    {% if event.reference %}<p class="refnote"><b>Brief:</b> {{ event.reference }}</p>{% endif %}
   </section>
 </div>
 
@@ -247,7 +305,7 @@ body.list .nrow select{width:120px;flex:none}
     <div class="seg" id="nightSeg">
       <button data-night="all" aria-pressed="true">All</button>
       {% for key, n in event.nights.items() %}
-      <button data-night="{{ key }}" aria-pressed="false">{{ n.label }}</button>
+      <button data-night="{{ key }}" aria-pressed="false" title="{{ n.label }} — {{ n.headcount }}">{{ n.label.split(' ')[0] }}</button>
       {% endfor %}
     </div>
     <label class="fld grow">
@@ -267,7 +325,9 @@ body.list .nrow select{width:120px;flex:none}
     <div class="seg" id="viewSeg">
       <button data-view="grid" aria-pressed="true">Cards</button>
       <button data-view="list" aria-pressed="false">List</button>
+      <button data-view="short" aria-pressed="false">Shortlist</button>
     </div>
+    <button class="lnk" type="button" id="printBtn">Print</button>
     <span class="count" id="count"></span>
     <button class="lnk" type="button" id="getAll">Get photos</button>
     <a class="lnk" href="{{ url_for('venues.api_export') }}">Export</a>
@@ -277,7 +337,8 @@ body.list .nrow select{width:120px;flex:none}
 <div class="wrap">
   <div class="grid" id="grid">
   {% for v in venues %}
-    <article class="card" data-id="{{ v.id }}"
+    <article class="card{% if v.starred %} starred{% endif %}" data-id="{{ v.id }}"
+             data-starred="{{ '1' if v.starred else '' }}"
              data-fits="{{ v.fits|join(',') }}"
              data-rank="{{ v.proximity_rank }}"
              data-seated="{{ v.seated_max or 0 }}"
@@ -289,6 +350,8 @@ body.list .nrow select{width:120px;flex:none}
              referrerpolicy="no-referrer" onerror="this.remove()">{% endif %}
         <span class="veil"></span>
         <span class="mono">{{ v.monogram }}</span>
+        <button class="star {% if v.starred %}on{% endif %}" type="button" data-star
+                title="Shortlist this venue" aria-pressed="{{ 'true' if v.starred else 'false' }}">★</button>
         <span class="fits">
           {% if 'saturday' in v.fits %}<span class="fit">SAT</span>{% endif %}
           {% if 'sunday' in v.fits %}<span class="fit">SUN</span>{% endif %}
@@ -336,11 +399,20 @@ body.list .nrow select{width:120px;flex:none}
               <option value="{{ s }}" {% if v.outreach[key].status == s %}selected{% endif %}>{{ status_labels[s] }}</option>
               {% endfor %}
             </select>
+            <span class="fitb {{ v.fit[key] }}" title="{{ {'good':'Capacity comfortably covers this night','tight':'Capacity is under the top of the range','too_small':'Published capacity is below this headcount','oversized':'Much larger than this group — ask what they can close off','unknown':'No published capacity — ask for it'}[v.fit[key]] }}">{{ {'good':'fits','tight':'tight','too_small':'small','oversized':'large','unknown':'?'}[v.fit[key]] }}</span>
             <a class="go {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
                href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft
                {% if key not in v.fits %}title="{{ v.name }} is not sized for this night — you can still ask"{% endif %}>
               {% if v.outreach[key].status == 'not_contacted' %}Send RFP{% else %}Resend{% endif %}
             </a>
+            <button class="mini disc" type="button" data-toggle title="Quote and notes">▾</button>
+          </div>
+          <div class="detail" data-detail="{{ key }}" hidden>
+            <div class="drow">
+              <input data-quote placeholder="F&B minimum quoted" value="{{ v.outreach[key].quote }}">
+              <input data-fees placeholder="Other fees (room, service, tax…)" value="{{ v.outreach[key].fees }}">
+            </div>
+            <textarea data-notes rows="2" placeholder="Notes — who replied, what they offered, next step">{{ v.outreach[key].notes }}</textarea>
           </div>
           {% endfor %}
         </div>
@@ -352,6 +424,13 @@ body.list .nrow select{width:120px;flex:none}
       </div>
     </article>
   {% endfor %}
+  </div>
+  <div class="rollup" id="rollup" hidden>
+    <div><span class="k" id="rollCount">0</span><span class="l">shortlisted</span></div>
+    <div><span class="k" id="rollSat">0</span><span class="l">for Saturday</span></div>
+    <div><span class="k" id="rollSun">0</span><span class="l">for Sunday</span></div>
+    <div><span class="k" id="rollQuotes">0</span><span class="l">quotes captured</span></div>
+    <div class="hint">Star a venue to add it here. Print gives you a one-page summary to circulate.</div>
   </div>
   <div class="toast" id="toast"></div>
   <div class="empty" id="empty" hidden><h3>Nothing matches</h3><p>Try a different filter or search.</p></div>
@@ -410,7 +489,9 @@ document.getElementById('nightSeg').addEventListener('click', e => {
 document.getElementById('viewSeg').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x === b));
-  document.body.classList.toggle('list', b.dataset.view === 'list');
+  document.body.classList.toggle('list', b.dataset.view !== 'grid');
+  document.body.classList.toggle('short', b.dataset.view === 'short');
+  apply();
   try { localStorage.setItem('venueView', b.dataset.view); } catch {}
 });
 document.getElementById('q').addEventListener('input', apply);
@@ -447,6 +528,53 @@ grid.addEventListener('change', async e => {
   progress(); apply();
   try { await post(`${BASE}/api/outreach/${card.dataset.id}/${row.dataset.night}`, {status: sel.value}); }
   catch (err) { alert('Could not save status: ' + err.message); }
+});
+
+/* ── shortlist, quotes and notes ───────────────────────────── */
+function rollup(){
+  const starred = cards.filter(c => c.classList.contains('starred'));
+  const fitsNight = n => starred.filter(c => c.dataset.fits.split(',').includes(n)).length;
+  let quotes = 0;
+  starred.forEach(c => c.querySelectorAll('[data-quote]').forEach(i => { if (i.value.trim()) quotes++; }));
+  document.getElementById('rollCount').textContent = starred.length;
+  document.getElementById('rollSat').textContent = fitsNight('saturday');
+  document.getElementById('rollSun').textContent = fitsNight('sunday');
+  document.getElementById('rollQuotes').textContent = quotes;
+  document.getElementById('rollup').hidden = starred.length === 0;
+}
+
+// One debounce timer per field. A single shared timer meant typing in one box
+// cancelled the pending save of the box before it.
+const saveTimers = new Map();
+function saveDetail(card, night, field, value){
+  const key = `${card.dataset.id}/${night}/${field}`;
+  clearTimeout(saveTimers.get(key));
+  saveTimers.set(key, setTimeout(async () => {
+    saveTimers.delete(key);
+    try { await post(`${BASE}/api/outreach/${card.dataset.id}/${night}`, {[field]: value}); }
+    catch (err) { toast(`Could not save — ${err.message}`); }
+    rollup();
+  }, 450));
+}
+
+// A reload mid-edit would drop anything still queued.
+addEventListener('beforeunload', e => {
+  if (saveTimers.size) { e.preventDefault(); e.returnValue = ''; }
+});
+
+grid.addEventListener('input', e => {
+  const f = ['quote','fees','notes'].find(k => e.target.matches(`[data-${k}]`));
+  if (!f) return;
+  const row = e.target.closest('.detail');
+  saveDetail(e.target.closest('.card'), row.dataset.detail, f, e.target.value);
+});
+
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+/* ── how far away each night is ────────────────────────────── */
+document.querySelectorAll('[data-away]').forEach(el => {
+  const days = Math.ceil((new Date(el.dataset.away) - new Date()) / 86400000);
+  el.textContent = days > 0 ? `${days} days away` : days === 0 ? 'today' : 'past';
 });
 
 /* ── cover photos ──────────────────────────────────────────── */
@@ -520,6 +648,27 @@ async function markSent(card, night){
 grid.addEventListener('click', async e => {
   const card = e.target.closest('.card'); if (!card) return;
 
+  const star = e.target.closest('[data-star]');
+  if (star) {
+    const on = !card.classList.contains('starred');
+    card.classList.toggle('starred', on);
+    star.classList.toggle('on', on);
+    star.setAttribute('aria-pressed', String(on));
+    rollup(); apply();
+    try { await post(`${BASE}/api/meta/${card.dataset.id}`, {starred: on ? '1' : ''}); }
+    catch (err) { toast(`Could not save the shortlist — ${err.message}`); }
+    return;
+  }
+
+  const tog = e.target.closest('[data-toggle]');
+  if (tog) {
+    const row = tog.closest('.nrow');
+    const panel = card.querySelector(`.detail[data-detail="${row.dataset.night}"]`);
+    panel.hidden = !panel.hidden;
+    tog.textContent = panel.hidden ? '▾' : '▴';
+    return;
+  }
+
   if (e.target.closest('[data-getcover]')) { getCover(card); return; }
 
   if (e.target.closest('[data-editcover]')) {
@@ -560,7 +709,8 @@ try {
       b.setAttribute('aria-pressed', b.dataset.view === 'list'));
   }
 } catch {}
-sortCards(); progress(); apply();
+cards.forEach(c => { if (c.dataset.starred === '1') c.classList.add('starred'); });
+sortCards(); progress(); rollup(); apply();
 </script>
 </body>
 </html>

@@ -1,9 +1,8 @@
 """RFP composition and Gmail hand-off.
 
-One generic RFP body, deliberately free of any conference name or date: it
-describes the shape of the evening — format, headcount, timing, space — and
-asks the venue what they can do. Whoever sends it adds the date in Gmail, or
-settles it in the reply.
+One generic RFP body. It names no conference, but it does carry the date and
+the running order, because availability and a quoted minimum are the two things
+the reply has to contain and neither can be answered without them.
 
 The body carries no sign-off block either, so Gmail's own signature is the only
 one on the message.
@@ -36,22 +35,26 @@ def config():
 
 
 def build_subject(venue, night):
-    return f"Private event enquiry — {night['headcount']} · {config()['sender_org']}"
+    return (f"Private event enquiry — {night['date']} · "
+            f"{night['headcount']} · {config()['sender_org']}")
 
 
 # One generic set of asks, worded to suit a standing reception and a seated
 # dinner alike. No date is quoted anywhere, so availability is the opening ask.
 _ASKS = [
-    "Your availability, and how far ahead you take bookings of this size",
-    "Confirmation the space takes this many guests comfortably in this format, rather than at capacity",
-    "Food and drink options you would recommend at this headcount, and the format you would advise",
-    "Food & beverage minimum and/or room fee, and how that varies by day of the week",
+    "Availability on the date and times above",
+    "The food & beverage minimum for that space on that date",
+    "Every other charge that would appear on the invoice — room or facility fee, "
+    "service charge, administrative fee, tax, staffing, coat check, AV, overtime "
+    "— so we can compare venues on a genuine all-in figure",
+    "Which room you would put us in, whether it is fully private, and what else "
+    "would be running alongside it",
+    "Confirmation the space holds this many guests comfortably in this format, "
+    "rather than at capacity",
+    "Food and drink formats you would recommend at this headcount",
     "Beverage packages, including a substantial non-alcoholic selection",
-    "Whether the space is private or semi-private, and what else would be running in the room",
-    "AV and a microphone, in case we open with a short welcome",
     "Deposit schedule, payment terms and the cancellation policy",
     "Dietary accommodation — we expect vegetarian, vegan, halal and gluten-free guests",
-    "Whether service charge, administrative fee and tax are included in the figures you quote",
 ]
 
 
@@ -66,8 +69,9 @@ def build_body(venue, night, event=None):
         f"planning in New York.",
         "",
         f"  Event      {night['format']}",
+        f"  Date       {night['date']}",
         f"  Guests     {night['headcount']}",
-        f"  Timing     approximately {night['window']}",
+        f"  Timing     {night['window']}",
         f"  Space      {space}",
         "",
         f"The group is {night['audience']}.",
@@ -78,8 +82,9 @@ def build_body(venue, night, event=None):
     lines += [f"  {i}. {ask}" for i, ask in enumerate(_ASKS, start=1)]
     lines += [
         "",
-        "I'm happy to share exact dates once we know what you have available. "
-        "A PDF pack or a call both work — whichever is easier for you.",
+        "If that date is already committed, I would still welcome the minimum and "
+        "the fee structure — we have some flexibility. A PDF pack or a call both "
+        "work, whichever is easier for you.",
         "",
         "Thank you,",
     ]
