@@ -30,7 +30,8 @@
       }
     },
     "links_verified": "2026-09-09",
-    "reference": "Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of occasion, ideally a view — without that price point."
+    "reference": "Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of occasion, ideally a view — without that price point.",
+    "capacity_note": "Seated and reception figures are the largest PRIVATE space, without a buyout. Buyout figures are shown separately — a venue that only reaches your headcount by taking the whole restaurant is a different proposition and a different price."
   },
   "venues": [
     {
@@ -59,7 +60,18 @@
         "https://www.ushg.com/private-events-venue/ci-siamo/",
         "https://www.cisiamo.com/private-dining/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room + terrace",
+          "seated": 50,
+          "standing": 75
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "ushg.com Ci Siamo",
+      "capacity_confidence": "published"
     },
     {
       "id": "zou-zous",
@@ -76,7 +88,7 @@
       "email_confidence": "verified",
       "contact_name": "Matt Crane, Private Events",
       "seated_max": 42,
-      "reception_max": 100,
+      "reception_max": 50,
       "fits": [
         "saturday",
         "sunday"
@@ -88,7 +100,28 @@
         "https://www.qualitybranded.com/private-events-venue/zou-zous/",
         "https://www.chezzou.com/private-events/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Mural + Parlour combined",
+          "seated": 42,
+          "standing": 50
+        },
+        {
+          "name": "Mural Room",
+          "seated": 24,
+          "standing": 30
+        },
+        {
+          "name": "Parlour Room",
+          "seated": 18,
+          "standing": 20
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 100,
+      "capacity_source": "qualitybranded.com Zou Zou's / Chez Zou",
+      "capacity_confidence": "published"
     },
     {
       "id": "keens-bullmoose",
@@ -103,8 +136,8 @@
       "phone": "(212) 947-3636",
       "email": "banquets@keens.com",
       "email_confidence": "verified",
-      "seated_max": 35,
-      "reception_max": 80,
+      "seated_max": 80,
+      "reception_max": 0,
       "fits": [
         "sunday",
         "saturday"
@@ -115,7 +148,33 @@
         "https://www.keens.com/privateevents/",
         "https://thevendry.com/venue/43652/keens-steakhouse-new-york-ny/space/644"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Lambs Room",
+          "seated": 80,
+          "standing": 0
+        },
+        {
+          "name": "Lincoln Room",
+          "seated": 45,
+          "standing": 0
+        },
+        {
+          "name": "Bullmoose Room",
+          "seated": 35,
+          "standing": 0
+        },
+        {
+          "name": "Lillie Langtry Room",
+          "seated": 25,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "keens.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "le-bernardin",
@@ -142,7 +201,18 @@
         "https://www.le-bernardin.com/private-dining/les-salons-bernardin",
         "https://www.le-bernardinprive.com/contact"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Les Salons Bernardin (dividable)",
+          "seated": 80,
+          "standing": 80
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "le-bernardin.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "aquavit",
@@ -169,7 +239,23 @@
         "http://www.aquavit.org/private-dining-1",
         "https://static1.squarespace.com/static/54288085e4b0461906627747/t/6723e17d60030479058d5762/1730404733588/AQUAVIT+Private+Dining+Kit+FALL+2024.pdf"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Nobel Room",
+          "seated": 76,
+          "standing": 100
+        },
+        {
+          "name": "Linné Salon",
+          "seated": 30,
+          "standing": 50
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "aquavit.org private dining kit (PDF)",
+      "capacity_confidence": "published"
     },
     {
       "id": "manhatta",
@@ -185,8 +271,8 @@
       "email": "",
       "email_confidence": "form_only",
       "booking_note": "Inquiry form at eventsatmanhatta.com — no public events address published.",
-      "seated_max": 150,
-      "reception_max": 250,
+      "seated_max": 35,
+      "reception_max": 40,
       "fits": [
         "saturday",
         "sunday"
@@ -197,7 +283,18 @@
         "https://www.manhattarestaurant.com/private-events/",
         "https://www.manhattarestaurant.com/private-events-venue/private-dining-room/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private Dining Room",
+          "seated": 35,
+          "standing": 40
+        }
+      ],
+      "buyout_seated": 150,
+      "buyout_reception": 250,
+      "capacity_source": "manhattarestaurant.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "saga",
@@ -225,7 +322,18 @@
         "https://www.overstory-nyc.com/",
         "https://eventup.com/venue/kent-hospitality-group-at-70-pine/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "62nd-floor private rooms",
+          "seated": 40,
+          "standing": 70
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "saga-nyc.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "cote",
@@ -252,7 +360,23 @@
         "https://www.cotekoreansteakhouse.com/events",
         "https://thevendry.com/venue/22678/cote-korean-steakhouse-new-york-ny/space/1234"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Undercote",
+          "seated": 0,
+          "standing": 55
+        },
+        {
+          "name": "Group dining, main room",
+          "seated": 100,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "cotekoreansteakhouse.com events",
+      "capacity_confidence": "published"
     },
     {
       "id": "gramercy-tavern",
@@ -269,7 +393,7 @@
       "email_confidence": "form_only",
       "booking_note": "\"Inquire Now\" form on gramercytavern.com; Vault Room needs 28 days' notice.",
       "seated_max": 40,
-      "reception_max": 120,
+      "reception_max": 0,
       "fits": [
         "sunday",
         "saturday"
@@ -280,7 +404,23 @@
         "https://www.gramercytavern.com/private-events-venue/the-vault-room/",
         "https://www.gramercytavern.com/private-dining/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Vault Room",
+          "seated": 40,
+          "standing": 0
+        },
+        {
+          "name": "Private Dining Room",
+          "seated": 22,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 120,
+      "capacity_source": "gramercytavern.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "torrisi",
@@ -307,7 +447,18 @@
         "https://torrisinyc.com/contact",
         "https://thevendry.com/venue/167952/torrisi-bar-restaurant-new-york-ny"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room",
+          "seated": 45,
+          "standing": 125
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "torrisinyc.com",
+      "capacity_confidence": "published"
     },
     {
       "id": "jungsik",
@@ -322,8 +473,8 @@
       "phone": "(212) 219-0900",
       "email": "events@jungsik.com",
       "email_confidence": "verified",
-      "seated_max": 35,
-      "reception_max": 35,
+      "seated_max": 16,
+      "reception_max": 0,
       "fits": [
         "sunday"
       ],
@@ -333,7 +484,18 @@
         "https://www.jungsik.com/private-dining/",
         "https://thevendry.com/venue/55508/jungsik-new-york-ny/space/1001"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room",
+          "seated": 16,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 35,
+      "buyout_reception": 0,
+      "capacity_source": "jungsik.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "milos-hudson-yards",
@@ -350,7 +512,7 @@
       "email_confidence": "form_only",
       "booking_note": "Events address not published in the clear — inquire via the Hudson Yards events page or phone; ask them to reply from the direct events address.",
       "seated_max": 50,
-      "reception_max": 90,
+      "reception_max": 0,
       "fits": [
         "saturday",
         "sunday"
@@ -361,7 +523,23 @@
         "https://www.estiatoriomilos.com/location/nyhudsonyards/events/",
         "https://eventup.com/venue/estiatorio-milos-hudson-yards/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Terrace",
+          "seated": 50,
+          "standing": 0
+        },
+        {
+          "name": "Milos Wine Bar",
+          "seated": 40,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "estiatoriomilos.com Hudson Yards events",
+      "capacity_confidence": "published"
     },
     {
       "id": "peak-hudson-yards",
@@ -388,7 +566,23 @@
         "https://www.peaknyc.com/private-events/",
         "https://taogroup.com/venues/peak-restaurant-new-york/private-dining/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Event space, 3,500 sq ft",
+          "seated": 250,
+          "standing": 300
+        },
+        {
+          "name": "Sky Cellar",
+          "seated": 18,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "peaknyc.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "semma",
@@ -404,7 +598,7 @@
       "email": "events@semma.nyc",
       "email_confidence": "verified",
       "seated_max": 28,
-      "reception_max": 40,
+      "reception_max": 38,
       "fits": [
         "sunday"
       ],
@@ -414,7 +608,18 @@
         "https://www.semma.nyc/private-events",
         "https://thevendry.com/venue/165004/semma-new-york-ny/space/67411"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Semi-private room",
+          "seated": 28,
+          "standing": 38
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "semma.nyc private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "tatiana",
@@ -429,8 +634,8 @@
       "phone": "(212) 875-5222",
       "email": "info@tatiananyc.com",
       "email_confidence": "verified",
-      "seated_max": 40,
-      "reception_max": 60,
+      "seated_max": 0,
+      "reception_max": 0,
       "fits": [
         "sunday",
         "saturday"
@@ -441,7 +646,12 @@
         "https://www.tatiananyc.com/private-events/",
         "https://www.tatiananyc.com/location/tatiana-by-kwame-onwuachi/"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "tatiananyc.com — partitioned capacity not published, ask",
+      "capacity_confidence": "not_published"
     },
     {
       "id": "kabawa",
@@ -468,7 +678,18 @@
         "https://www.momofuku.com/restaurants/kabawa/events",
         "https://www.momofuku.com/restaurants/kabawa"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room / full room",
+          "seated": 48,
+          "standing": 60
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "momofuku.com Kabawa events",
+      "capacity_confidence": "published"
     },
     {
       "id": "aska",
@@ -484,7 +705,7 @@
       "email": "events@askanyc.com",
       "email_confidence": "verified",
       "seated_max": 50,
-      "reception_max": 50,
+      "reception_max": 0,
       "fits": [
         "saturday",
         "sunday"
@@ -496,7 +717,23 @@
         "https://thevendry.com/venue/43463/atomix-new-york-ny"
       ],
       "booking_note": "Listings disagree on whether Aska is currently trading — confirm it is open before building an evening around it.",
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Main dining room, privatized",
+          "seated": 50,
+          "standing": 0
+        },
+        {
+          "name": "Cellar lounge",
+          "seated": 16,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "askanyc.com",
+      "capacity_confidence": "published"
     },
     {
       "id": "eleven-madison-park",
@@ -512,8 +749,8 @@
       "email": "info@elevenmadisonpark.com",
       "email_confidence": "unconfirmed",
       "booking_note": "Private Dining & Special Events form on elevenmadisonpark.com/events; info@ is the general guest-relations line.",
-      "seated_max": 32,
-      "reception_max": 50,
+      "seated_max": 27,
+      "reception_max": 0,
       "fits": [
         "sunday"
       ],
@@ -523,7 +760,18 @@
         "https://www.elevenmadisonpark.com/events",
         "https://www.elevenmadisonpark.com/contact"
       ],
-      "verified_on": "2026-09-04"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Balcony private dining room",
+          "seated": 27,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "elevenmadisonpark.com events — post-renovation figure, confirm",
+      "capacity_confidence": "published"
     },
     {
       "id": "electric-lemon",
@@ -551,7 +799,18 @@
         "https://electriclemonnyc.com/",
         "https://equinox-hotels.com/nyc/restaurants-bars/electric-lemon/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room",
+          "seated": 72,
+          "standing": 100
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "Sources disagree — one gives the PDR as 50 seated, another 72 seated / 100 standing. Confirm before relying on it.",
+      "capacity_confidence": "published"
     },
     {
       "id": "boqueria-w40",
@@ -567,8 +826,8 @@
       "email": "events@boqueriannyc.com",
       "email_confidence": "unconfirmed",
       "booking_note": "The address on the source list reads events@boqueriannyc.com, which looks like a typo — confirm before sending, or use the site form.",
-      "seated_max": 100,
-      "reception_max": 175,
+      "seated_max": 24,
+      "reception_max": 35,
       "fits": [
         "saturday"
       ],
@@ -578,7 +837,18 @@
         "https://boqueriarestaurant.com/location/nyc/events/",
         "https://boqueriarestaurant.com/private-dining-in-times-square/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private dining room",
+          "seated": 24,
+          "standing": 35
+        }
+      ],
+      "buyout_seated": 100,
+      "buyout_reception": 175,
+      "capacity_source": "boqueriarestaurant.com NYC events",
+      "capacity_confidence": "published"
     },
     {
       "id": "bad-roman",
@@ -606,7 +876,28 @@
         "https://www.badromanrestaurants.com/private-events/"
       ],
       "verified_on": "2026-09-09",
-      "booking_note": ""
+      "booking_note": "",
+      "rooms": [
+        {
+          "name": "Piazza + Lazzeri combined",
+          "seated": 80,
+          "standing": 100
+        },
+        {
+          "name": "Piazza Room",
+          "seated": 48,
+          "standing": 60
+        },
+        {
+          "name": "Lazzeri Room",
+          "seated": 40,
+          "standing": 50
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "qualitybranded.com Bad Roman",
+      "capacity_confidence": "published"
     },
     {
       "id": "quality-italian",
@@ -622,7 +913,7 @@
       "email": "dbryant@qualitybranded.com",
       "email_confidence": "unconfirmed",
       "seated_max": 60,
-      "reception_max": 60,
+      "reception_max": 0,
       "fits": [
         "saturday",
         "sunday"
@@ -634,7 +925,23 @@
         "https://www.qualitybranded.com/private-events-venue/quality-italian/"
       ],
       "verified_on": "2026-09-09",
-      "booking_note": ""
+      "booking_note": "",
+      "rooms": [
+        {
+          "name": "Trophy Room",
+          "seated": 60,
+          "standing": 0
+        },
+        {
+          "name": "The 57 Room",
+          "seated": 32,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "qualityitalian.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "crown-shy",
@@ -649,8 +956,8 @@
       "phone": "(212) 517-1932",
       "email": "events@crownshy.nyc",
       "email_confidence": "verified",
-      "seated_max": 125,
-      "reception_max": 300,
+      "seated_max": 50,
+      "reception_max": 80,
       "fits": [
         "saturday",
         "sunday"
@@ -662,7 +969,23 @@
         "https://www.crownshy.nyc/private-events-venue/pearl-room/"
       ],
       "verified_on": "2026-09-09",
-      "booking_note": ""
+      "booking_note": "",
+      "rooms": [
+        {
+          "name": "Pearl + Cedar Rooms",
+          "seated": 50,
+          "standing": 80
+        },
+        {
+          "name": "The Nook",
+          "seated": 18,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 125,
+      "buyout_reception": 300,
+      "capacity_source": "crownshy.nyc private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "temple-court",
@@ -690,7 +1013,33 @@
         "https://www.templecourtnyc.com/private-events/",
         "https://www.templecourtnyc.com/private-events-venue/farnsworth/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Full Cellar",
+          "seated": 0,
+          "standing": 225
+        },
+        {
+          "name": "Farnsworth",
+          "seated": 100,
+          "standing": 0
+        },
+        {
+          "name": "Kelly Room",
+          "seated": 70,
+          "standing": 80
+        },
+        {
+          "name": "Chapel Street",
+          "seated": 20,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "templecourtnyc.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "the-view",
@@ -712,13 +1061,18 @@
         "sunday"
       ],
       "accent": "#3A5EE3",
-      "why": "The closest match to the Nubeluz brief: a revolving room 48 floors above Times Square, and catering by Union Square Events, whose standard reception format is exactly the mobile bars and food stations you described. Capacities are not published — ask for them alongside the minimum. Hotel pricing rather than sky-lounge pricing.",
+      "why": "The closest match to the Nubeluz brief: a revolving room 47 and 48 floors above Times Square, reopened under Union Square Hospitality Group, whose standard reception format is the mobile bars and food stations you described. The 48th-floor lounge turns a full circle every 45 minutes. No capacity figure is published anywhere, so the first question has to be whether it holds 40–60 standing at all.",
       "sources": [
         "https://www.theviewnewyorkcity.com/book-an-event/",
         "https://www.unionsquareevents.com/private-events-venue/new-york-marriott-marquis/"
       ],
       "verified_on": "2026-09-09",
-      "booking_note": ""
+      "booking_note": "Capacities are not published anywhere — treat the numbers as unknown until they tell you.",
+      "rooms": [],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "not published — ask when you enquire",
+      "capacity_confidence": "not_published"
     },
     {
       "id": "the-grill-pool",
@@ -733,8 +1087,8 @@
       "phone": "(212) 375-9001",
       "email": "reservations@thegrillnewyork.com",
       "email_confidence": "unconfirmed",
-      "seated_max": 180,
-      "reception_max": 350,
+      "seated_max": 22,
+      "reception_max": 0,
       "fits": [
         "sunday",
         "saturday"
@@ -746,12 +1100,28 @@
         "https://thegrillnewyork.com/wp-content/uploads/2018/01/The-Seagram-Building-Events-Overview.pdf"
       ],
       "verified_on": "2026-09-09",
-      "booking_note": ""
+      "booking_note": "",
+      "rooms": [
+        {
+          "name": "The Gallery",
+          "seated": 22,
+          "standing": 0
+        },
+        {
+          "name": "The Salon",
+          "seated": 15,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 180,
+      "buyout_reception": 350,
+      "capacity_source": "thegrillnewyork.com events overview (PDF)",
+      "capacity_confidence": "published"
     },
     {
       "id": "the-modern",
       "name": "The Modern",
-      "space": "Private dining — confirm rooms",
+      "space": "Private Dining Room · full buyout",
       "cuisine": "New American — Michelin (MoMA)",
       "address": "9 W 53rd St, New York, NY 10019",
       "neighborhood": "Midtown",
@@ -761,24 +1131,40 @@
       "phone": "",
       "email": "info@themodernnyc.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
-      "reception_max": 0,
+      "booking_note": "info@ is the general line — expect to be routed to the USHG events desk.",
+      "seated_max": 64,
+      "reception_max": 80,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#3DD499",
-      "why": "Danny Meyer inside MoMA, with the sculpture garden through the glass — a strong Sunday room if the budget stretches. Capacities were not verified; info@ is the general line, so expect to be routed to the events desk.",
+      "why": "Danny Meyer inside MoMA, looking onto the Abby Aldrich Rockefeller Sculpture Garden. The private dining room takes 64 seated or 80 standing — comfortably over both your numbers — or 30 at one long table, which is close to your Sunday count if you want a single table. A buyout starts guests in the Bar Room with passed canapés before moving them into the dining room, which is the shape of your Sunday evening.",
       "sources": [
         "https://www.themodernnyc.com/private-dining/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Private Dining Room",
+          "seated": 64,
+          "standing": 80
+        },
+        {
+          "name": "PDR, one long table",
+          "seated": 30,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 100,
+      "buyout_reception": 250,
+      "capacity_source": "themodernnyc.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "marea",
       "name": "Marea",
-      "space": "Private dining — confirm rooms",
+      "space": "Salerno Lounge (35) · Ravello (30) · Praiano (24)",
       "cuisine": "Italian seafood — Michelin (Altamarea)",
       "address": "240 Central Park S, New York, NY 10019",
       "neighborhood": "Central Park South",
@@ -788,24 +1174,45 @@
       "phone": "",
       "email": "mareaevents@altamareagroup.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
+      "booking_note": "The private rooms top out at 35 seated — 40–60 standing on Saturday would need the main dining room or a buyout.",
+      "seated_max": 35,
       "reception_max": 0,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#264CD7",
-      "why": "Premium Sunday option on Central Park South. Carried from the source list; capacities not independently verified.",
+      "why": "Premium Italian seafood on Central Park South. Read the rooms carefully: Salerno Lounge holds 35 and Ravello 30, so Sunday at 30–35 fits but with nothing spare, and Saturday's 40–60 reception does not fit any private room — that would be the main dining room (125 seated / 200 reception) as a buyout, at a different price.",
       "sources": [
         "https://www.marearestaurant.com/new-york/catering-events"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Salerno Lounge",
+          "seated": 35,
+          "standing": 0
+        },
+        {
+          "name": "Ravello",
+          "seated": 30,
+          "standing": 0
+        },
+        {
+          "name": "Praiano",
+          "seated": 24,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 125,
+      "buyout_reception": 200,
+      "capacity_source": "marearestaurant.com catering & events",
+      "capacity_confidence": "published"
     },
     {
       "id": "smith-wollensky",
       "name": "Smith & Wollensky",
-      "space": "Private dining — confirm rooms",
+      "space": "Second-floor skylit rooms",
       "cuisine": "Classic steakhouse",
       "address": "797 3rd Ave, New York, NY 10022",
       "neighborhood": "Midtown East",
@@ -815,78 +1222,126 @@
       "phone": "",
       "email": "mquayle@qualitybranded.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
+      "booking_note": "Only the combined figure (130 seated) is published — ask for the individual room capacities, which is what your numbers actually need.",
+      "seated_max": 130,
       "reception_max": 0,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#B4690E",
-      "why": "A steakhouse with several private rooms and a Quality Branded events contact, so it can be quoted alongside Zou Zou's, Bad Roman and Quality Italian. Capacities not independently verified.",
+      "why": "The second floor is a set of skylit rooms that divide for smaller events or combine for 130 seated. That combined number is the only one published, so the useful question is what a single room holds — 30–35 seated and 40–60 standing should both sit inside one of them. Quality Branded contact, so it can be quoted alongside Zou Zou's, Bad Roman and Quality Italian.",
       "sources": [
         "https://www.smithandwollenskynyc.com/private-dining/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Second-floor skylit rooms, combined",
+          "seated": 130,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "smithandwollenskynyc.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "amali",
       "name": "Amali",
-      "space": "Private dining — confirm rooms",
+      "space": "Skylight Room · Sopra · Fireplace Room",
       "cuisine": "Mediterranean",
       "address": "115 E 60th St, New York, NY 10022",
       "neighborhood": "Upper East Side",
       "proximity_rank": 17,
       "proximity": "≈20 min car from Javits",
       "website": "https://www.amalinyc.com/private-events/",
-      "phone": "",
+      "phone": "(212) 339-8363",
       "email": "events@amalinyc.com",
-      "email_confidence": "unconfirmed",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
-      "reception_max": 0,
+      "email_confidence": "verified",
+      "booking_note": "",
+      "seated_max": 40,
+      "reception_max": 65,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#0F9D6B",
-      "why": "Flagged on the source list as the value option for both nights. Capacities not independently verified — worth an early enquiry if the minimums elsewhere come back high.",
+      "why": "The strongest structural match on the whole list for Sunday. The two upstairs rooms — Sopra (40 seated / 60 standing) and the Skylight Room (40 seated / 65 standing) — separate with sliding barn doors specifically so a reception can run in one and dinner in the other. That is your 6:00 cocktails, 6:30 dinner, in one booking. The Skylight Room alone also covers Saturday at 65 standing. Flagged on your source list as the value option, and the numbers come from their own events PDF.",
       "sources": [
         "https://www.amalinyc.com/private-events/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Skylight Room",
+          "seated": 40,
+          "standing": 65
+        },
+        {
+          "name": "Sopra",
+          "seated": 40,
+          "standing": 60
+        },
+        {
+          "name": "Fireplace Room",
+          "seated": 22,
+          "standing": 35
+        }
+      ],
+      "buyout_seated": 120,
+      "buyout_reception": 200,
+      "capacity_source": "amalinyc.com events package (PDF)",
+      "capacity_confidence": "published"
     },
     {
       "id": "tucci",
       "name": "Tucci",
-      "space": "Private dining — confirm rooms",
+      "space": "Bleecker Street Dining Room · wine cellars · buyout",
       "cuisine": "Italian",
-      "address": "207 2nd Ave, New York, NY 10003",
-      "neighborhood": "East Village",
+      "address": "475 Broadway at Bleecker St, New York, NY 10012",
+      "neighborhood": "NoHo",
       "proximity_rank": 18,
       "proximity": "≈20 min car from Javits",
       "website": "https://www.tuccinyc.com/private-events/",
       "phone": "",
       "email": "info@tuccinyc.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
-      "reception_max": 0,
+      "booking_note": "Address and events contact are from the source list — confirm the street address when you enquire.",
+      "seated_max": 40,
+      "reception_max": 60,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#C4B5E3",
-      "why": "Listed as a strong capacity match for both briefs. Carried from the source list; capacities and the events route are not independently verified.",
+      "why": "The Bleecker Street Dining Room is quoted at exactly 40 seated or 60 reception — the top of your Saturday range and comfortably over your Sunday one, from a single room. Below it are wine-cellar rooms under 1800s brick arches for smaller groups, and a buyout reaches 130 seated / 290 reception. On paper one of the tidiest matches for both nights.",
       "sources": [
         "https://www.tuccinyc.com/private-events/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Bleecker Street Dining Room",
+          "seated": 40,
+          "standing": 60
+        },
+        {
+          "name": "Small Wine Cellar",
+          "seated": 12,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 130,
+      "buyout_reception": 290,
+      "capacity_source": "tuccinyc.com private events",
+      "capacity_confidence": "published"
     },
     {
       "id": "freemans",
       "name": "Freemans",
-      "space": "Private dining — confirm rooms",
+      "space": "Red Room · Blue Room · Wine Room · full second floor",
       "cuisine": "American",
       "address": "8 Rivington St, New York, NY 10002",
       "neighborhood": "Lower East Side",
@@ -894,36 +1349,57 @@
       "proximity": "≈22 min car from Javits",
       "website": "https://www.freemansrestaurant.com/private-dining",
       "phone": "",
-      "email": "",
-      "email_confidence": "form_only",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
-      "reception_max": 0,
+      "email": "reservations@freemansrestaurant.com",
+      "email_confidence": "verified",
+      "booking_note": "Groups of 9 or more go to reservations@ — there is no separate events address.",
+      "seated_max": 30,
+      "reception_max": 35,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#17375E",
-      "why": "A distinctive downtown room at the end of an alley — character rather than views. Booking is through the private dining page; no events address verified.",
+      "why": "Three rooms up a staircase at the end of an alley — character rather than views. The Red Room is the largest single space at 30 seated or 35 for a cocktail reception, so Sunday fits and Saturday does not; 40–60 standing means the full second floor, which they rent from 30 to 200 guests.",
       "sources": [
         "https://www.freemansrestaurant.com/private-dining"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Red Room",
+          "seated": 30,
+          "standing": 35
+        },
+        {
+          "name": "Blue Room",
+          "seated": 20,
+          "standing": 25
+        },
+        {
+          "name": "Wine Room",
+          "seated": 12,
+          "standing": 0
+        }
+      ],
+      "buyout_seated": 200,
+      "buyout_reception": 200,
+      "capacity_source": "freemansrestaurant.com private dining",
+      "capacity_confidence": "published"
     },
     {
       "id": "the-landing",
       "name": "The Landing",
-      "space": "Private dining — confirm rooms",
+      "space": "Two private dining rooms, including the West Wing",
       "cuisine": "American",
-      "address": "",
-      "neighborhood": "",
-      "proximity_rank": 20,
-      "proximity": "Confirm location",
+      "address": "PENN 1, 250 W 34th St, New York, NY 10119",
+      "neighborhood": "Penn District",
+      "proximity_rank": 5,
+      "proximity": "≈15 min walk from Javits",
       "website": "https://www.thelanding.nyc/private-events-and-catering/",
       "phone": "",
       "email": "",
       "email_confidence": "form_only",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
+      "booking_note": "Room-level capacities are not published — ask for them. Venue confirmed: inside the PENN 1 tower, run by Episcope Hospitality.",
       "seated_max": 0,
       "reception_max": 0,
       "fits": [
@@ -931,16 +1407,21 @@
         "sunday"
       ],
       "accent": "#3A5EE3",
-      "why": "Carried from the source list as corporate-friendly for both nights. Neither the address nor the capacities were verified — check what and where this is before spending an enquiry on it.",
+      "why": "Confirmed as a real venue: inside the PENN 1 tower in the Penn District, up the Social Stairs, run by Episcope Hospitality — and genuinely close to Javits. Two private dining rooms, one of them the West Wing, which sits beside the bar and is pitched at cocktail receptions, so Saturday's format is native to the space. Total capacity runs to 250; individual room figures are not published, so ask.",
       "sources": [
         "https://www.thelanding.nyc/private-events-and-catering/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [],
+      "buyout_seated": 0,
+      "buyout_reception": 250,
+      "capacity_source": "thelanding.nyc private events — room-level figures not published",
+      "capacity_confidence": "not_published"
     },
     {
       "id": "one-fifth",
       "name": "Trattoria One Fifth",
-      "space": "Private dining — confirm rooms",
+      "space": "The Mews · semi-private combination · full restaurant",
       "cuisine": "Italian",
       "address": "1 Fifth Ave, New York, NY 10003",
       "neighborhood": "Greenwich Village",
@@ -950,19 +1431,40 @@
       "phone": "",
       "email": "",
       "email_confidence": "form_only",
-      "booking_note": "Carried from the external list — capacity and contact not independently verified.",
-      "seated_max": 0,
-      "reception_max": 0,
+      "booking_note": "Enquiry form on onefifthnyc.com — no events address published.",
+      "seated_max": 100,
+      "reception_max": 125,
       "fits": [
         "saturday",
         "sunday"
       ],
       "accent": "#D4E157",
-      "why": "Downtown character for the Sunday dinner. Carried from the source list; capacities not independently verified.",
+      "why": "Marc Forgione's Italian room on the corner of Fifth and 8th. The Mews takes 45 seated or 70 standing, which covers both of your nights from one space without a buyout — one of the few venues on the list where that is true. A semi-private combination reaches 100 seated / 125 standing if the count grows.",
       "sources": [
         "https://www.onefifthnyc.com/private-dining/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "rooms": [
+        {
+          "name": "Semi-private combination",
+          "seated": 100,
+          "standing": 125
+        },
+        {
+          "name": "The Mews",
+          "seated": 45,
+          "standing": 70
+        },
+        {
+          "name": "Lounge section",
+          "seated": 0,
+          "standing": 30
+        }
+      ],
+      "buyout_seated": 150,
+      "buyout_reception": 225,
+      "capacity_source": "onefifthnyc.com private dining",
+      "capacity_confidence": "published"
     }
   ]
 }

@@ -104,6 +104,27 @@ breaks; some cards just stay abstract.
 Images are hot-linked from the venue's own site rather than copied, so they
 stay current and no asset is redistributed.
 
+## How the capacity numbers work
+
+The single biggest accuracy risk here is conflating a venue's **private room**
+with a **full buyout**. Marea's private rooms top out at 35 seated while a
+buyout takes 125 — presenting one number would send you to a venue that cannot
+privately hold your group. So they are separate fields, shown separately, and
+the fit calculation uses only the private figure.
+
+Each venue carries a `rooms` list with the individual spaces, a `capacity_source`
+naming where the figures came from, and `verified_on`.
+
+Fit is `fits` / `tight` / `small` / `large` / `?`, computed against the real
+headcounts. It also carries a **basis**:
+
+- **published** — the venue publishes a figure for this format.
+- **derived** (shown with `*`) — only a seated figure exists and it is used as a
+  floor for a standing count. A room seating 40 holds at least 40 standing, so
+  this understates rather than overstates.
+- **none** — nothing published; shown as `?`, which is deliberately distinct
+  from a bad fit.
+
 ## Editing the shortlist
 
 `venue_rfp/data/venues.json` holds the event brief and the venue records.

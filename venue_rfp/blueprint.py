@@ -31,21 +31,38 @@ def _monogram(name):
 
 
 def _fit(venue, night):
-    """How well the venue's published capacity covers this night's headcount.
+    """How well the venue's largest PRIVATE space covers this night's headcount.
 
-    'unknown' is deliberately distinct from 'tight' — several venues carry no
-    published figure, and guessing at one would be worse than saying so.
+    Returns (level, basis). Buyout capacity is deliberately excluded: a room
+    that only reaches the headcount by taking the whole restaurant is a
+    different proposition and a different price.
+
+    basis is 'published' when the venue publishes a figure for this format,
+    'derived' when only a seated figure exists and it is being used as a floor
+    for a standing count (a room seating 40 holds at least 40 standing — this
+    understates and never overstates), and 'none' when there is nothing to go
+    on. 'unknown' is kept distinct from 'too_small': no published figure is not
+    the same as a bad fit.
     """
-    cap = venue.get('seated_max' if night.get('measure') == 'seated' else 'reception_max') or 0
+    seated = venue.get('seated_max') or 0
+    standing = venue.get('reception_max') or 0
+    if night.get('measure') == 'seated':
+        cap, basis = seated, 'published'
+    elif standing:
+        cap, basis = standing, 'published'
+    else:
+        cap, basis = seated, 'derived'
+
     if not cap:
-        return 'unknown'
-    if cap < (night.get('target_min') or 0):
-        return 'too_small'
-    if cap < (night.get('target_max') or 0):
-        return 'tight'
-    if cap > (night.get('target_max') or 0) * 4:
-        return 'oversized'
-    return 'good'
+        return 'unknown', 'none'
+    lo, hi = night.get('target_min') or 0, night.get('target_max') or 0
+    if cap < lo:
+        return 'too_small', basis
+    if cap < hi:
+        return 'tight', basis
+    if cap > hi * 4:
+        return 'oversized', basis
+    return 'good', basis
 
 
 def _decorate(catalog, with_links=False):
@@ -76,7 +93,9 @@ def _decorate(catalog, with_links=False):
                 night, {'status': 'not_contacted', 'notes': '', 'quote': '', 'fees': ''})
             for night in catalog['event']['nights']
         }
-        v['fit'] = {night: _fit(v, cfg) for night, cfg in catalog['event']['nights'].items()}
+        fits = {night: _fit(v, cfg) for night, cfg in catalog['event']['nights'].items()}
+        v['fit'] = {n: f[0] for n, f in fits.items()}
+        v['fit_basis'] = {n: f[1] for n, f in fits.items()}
         venues.append(v)
     venues.sort(key=lambda x: x.get('proximity_rank', 99))
     return venues

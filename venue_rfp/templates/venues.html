@@ -59,6 +59,8 @@ button,select,input{font:inherit}
   padding:2px 7px;border-radius:999px;background:var(--blue-50);color:var(--blue)}
 .refnote{grid-column:1/-1;margin:0;padding:11px 15px;border-radius:var(--r);
   background:var(--blue-50);border:1px solid var(--blue-100);color:#22348C;font-size:12.5px}
+.refnote.alt{background:var(--line-2);border-color:var(--line);color:var(--ink-2)}
+.refnote .lg{display:block;margin-top:5px;color:var(--muted);font-size:12px}
 .brief .cnt{margin-top:8px;font-size:12.5px;color:var(--ink-2)}
 .brief .cnt b{color:var(--ink);font-weight:600}
 .ring{flex:none;width:64px;height:64px;position:relative}
@@ -152,8 +154,17 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .cap{flex:1;padding:8px 10px;background:var(--line-2)}
 .cap+.cap{border-left:1px solid var(--line)}
 .cap .n{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
-.cap .l{font-size:10.5px;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.05em;margin-top:2px}
+.cap .l{font-size:10px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.04em;margin-top:2px}
+.cap.buy{background:#F7F4FF}
+.cap.buy .n{color:#5B43B8}
+.rooms{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.rooms li{display:flex;justify-content:space-between;gap:10px;font-size:12px;
+  padding:3px 0;border-bottom:1px dotted var(--line)}
+.rooms li:last-child{border-bottom:0}
+.rn{color:var(--ink-2)}
+.rc{color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.prov{font-size:11px;color:var(--faint);cursor:help}
 .why{font-size:13px;color:var(--ink-2);flex:1;margin:0}
 .flag{font-size:12px;color:var(--amber);background:var(--amber-50);
   border:1px solid #F3E0BE;border-radius:var(--r-sm);padding:8px 10px}
@@ -189,6 +200,7 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .fitb.too_small{background:var(--red-50);color:var(--red)}
 .fitb.oversized{background:#EFEAFB;color:#5B43B8}
 .fitb.unknown{background:var(--line-2);color:var(--muted)}
+.fitb.derived{box-shadow:inset 0 0 0 1px currentColor}
 .disc{padding:3px 7px;line-height:1}
 .detail{display:flex;flex-direction:column;gap:6px;padding:9px 0 4px 38px}
 .detail[hidden]{display:none}
@@ -221,8 +233,8 @@ body.list .cover .mono{font-size:34px;right:auto;top:auto;inset:0;display:grid;
   place-items:center;color:rgba(255,255,255,.9)}
 body.list .body{flex-direction:row;align-items:center;gap:16px;padding:0;flex:1}
 body.list .hd{width:210px;flex:none}
-body.list .why,body.list .flag,body.list .caps,body.list .foot,
-body.list .meta .tag:not(.walk){display:none}
+body.list .why,body.list .flag,body.list .caps,body.list .foot,body.list .rooms,
+body.list .prov,body.list .meta .tag:not(.walk){display:none}
 body.list .contact{border:0;padding:0;width:300px;flex:none;flex-wrap:nowrap}
 body.list .contact .em{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body.list .nights{border:0;padding:0;flex-direction:row;gap:10px;margin-left:auto}
@@ -297,6 +309,10 @@ body.short .card:not(.starred){display:none!important}
     </article>
     {% endfor %}
     {% if event.reference %}<p class="refnote"><b>Brief:</b> {{ event.reference }}</p>{% endif %}
+    {% if event.capacity_note %}<p class="refnote alt"><b>Reading the numbers:</b> {{ event.capacity_note }}
+      <span class="lg"><b>fits</b> covers your range · <b>tight</b> is under the top of it ·
+      <b>small</b> needs a buyout · <b>large</b> means ask what they close off ·
+      <b>?</b> means nothing published · <b>*</b> inferred from a seated figure</span></p>{% endif %}
   </section>
 </div>
 
@@ -375,9 +391,23 @@ body.short .card:not(.starred){display:none!important}
         </div>
 
         <div class="caps">
-          <div class="cap"><div class="n">{{ v.seated_max or '—' }}</div><div class="l">Seated</div></div>
-          <div class="cap"><div class="n">{{ v.reception_max or '—' }}</div><div class="l">Reception</div></div>
+          <div class="cap"><div class="n">{{ v.seated_max or '—' }}</div><div class="l">Seated (private)</div></div>
+          <div class="cap"><div class="n">{{ v.reception_max or '—' }}</div><div class="l">Standing (private)</div></div>
+          {% if v.buyout_seated or v.buyout_reception %}
+          <div class="cap buy"><div class="n">{{ v.buyout_seated or '—' }}/{{ v.buyout_reception or '—' }}</div><div class="l">Buyout</div></div>
+          {% endif %}
         </div>
+        {% if v.rooms %}
+        <ul class="rooms">
+          {% for r in v.rooms %}
+          <li><span class="rn">{{ r.name }}</span>
+              <span class="rc">{% if r.seated %}{{ r.seated }} seated{% endif %}{% if r.seated and r.standing %} · {% endif %}{% if r.standing %}{{ r.standing }} standing{% endif %}</span></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="prov" title="{{ v.capacity_source }}">
+          {% if v.capacity_confidence == 'published' %}Capacities published by the venue{% else %}Capacities not published{% endif %}
+          · checked {{ v.verified_on }}</div>
 
         <p class="why">{{ v.why }}</p>
         {% if v.booking_note %}<div class="flag">{{ v.booking_note }}</div>{% endif %}
@@ -399,7 +429,8 @@ body.short .card:not(.starred){display:none!important}
               <option value="{{ s }}" {% if v.outreach[key].status == s %}selected{% endif %}>{{ status_labels[s] }}</option>
               {% endfor %}
             </select>
-            <span class="fitb {{ v.fit[key] }}" title="{{ {'good':'Capacity comfortably covers this night','tight':'Capacity is under the top of the range','too_small':'Published capacity is below this headcount','oversized':'Much larger than this group — ask what they can close off','unknown':'No published capacity — ask for it'}[v.fit[key]] }}">{{ {'good':'fits','tight':'tight','too_small':'small','oversized':'large','unknown':'?'}[v.fit[key]] }}</span>
+            <span class="fitb {{ v.fit[key] }}{% if v.fit_basis[key] == 'derived' %} derived{% endif %}"
+              title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range','too_small':'The largest private space is below this headcount — this would need a buyout','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','too_small':'small','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
             <a class="go {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
                href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft
                {% if key not in v.fits %}title="{{ v.name }} is not sized for this night — you can still ask"{% endif %}>
