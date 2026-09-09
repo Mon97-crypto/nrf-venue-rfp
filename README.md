@@ -79,13 +79,21 @@ All optional except the API key, and only for in-app sending.
 under:
 
 ```json
-{ "sending_account": "maggie.dryden@impactanalytics.ai" }
+{
+  "sending_account": "garvit.sindhwani@impactanalytics.co",
+  "sender_name": "Garvit Sindhwani",
+  "sender_org": "Impact Analytics"
+}
 ```
 
-It is passed to Gmail as `authuser`, which picks the right account when several
-are signed in. The actual From line, and any signature, come from Gmail itself —
-the drafted body deliberately ends at "Thank you," so Gmail's own signature is
-the only one on the message. Override with `GMAIL_SENDING_ACCOUNT`.
+`sending_account` is passed to Gmail as `authuser`, which picks the right
+account when several are signed in; the From line itself is whatever that Gmail
+account sends as. `sender_name` and `sender_org` sign the body. Override either
+with `GMAIL_SENDING_ACCOUNT`, `RFP_SENDER_NAME` or `RFP_SENDER_ORG`.
+
+**Reset** in the toolbar sets every venue back to not contacted. Quotes, fees,
+notes, starred venues and cover photos are research rather than send state, so
+they survive it.
 
 ## Venue photos
 

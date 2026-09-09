@@ -219,6 +219,12 @@ def api_covers():
     })
 
 
+@venue_bp.route('/api/reset', methods=['POST'])
+def api_reset():
+    """Set every venue back to not contacted. Quotes and notes are kept."""
+    return jsonify({'ok': True, 'cleared': store.reset_outreach()})
+
+
 @venue_bp.route('/api/export')
 def api_export():
     return Response(

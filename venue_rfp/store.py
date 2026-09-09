@@ -148,5 +148,21 @@ def upsert_meta(venue_id, **fields):
     return dict(row)
 
 
+def reset_outreach():
+    """Clear send state so every venue reads as not contacted again.
+
+    Quotes, fees and notes are research, not send state, so they survive — as
+    do starred venues and cover images. Returns how many rows were cleared.
+    """
+    with _lock, _connect() as conn:
+        n = conn.execute(
+            "SELECT COUNT(*) c FROM outreach WHERE status != 'not_contacted' OR sent_at != ''"
+        ).fetchone()['c']
+        conn.execute(
+            "UPDATE outreach SET status = 'not_contacted', sent_at = '', sender_id = '',"
+            " updated_at = ?", (_now(),))
+    return n
+
+
 def export_json():
     return json.dumps({'outreach': all_outreach(), 'meta': all_meta()}, indent=2)

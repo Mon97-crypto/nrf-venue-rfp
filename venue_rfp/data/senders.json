@@ -1,4 +1,6 @@
 {
-  "_comment": "The Google account RFPs are composed from. Used to pick the right account when several are signed in, and shown on the board so it is obvious which mailbox replies will come back to. The From line itself is whatever Gmail is composing as.",
-  "sending_account": "maggie.dryden@impactanalytics.ai"
+  "_comment": "Who the RFP is sent from and signed by. sending_account is passed to Gmail as authuser so the compose window opens under the right account when several are signed in.",
+  "sending_account": "garvit.sindhwani@impactanalytics.co",
+  "sender_name": "Garvit Sindhwani",
+  "sender_org": "Impact Analytics"
 }

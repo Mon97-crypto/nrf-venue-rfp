@@ -14,7 +14,10 @@
         "window": "5:00–8:00 PM",
         "target_min": 40,
         "target_max": 60,
-        "measure": "reception"
+        "measure": "reception",
+        "count": "40–60",
+        "group_label": "International colleagues and partners",
+        "capacity_verb": "holds"
       },
       "sunday": {
         "id": "sunday",
@@ -23,10 +26,13 @@
         "format": "Seated dinner in a private space, opening with cocktails",
         "headcount": "30–35 guests",
         "audience": "senior retail executives",
-        "window": "cocktails 6:00–6:30 PM, dinner 6:30–9:00 PM",
+        "window": "Cocktails 6:00–6:30 PM; Dinner 6:30–9:00 PM",
         "target_min": 30,
         "target_max": 35,
-        "measure": "seated"
+        "measure": "seated",
+        "count": "30–35",
+        "group_label": "Senior Executives",
+        "capacity_verb": "seats"
       }
     },
     "links_verified": "2026-09-09",

@@ -377,10 +377,14 @@ body.list .nrow select{width:120px;flex:none}
       <button data-view="list" aria-pressed="false">List</button>
       <button data-view="short" aria-pressed="false">Shortlist</button>
     </div>
-    <button class="lnk" type="button" id="printBtn">Print</button>
     <span class="count" id="count"></span>
-    <button class="lnk" type="button" id="getAll">Get photos</button>
-    <a class="lnk" href="{{ url_for('venues.api_export') }}">Export</a>
+    <span class="acts">
+      <button class="lnk" type="button" id="getAll">Photos</button>
+      <button class="lnk" type="button" id="printBtn">Print</button>
+      <button class="lnk" type="button" id="resetBtn"
+              title="Set every venue back to not contacted">Reset</button>
+      <a class="lnk" href="{{ url_for('venues.api_export') }}">Export</a>
+    </span>
   </div>
 </div>
 
@@ -510,6 +514,14 @@ body.list .nrow select{width:120px;flex:none}
 const NIGHTS = {{ event.nights|tojson }};
 const BASE = {{ url_for('venues.index')|tojson }}.replace(/\/$/, '');
 const grid = document.getElementById('grid');
+// on(id, event, fn) — a typo in an id should not silently kill every handler
+// defined after it, which is exactly what addEventListener on null does.
+function on(id, evt, fn){
+  const el = document.getElementById(id);
+  if (el) el.addEventListener(evt, fn);
+  else console.warn(`no #${id} in the page — handler not attached`);
+  return el;
+}
 const cards = [...document.querySelectorAll('.card')];
 
 async function post(url, payload){
@@ -550,13 +562,13 @@ function sortCards(){
     how === 'name' ? a.dataset.name.localeCompare(b.dataset.name) : key(a) - key(b));
   sorted.forEach(c => grid.appendChild(c));
 }
-document.getElementById('nightSeg').addEventListener('click', e => {
+on('nightSeg', 'click', e => {
   const b = e.target.closest('button'); if (!b) return;
   nightFilter = b.dataset.night;
   [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x === b));
   apply();
 });
-document.getElementById('viewSeg').addEventListener('click', e => {
+on('viewSeg', 'click', e => {
   const b = e.target.closest('button'); if (!b) return;
   [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x === b));
   document.body.classList.toggle('list', b.dataset.view !== 'grid');
@@ -564,9 +576,9 @@ document.getElementById('viewSeg').addEventListener('click', e => {
   apply();
   try { localStorage.setItem('venueView', b.dataset.view); } catch {}
 });
-document.getElementById('q').addEventListener('input', apply);
-document.getElementById('statusFilter').addEventListener('change', apply);
-document.getElementById('sort').addEventListener('change', sortCards);
+on('q', 'input', apply);
+on('statusFilter', 'change', apply);
+on('sort', 'change', sortCards);
 
 /* ── progress rings ────────────────────────────────────────── */
 const C = 2 * Math.PI * 32;   // matches the ring's r
@@ -639,7 +651,27 @@ grid.addEventListener('input', e => {
   saveDetail(e.target.closest('.card'), row.dataset.detail, f, e.target.value);
 });
 
-document.getElementById('printBtn').addEventListener('click', () => window.print());
+on('printBtn', 'click', () => window.print());
+
+on('resetBtn', 'click', async e => {
+  if (!confirm('Set every venue back to not contacted?\n\n' +
+               'Quotes, fees, notes, starred venues and cover photos are all kept — ' +
+               'only the send state is cleared.')) return;
+  const btn = e.currentTarget;
+  btn.disabled = true; btn.textContent = 'Resetting…';
+  try {
+    const d = await post(`${BASE}/api/reset`, {});
+    cards.forEach(card => card.querySelectorAll('.nrow').forEach(row => {
+      row.querySelector('[data-status]').value = 'not_contacted';
+      row.querySelector('[data-dot]').className = 'dot';
+      const go = row.querySelector('[data-draft]');
+      go.textContent = 'Send RFP'; go.classList.remove('done');
+    }));
+    progress(); rollup(); apply();
+    toast(`Reset — <b>${d.cleared}</b> cleared. Every venue reads as not contacted.`, 4500);
+  } catch (err) { toast(`Could not reset — ${err.message}`); }
+  finally { btn.disabled = false; btn.textContent = 'Reset'; }
+});
 
 /* ── how far away each night is ────────────────────────────── */
 document.querySelectorAll('[data-away]').forEach(el => {
@@ -679,7 +711,7 @@ async function getCover(card){
   } finally { cover.classList.remove('busy'); }
 }
 
-document.getElementById('getAll').addEventListener('click', async e => {
+on('getAll', 'click', async e => {
   const btn = e.currentTarget;
   btn.disabled = true; btn.textContent = 'Fetching…';
   cards.forEach(c => c.querySelector('[data-cover]').classList.add('busy'));

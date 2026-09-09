@@ -15,22 +15,25 @@ GMAIL_COMPOSE = 'https://mail.google.com/mail/'
 _SENDERS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'senders.json')
 
 
-def sending_account():
-    """The Google account the compose window should open under."""
-    env = os.environ.get('GMAIL_SENDING_ACCOUNT', '')
-    if env:
-        return env
+def _senders():
     try:
         with open(_SENDERS_FILE, 'r', encoding='utf-8') as fh:
-            return json.load(fh).get('sending_account', '') or ''
+            return json.load(fh)
     except (OSError, ValueError):
-        return ''
+        return {}
+
+
+def sending_account():
+    """The Google account the compose window should open under."""
+    return os.environ.get('GMAIL_SENDING_ACCOUNT', '') or _senders().get('sending_account', '')
 
 
 def config():
+    f = _senders()
     return {
         'sending_account': sending_account(),
-        'sender_org': os.environ.get('RFP_SENDER_ORG', 'Impact Analytics'),
+        'sender_name': os.environ.get('RFP_SENDER_NAME', '') or f.get('sender_name', ''),
+        'sender_org': os.environ.get('RFP_SENDER_ORG', '') or f.get('sender_org', 'Impact Analytics'),
     }
 
 
@@ -41,21 +44,25 @@ def build_subject(venue, night):
 
 # One generic set of asks, worded to suit a standing reception and a seated
 # dinner alike. No date is quoted anywhere, so availability is the opening ask.
-_ASKS = [
-    "Availability on the date and times above",
-    "The food & beverage minimum for that space on that date",
-    "Every other charge that would appear on the invoice — room or facility fee, "
-    "service charge, administrative fee, tax, staffing, coat check, AV, overtime "
-    "— so we can compare venues on a genuine all-in figure",
-    "Which room you would put us in, whether it is fully private, and what else "
-    "would be running alongside it",
-    "Confirmation the space holds this many guests comfortably in this format, "
-    "rather than at capacity",
-    "Food and drink formats you would recommend at this headcount",
-    "Beverage packages, including a substantial non-alcoholic selection",
-    "Deposit schedule, payment terms and the cancellation policy",
-    "Dietary accommodation — we expect vegetarian, vegan, halal and gluten-free guests",
-]
+def _asks(night):
+    """The asks, in the order they are wanted. The capacity question uses
+    'holds' for a standing reception and 'seats' for a dinner."""
+    verb = night.get('capacity_verb', 'holds')
+    return [
+        "Availability on the date and times above",
+        "Which room you'd put us in, whether it's fully private, and what else "
+        "would be running alongside it",
+        f"Confirmation that the space {verb} this many guests comfortably in "
+        "this format, not at capacity",
+        "The food & beverage minimum for that space on that date",
+        "Food and drink formats you'd recommend at this headcount",
+        "Beverage packages, including a substantial non-alcoholic selection",
+        "Dietary accommodation — expect vegetarian, vegan, halal, and gluten-free guests",
+        "All other charges — room/facility fee, service charge, administrative fee, "
+        "tax, staffing, coat check, AV, overtime — so we can compare venues on a "
+        "genuine all-in figure",
+        "Deposit schedule, payment terms, and cancellation policy",
+    ]
 
 
 def build_body(venue, night, event=None):
@@ -65,29 +72,31 @@ def build_body(venue, night, event=None):
     lines = [
         f"Hello {venue['name']} events team,",
         "",
-        f"I'm writing from {cfg['sender_org']} about a private event we are "
-        f"planning in New York.",
+        f"I'm writing from {cfg['sender_org']} about a private event we're "
+        f"planning in New York:",
         "",
-        f"  Event      {night['format']}",
-        f"  Date       {night['date']}",
-        f"  Guests     {night['headcount']}",
-        f"  Timing     {night['window']}",
-        f"  Space      {space}",
+        f"* Event: {night['format']}",
+        f"* Date: {night['date']}",
+        f"* Guests: {night.get('count') or night['headcount']}",
+        f"* Timing: {night['window']}",
+        f"* Space: {space}",
+        f"* Group: {night.get('group_label') or night['audience']}",
         "",
-        f"The group is {night['audience']}.",
-        "",
-        "Could you please come back to me on the following:",
+        "Could you please get back to me on the following?",
         "",
     ]
-    lines += [f"  {i}. {ask}" for i, ask in enumerate(_ASKS, start=1)]
+    lines += [f"{i}. {ask}" for i, ask in enumerate(_asks(night), start=1)]
     lines += [
         "",
-        "If that date is already committed, I would still welcome the minimum and "
-        "the fee structure — we have some flexibility. A PDF pack or a call both "
-        "work, whichever is easier for you.",
+        "If that date is already committed, I'd still welcome the minimum and fee "
+        "structure — we have some flexibility. A PDF pack or a call both work, "
+        "whichever is easier for you.",
         "",
-        "Thank you,",
+        "Best regards,",
     ]
+    if cfg['sender_name']:
+        lines.append(cfg['sender_name'])
+    lines.append(cfg['sender_org'])
     return "\n".join(lines)
 
 
