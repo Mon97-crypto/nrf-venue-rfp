@@ -176,7 +176,6 @@ button.lnk:disabled{opacity:.55;cursor:progress}
   padding:2.5px 6px;border-radius:5px}
 .bdg.verified{background:var(--green-50);color:var(--green)}
 .bdg.form_only{background:var(--amber-50);color:var(--amber)}
-.bdg.unconfirmed{background:var(--red-50);color:var(--red)}
 .bdg.user_supplied{background:var(--blue-50);color:var(--blue)}
 .mini{border:1px solid var(--line);background:var(--card);color:var(--muted);
   font-size:11px;padding:3px 8px;border-radius:6px;cursor:pointer}
@@ -198,6 +197,7 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .fitb.good{background:var(--green-50);color:var(--green)}
 .fitb.tight{background:var(--amber-50);color:var(--amber)}
 .fitb.too_small{background:var(--red-50);color:var(--red)}
+.fitb.buyout_only{background:#F7F4FF;color:#5B43B8}
 .fitb.oversized{background:#EFEAFB;color:#5B43B8}
 .fitb.unknown{background:var(--line-2);color:var(--muted)}
 .fitb.derived{box-shadow:inset 0 0 0 1px currentColor}
@@ -311,7 +311,8 @@ body.short .card:not(.starred){display:none!important}
     {% if event.reference %}<p class="refnote"><b>Brief:</b> {{ event.reference }}</p>{% endif %}
     {% if event.capacity_note %}<p class="refnote alt"><b>Reading the numbers:</b> {{ event.capacity_note }}
       <span class="lg"><b>fits</b> covers your range · <b>tight</b> is under the top of it ·
-      <b>small</b> needs a buyout · <b>large</b> means ask what they close off ·
+      <b>buyout</b> only fits by taking the whole restaurant · <b>small</b> does not fit at all ·
+      <b>large</b> means ask what they close off ·
       <b>?</b> means nothing published · <b>*</b> inferred from a seated figure</span></p>{% endif %}
   </section>
 </div>
@@ -415,13 +416,17 @@ body.short .card:not(.starred){display:none!important}
         <div class="contact">
           {% if v.email %}<span class="em" data-email>{{ v.email }}</span>
           {% else %}<span class="em none" data-email>No public address</span>{% endif %}
+          {% if v.email_confidence in ('verified', 'user_supplied') %}
           <span class="bdg {{ v.email_confidence }}" data-conf>{{ v.email_confidence.replace('_',' ') }}</span>
+          {% elif not v.email %}
+          <span class="bdg form_only" data-conf>form only</span>
+          {% else %}<span data-conf hidden></span>{% endif %}
           <button class="mini" type="button" data-editemail>Edit</button>
         </div>
 
         <div class="nights">
-          {% for key, n in event.nights.items() %}
-          <div class="nrow {% if key not in v.fits %}na{% endif %}" data-night="{{ key }}">
+          {% for key, n in event.nights.items() %}{% if key in v.fits %}
+          <div class="nrow" data-night="{{ key }}">
             <span class="dot {{ v.outreach[key].status }}" data-dot></span>
             <span class="day">{{ 'SAT' if key == 'saturday' else 'SUN' }}</span>
             <select data-status aria-label="{{ v.name }} {{ key }} status">
@@ -430,10 +435,10 @@ body.short .card:not(.starred){display:none!important}
               {% endfor %}
             </select>
             <span class="fitb {{ v.fit[key] }}{% if v.fit_basis[key] == 'derived' %} derived{% endif %}"
-              title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range','too_small':'The largest private space is below this headcount — this would need a buyout','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','too_small':'small','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
+              title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range','too_small':'Too small for this headcount, with or without a buyout','buyout_only':'The private rooms are too small, but a full buyout reaches this headcount — a different proposition and a different price','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','too_small':'small','buyout_only':'buyout','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
             <a class="go {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
                href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft
-               {% if key not in v.fits %}title="{{ v.name }} is not sized for this night — you can still ask"{% endif %}>
+>
               {% if v.outreach[key].status == 'not_contacted' %}Send RFP{% else %}Resend{% endif %}
             </a>
             <button class="mini disc" type="button" data-toggle title="Quote and notes">▾</button>
@@ -445,7 +450,7 @@ body.short .card:not(.starred){display:none!important}
             </div>
             <textarea data-notes rows="2" placeholder="Notes — who replied, what they offered, next step">{{ v.outreach[key].notes }}</textarea>
           </div>
-          {% endfor %}
+          {% endif %}{% endfor %}
         </div>
 
         <div class="foot">

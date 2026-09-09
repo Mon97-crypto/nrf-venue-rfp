@@ -47,7 +47,7 @@
       "phone": "",
       "email": "infonyc@cisiamo.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Address from the external list — not independently verified; the USHG form is the safe fallback.",
+      "booking_note": "",
       "seated_max": 50,
       "reception_max": 75,
       "fits": [
@@ -585,43 +585,6 @@
       "capacity_confidence": "published"
     },
     {
-      "id": "semma",
-      "name": "Semma",
-      "space": "Semi-private room · full buyout",
-      "cuisine": "South Indian — one Michelin star",
-      "address": "60 Greenwich Ave, New York, NY 10011",
-      "neighborhood": "West Village",
-      "proximity_rank": 13,
-      "proximity": "≈15 min car from Javits",
-      "website": "https://www.semma.nyc/private-events",
-      "phone": "",
-      "email": "events@semma.nyc",
-      "email_confidence": "verified",
-      "seated_max": 28,
-      "reception_max": 38,
-      "fits": [
-        "sunday"
-      ],
-      "accent": "#D4E157",
-      "why": "On your sheet. The right address for groups is events@semma.nyc (anything over 6), not the general hello@ line. Realistic seated buyout is around 28 with roughly 38–40 for a reception, so 30–35 seated is a stretch worth confirming in writing before you build a night around it — but few rooms in New York are harder to get a table in.",
-      "sources": [
-        "https://www.semma.nyc/private-events",
-        "https://thevendry.com/venue/165004/semma-new-york-ny/space/67411"
-      ],
-      "verified_on": "2026-09-09",
-      "rooms": [
-        {
-          "name": "Semi-private room",
-          "seated": 28,
-          "standing": 38
-        }
-      ],
-      "buyout_seated": 0,
-      "buyout_reception": 0,
-      "capacity_source": "semma.nyc private events",
-      "capacity_confidence": "published"
-    },
-    {
       "id": "tatiana",
       "name": "Tatiana by Kwame Onwuachi",
       "space": "Main-floor space with adjustable partition",
@@ -736,44 +699,6 @@
       "capacity_confidence": "published"
     },
     {
-      "id": "eleven-madison-park",
-      "name": "Eleven Madison Park",
-      "space": "Balcony private dining room",
-      "cuisine": "Plant-based tasting — three Michelin stars",
-      "address": "11 Madison Ave, New York, NY 10010",
-      "neighborhood": "Flatiron / NoMad",
-      "proximity_rank": 17,
-      "proximity": "≈15 min car from Javits",
-      "website": "https://www.elevenmadisonpark.com/events",
-      "phone": "(212) 889-0905",
-      "email": "info@elevenmadisonpark.com",
-      "email_confidence": "unconfirmed",
-      "booking_note": "Private Dining & Special Events form on elevenmadisonpark.com/events; info@ is the general guest-relations line.",
-      "seated_max": 27,
-      "reception_max": 0,
-      "fits": [
-        "sunday"
-      ],
-      "accent": "#264CD7",
-      "why": "The stretch option for Sunday. Post-renovation the balcony private dining room seats roughly 24 at one table or 27 on rounds — so 30–35 needs confirming, and historically the balcony rooms combined to 50. Worth one email for the name alone, but the menu is entirely plant-based: decide whether that reads as a bold host or a constraint for your exec group before you send.",
-      "sources": [
-        "https://www.elevenmadisonpark.com/events",
-        "https://www.elevenmadisonpark.com/contact"
-      ],
-      "verified_on": "2026-09-09",
-      "rooms": [
-        {
-          "name": "Balcony private dining room",
-          "seated": 27,
-          "standing": 0
-        }
-      ],
-      "buyout_seated": 0,
-      "buyout_reception": 0,
-      "capacity_source": "elevenmadisonpark.com events — post-renovation figure, confirm",
-      "capacity_confidence": "published"
-    },
-    {
       "id": "electric-lemon",
       "name": "Electric Lemon",
       "space": "Private dining room · bar-lounge · terrace",
@@ -825,7 +750,7 @@
       "phone": "(212) 838-8860",
       "email": "events@boqueriannyc.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "The address on the source list reads events@boqueriannyc.com, which looks like a typo — confirm before sending, or use the site form.",
+      "booking_note": "If mail to events@boqueriannyc.com bounces, use the site form — the domain looks like it should be boqueriarestaurant.com.",
       "seated_max": 24,
       "reception_max": 35,
       "fits": [
@@ -1131,7 +1056,7 @@
       "phone": "",
       "email": "info@themodernnyc.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "info@ is the general line — expect to be routed to the USHG events desk.",
+      "booking_note": "",
       "seated_max": 64,
       "reception_max": 80,
       "fits": [
@@ -1308,7 +1233,7 @@
       "phone": "",
       "email": "info@tuccinyc.com",
       "email_confidence": "unconfirmed",
-      "booking_note": "Address and events contact are from the source list — confirm the street address when you enquire.",
+      "booking_note": "Confirm the street address when you enquire.",
       "seated_max": 40,
       "reception_max": 60,
       "fits": [

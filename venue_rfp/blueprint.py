@@ -57,6 +57,15 @@ def _fit(venue, night):
         return 'unknown', 'none'
     lo, hi = night.get('target_min') or 0, night.get('target_max') or 0
     if cap < lo:
+        # A private room under the headcount is not the end of it: several
+        # venues reach it by taking the whole restaurant. That is a real
+        # option at a different price, so say so rather than writing it off.
+        if night.get('measure') == 'seated':
+            bo = venue.get('buyout_seated') or 0
+        else:
+            bo = max(venue.get('buyout_reception') or 0, venue.get('buyout_seated') or 0)
+        if bo >= lo:
+            return 'buyout_only', basis
         return 'too_small', basis
     if cap < hi:
         return 'tight', basis
