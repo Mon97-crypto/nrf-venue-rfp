@@ -558,6 +558,50 @@
       "capacity_confidence": "published"
     },
     {
+      "id": "per-se",
+      "name": "Per Se",
+      "space": "West Room · East Room · Salon",
+      "cuisine": "French-American tasting — three Michelin stars (Thomas Keller)",
+      "address": "10 Columbus Circle, 4th Floor, New York, NY 10019",
+      "neighborhood": "Columbus Circle",
+      "proximity_rank": 8,
+      "proximity": "≈14 min car from Javits",
+      "website": "https://thomaskeller.com/new-york-new-york/per-se/private-dining-events-general-information/",
+      "phone": "(212) 823-9335",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "No events address is published anywhere — Thomas Keller Restaurant Group takes enquiries through the request form on the private dining page. Events start at 8 guests.",
+      "rooms": [
+        {
+          "name": "West Room",
+          "seated": 66,
+          "standing": 120
+        },
+        {
+          "name": "East Room",
+          "seated": 10,
+          "standing": 0
+        }
+      ],
+      "seated_max": 66,
+      "reception_max": 120,
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "thomaskeller.com Per Se private dining & events",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#6B4E9E",
+      "why": "The West Room takes 66 seated or 120 standing and the salon beside it is explicitly meant for a pre-event standing reception — so Sunday's cocktails at six moving to dinner at half past happens inside one booking, in the room next door. Saturday's 40–60 standing also sits in the West Room with room to spare. The East Room is a ten-seat jewel box, too small for either night. Overlooking Central Park from the fourth floor of the Deutsche Bank Center, three Michelin stars, and Thomas Keller's name on the door.\n\nOne caveat against your own brief: you asked for the Nubeluz feeling without the Nubeluz price. Per Se is the most expensive room on this list by some distance — worth an enquiry for the occasion it would make, but go in expecting a minimum that sets the ceiling rather than the benchmark.",
+      "sources": [
+        "https://thomaskeller.com/new-york-new-york/per-se/private-dining-events-general-information/",
+        "https://thomaskeller.com/perseny/"
+      ],
+      "verified_on": "2026-09-09"
+    },
+    {
       "id": "manhatta",
       "name": "Manhatta",
       "space": "Private Dining Room · Whitman / Bay Rooms",
