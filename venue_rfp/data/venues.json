@@ -379,38 +379,6 @@
       "capacity_confidence": "published"
     },
     {
-      "id": "the-landing",
-      "name": "The Landing",
-      "space": "Two private dining rooms, including the West Wing",
-      "cuisine": "American",
-      "address": "PENN 1, 250 W 34th St, New York, NY 10119",
-      "neighborhood": "Penn District",
-      "proximity_rank": 5,
-      "proximity": "≈15 min walk from Javits",
-      "website": "https://www.thelanding.nyc/private-events-and-catering/",
-      "phone": "",
-      "email": "",
-      "email_confidence": "form_only",
-      "booking_note": "Room-level capacities are not published — ask for them. Venue confirmed: inside the PENN 1 tower, run by Episcope Hospitality.",
-      "seated_max": 0,
-      "reception_max": 0,
-      "fits": [
-        "saturday",
-        "sunday"
-      ],
-      "accent": "#3A5EE3",
-      "why": "Confirmed as a real venue: inside the PENN 1 tower in the Penn District, up the Social Stairs, run by Episcope Hospitality — and genuinely close to Javits. Two private dining rooms, one of them the West Wing, which sits beside the bar and is pitched at cocktail receptions, so Saturday's format is native to the space. Total capacity runs to 250; individual room figures are not published, so ask.",
-      "sources": [
-        "https://www.thelanding.nyc/private-events-and-catering/"
-      ],
-      "verified_on": "2026-09-09",
-      "rooms": [],
-      "buyout_seated": 0,
-      "buyout_reception": 250,
-      "capacity_source": "thelanding.nyc private events — room-level figures not published",
-      "capacity_confidence": "not_published"
-    },
-    {
       "id": "cote",
       "name": "COTE Korean Steakhouse",
       "space": "Undercote · main room group dining",
@@ -495,39 +463,6 @@
       "buyout_reception": 0,
       "capacity_source": "aquavit.org private dining kit (PDF)",
       "capacity_confidence": "published"
-    },
-    {
-      "id": "the-view",
-      "name": "The View",
-      "space": "47th-floor restaurant · 48th-floor lounge",
-      "cuisine": "New York's only revolving restaurant (Marriott Marquis)",
-      "address": "1535 Broadway, 47th–48th Floor, New York, NY 10036",
-      "neighborhood": "Times Square",
-      "proximity_rank": 7,
-      "proximity": "≈13 min car from Javits",
-      "website": "https://www.theviewnewyorkcity.com/book-an-event/",
-      "phone": "(212) 704-8900",
-      "email": "NYMarquisRestaurantEvents@marriott.com",
-      "email_confidence": "verified",
-      "seated_max": 0,
-      "reception_max": 0,
-      "fits": [
-        "saturday",
-        "sunday"
-      ],
-      "accent": "#3A5EE3",
-      "why": "The closest match to the Nubeluz brief: a revolving room 47 and 48 floors above Times Square, reopened under Union Square Hospitality Group, whose standard reception format is the mobile bars and food stations you described. The 48th-floor lounge turns a full circle every 45 minutes. No capacity figure is published anywhere, so the first question has to be whether it holds 40–60 standing at all.",
-      "sources": [
-        "https://www.theviewnewyorkcity.com/book-an-event/",
-        "https://www.unionsquareevents.com/private-events-venue/new-york-marriott-marquis/"
-      ],
-      "verified_on": "2026-09-09",
-      "booking_note": "Capacities are not published anywhere — treat the numbers as unknown until they tell you.",
-      "rooms": [],
-      "buyout_seated": 0,
-      "buyout_reception": 0,
-      "capacity_source": "not published — ask when you enquire",
-      "capacity_confidence": "not_published"
     },
     {
       "id": "gramercy-tavern",
@@ -990,38 +925,6 @@
       "buyout_reception": 0,
       "capacity_source": "semma.nyc private events",
       "capacity_confidence": "published"
-    },
-    {
-      "id": "tatiana",
-      "name": "Tatiana by Kwame Onwuachi",
-      "space": "Main-floor space with adjustable partition",
-      "cuisine": "Afro-Caribbean",
-      "address": "10 Lincoln Center Plaza, New York, NY 10023",
-      "neighborhood": "Lincoln Square",
-      "proximity_rank": 14,
-      "proximity": "≈15 min car from Javits",
-      "website": "https://www.tatiananyc.com/private-events/",
-      "phone": "(212) 875-5222",
-      "email": "info@tatiananyc.com",
-      "email_confidence": "verified",
-      "seated_max": 0,
-      "reception_max": 0,
-      "fits": [
-        "sunday",
-        "saturday"
-      ],
-      "accent": "#3DD499",
-      "why": "On your sheet. The private space sits on the main floor with a movable partition, so it goes semi-private or fully private depending on your count — and it is inside David Geffen Hall at Lincoln Center, which frames the evening as a New York cultural occasion. Confirm the exact partitioned capacity for 30–35; they publish it only on request.",
-      "sources": [
-        "https://www.tatiananyc.com/private-events/",
-        "https://www.tatiananyc.com/location/tatiana-by-kwame-onwuachi/"
-      ],
-      "verified_on": "2026-09-09",
-      "rooms": [],
-      "buyout_seated": 0,
-      "buyout_reception": 0,
-      "capacity_source": "tatiananyc.com — partitioned capacity not published, ask",
-      "capacity_confidence": "not_published"
     },
     {
       "id": "smith-wollensky",
