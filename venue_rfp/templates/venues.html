@@ -22,6 +22,9 @@
   --serif:'Fraunces',Georgia,'Times New Roman',serif;
 }
 *{box-sizing:border-box}
+/* A class that sets `display` beats the UA's [hidden] rule, so el.hidden
+   quietly stops working. This keeps `hidden` authoritative everywhere. */
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);
   font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -240,7 +243,6 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .go.done:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
 .disc{padding:4px 8px;line-height:1}
 .detail{display:flex;flex-direction:column;gap:7px;padding:10px 0 5px 36px}
-.detail[hidden]{display:none}
 .drow{display:flex;gap:7px}
 .detail input,.detail textarea{width:100%;font-size:12.5px;padding:8px 12px;
   border:1px solid var(--line);border-radius:var(--r);background:#FDFBF8;color:var(--ink)}
