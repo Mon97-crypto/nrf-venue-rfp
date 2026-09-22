@@ -13,7 +13,7 @@ one-click RFP drafts that open straight in Gmail, and status tracking.
 Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of
 occasion, ideally a view — without that price point.
 
-34 venues are shortlisted, ranked by walking distance from the Javits Center.
+38 venues are shortlisted, ranked by walking distance from the Javits Center.
 Every venue's trading status and events-page link was re-checked on 2026-09-04
 (`links_verified` in the data file).
 
@@ -112,6 +112,17 @@ breaks; some cards just stay abstract.
 Images are hot-linked from the venue's own site rather than copied, so they
 stay current and no asset is redistributed.
 
+## Michelin and James Beard tags
+
+Venues carry an `awards` list rendered as a badge on the cover and filterable
+from the toolbar. Michelin is red, James Beard gold, and hovering either names
+the specific recognition and chef.
+
+Tags come from the uploaded research workbook's `Michelin_JamesBeard` tab, plus
+venues whose Michelin status was verified earlier in this project. Tagging only
+the workbook's venues would have implied Jungsik and Aquavit hold no stars,
+which is a worse error than no tag at all.
+
 ## How the capacity numbers work
 
 The single biggest accuracy risk here is conflating a venue's **private room**
@@ -121,7 +132,12 @@ privately hold your group. So they are separate fields, shown separately, and
 the fit calculation uses only the private figure.
 
 Each venue carries a `rooms` list with the individual spaces, a `capacity_source`
-naming where the figures came from, and `verified_on`.
+naming where the figures came from, and `verified_on`. Fit is judged on the room
+that best suits the night rather than the venue's largest — Hudson VU's
+250-capacity rooftop should not make it read as oversized when its Sunroom takes
+exactly the number wanted — and the tooltip names the room it picked. A room
+marked `exclusive` is the whole restaurant, so it resolves to `buyout` however
+well it fits.
 
 Fit is `fits` / `tight` / `buyout` / `large` / `?`, computed against the real
 headcounts.

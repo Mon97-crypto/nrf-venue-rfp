@@ -128,7 +128,7 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .card:hover{box-shadow:var(--sh-2);transform:translateY(-3px)}
 .card.starred{border-color:#E4CE9E;box-shadow:0 0 0 1px #E4CE9E, var(--sh)}
 
-.cover{height:172px;position:relative;overflow:hidden;background-size:cover;
+.cover{height:182px;position:relative;overflow:hidden;background-size:cover;
   background-position:center;display:flex;align-items:flex-end;padding:16px 18px}
 .cover .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   object-position:center;z-index:0;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -139,6 +139,14 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .cover .mono{position:absolute;right:18px;top:14px;font-family:var(--serif);
   font-size:66px;font-weight:300;color:rgba(255,255,255,.16);line-height:1;
   letter-spacing:-.04em;user-select:none}
+.cover .awards{position:absolute;left:18px;bottom:36px;z-index:1;display:flex;
+  flex-wrap:wrap;gap:5px}
+.aw{font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 9px;border-radius:999px;backdrop-filter:blur(8px);white-space:nowrap;cursor:help}
+.aw.michelin{background:rgba(198,42,52,.92);color:#fff;
+  box-shadow:0 2px 8px rgba(198,42,52,.4)}
+.aw.jbf{background:rgba(184,134,47,.94);color:#fff;
+  box-shadow:0 2px 8px rgba(184,134,47,.36)}
 .cover .cuisine{position:relative;color:rgba(255,255,255,.94);font-size:10.5px;
   font-weight:500;letter-spacing:.14em;text-transform:uppercase;
   text-shadow:0 1px 6px rgba(0,0,0,.5)}
@@ -259,7 +267,10 @@ body.list .card{border:0;border-radius:0;border-bottom:1px solid var(--line-2);
   flex-direction:row;align-items:center;gap:18px;padding:14px 22px;box-shadow:none}
 body.list .card:hover{transform:none;box-shadow:none;background:#FDFBF8}
 body.list .cover{width:58px;height:58px;flex:none;border-radius:var(--r);padding:0}
-body.list .cover .cuisine,body.list .cover .fits,body.list .cover .pencil{display:none}
+body.list .cover .cuisine,body.list .cover .fits,body.list .cover .pencil,
+body.list .cover .awards{display:none}
+body.list .hd h3::after{content:attr(data-aw);font-size:11px;color:var(--gold);
+  margin-left:7px;letter-spacing:.04em;white-space:nowrap}
 body.list .cover .mono{font-size:26px;right:auto;top:auto;inset:0;display:grid;
   place-items:center;color:rgba(255,255,255,.9)}
 body.list .cover .star{top:2px;left:2px;width:18px;height:18px;font-size:10px}
@@ -310,7 +321,7 @@ body.list .nrow select{width:120px;flex:none}
   <div class="wrap">
     <div>
       <div class="eyebrow">Impact Analytics · New York, January 2027</div>
-      <h1>Two evenings, <em>thirty-one</em> rooms.</h1>
+      <h1>Two evenings, <em>{{ venues|length }}</em> rooms.</h1>
       <div class="sub">{{ venues|length }} venues shortlisted · capacities and links checked {{ event.links_verified }}</div>
     </div>
     <span class="acct"><span class="led"></span> Opens in Gmail as <b>{{ mail_config.sending_account }}</b></span>
@@ -362,6 +373,12 @@ body.list .nrow select{width:120px;flex:none}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <input type="search" id="q" placeholder="Search venue, neighbourhood, cuisine…" autocomplete="off">
     </label>
+    <select class="ctl" id="awardFilter" aria-label="Filter by award">
+      <option value="all">Any recognition</option>
+      <option value="any">Michelin or James Beard</option>
+      <option value="michelin">Michelin star</option>
+      <option value="jbf">James Beard</option>
+    </select>
     <select class="ctl" id="statusFilter" aria-label="Filter by status">
       <option value="all">Any status</option>
       {% for s in statuses %}<option value="{{ s }}">{{ status_labels[s] }}</option>{% endfor %}
@@ -398,6 +415,7 @@ body.list .nrow select{width:120px;flex:none}
              data-seated="{{ v.seated_max or 0 }}"
              data-reception="{{ v.reception_max or 0 }}"
              data-name="{{ v.name|lower }}"
+             data-awards="{{ v.awards | map(attribute='kind') | join(',') }}"
              data-search="{{ (v.name ~ ' ' ~ v.neighborhood ~ ' ' ~ v.cuisine ~ ' ' ~ (v.space or ''))|lower }}">
       <div class="cover" data-cover style="background:linear-gradient(150deg,{{ v.accent }},#15161B)">
         {% if v.cover_image %}<img class="shot" src="{{ v.cover_image }}" alt="" loading="lazy"
@@ -414,12 +432,19 @@ body.list .nrow select{width:120px;flex:none}
           <button type="button" data-getcover title="Fetch this venue's own photo from its site">Get photo</button>
           <button type="button" data-editcover title="Paste an image URL">URL</button>
         </span>
+        {% if v.awards %}
+        <span class="awards">
+          {% for a in v.awards %}
+          <span class="aw {{ a.kind }}" title="{{ a.detail }}">{{ a.label }}</span>
+          {% endfor %}
+        </span>
+        {% endif %}
         <span class="cuisine">{{ v.cuisine }}</span>
       </div>
 
       <div class="body">
         <div class="hd">
-          <h3>{{ v.name }}</h3>
+          <h3{% if v.awards %} data-aw="{{ v.awards | map(attribute='label') | join(' · ') }}"{% endif %}>{{ v.name }}</h3>
           <div class="space">{{ v.space }}</div>
         </div>
 
@@ -473,7 +498,7 @@ body.list .nrow select{width:120px;flex:none}
             </select>
             <span class="fitb {{ v.fit[key] }}{% if v.fit_basis[key] == 'derived' %} derived{% endif %}"
               title="{{ {'good':'The largest private space comfortably covers this night','tight':'The largest private space is under the top of your range',
-                    'just_under':'Slightly below your minimum on the published figure — close enough to be worth asking whether they will take your number','too_small':'Too small for this headcount, with or without a buyout','buyout_only':'The private rooms are too small, but a full buyout reaches this headcount — a different proposition and a different price','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}">{{ {'good':'fits','tight':'tight','just_under':'tight','too_small':'small','buyout_only':'buyout','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
+                    'just_under':'Slightly below your minimum on the published figure — close enough to be worth asking whether they will take your number','too_small':'Too small for this headcount, with or without a buyout','buyout_only':'The private rooms are too small, but a full buyout reaches this headcount — a different proposition and a different price','oversized':'Much larger than this group — ask what they can close off','unknown':'No capacity published — ask for it'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %} — inferred from the seated figure, since no standing figure is published. A room seating this many holds at least this many standing, so it understates rather than overstates.{% endif %}{% if v.fit_basis[key] == 'published' %} — from a figure the venue publishes.{% endif %}{% if v.fit_room[key] %} Room: {{ v.fit_room[key] }}.{% endif %}">{{ {'good':'fits','tight':'tight','just_under':'tight','too_small':'small','buyout_only':'buyout','oversized':'large','unknown':'?'}[v.fit[key]] }}{% if v.fit_basis[key] == 'derived' %}*{% endif %}</span>
             <a class="go {% if v.outreach[key].status != 'not_contacted' %}done{% endif %}"
                href="{{ v.gmail[key] }}" target="_blank" rel="noopener" data-draft
 >
@@ -537,13 +562,16 @@ let nightFilter = 'all';
 function apply(){
   const q = document.getElementById('q').value.trim().toLowerCase();
   const st = document.getElementById('statusFilter').value;
+  const aw = document.getElementById('awardFilter').value;
   let shown = 0;
   cards.forEach(c => {
     const fits = c.dataset.fits.split(',');
     const sts = [...c.querySelectorAll('[data-status]')].map(s => s.value);
     const ok = (nightFilter === 'all' || fits.includes(nightFilter))
       && (!q || c.dataset.search.includes(q))
-      && (st === 'all' || sts.includes(st));
+      && (st === 'all' || sts.includes(st))
+      && (aw === 'all' || (aw === 'any' ? !!c.dataset.awards
+                                        : c.dataset.awards.split(',').includes(aw)));
     c.hidden = !ok;
     if (ok) shown++;
   });
@@ -578,6 +606,7 @@ on('viewSeg', 'click', e => {
 });
 on('q', 'input', apply);
 on('statusFilter', 'change', apply);
+on('awardFilter', 'change', apply);
 on('sort', 'change', sortCards);
 
 /* ── progress rings ────────────────────────────────────────── */

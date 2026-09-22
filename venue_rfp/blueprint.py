@@ -30,54 +30,59 @@ def _monogram(name):
     return letters.upper()
 
 
-def _fit(venue, night):
-    """How well the venue's largest PRIVATE space covers this night's headcount.
-
-    Returns (level, basis). Buyout capacity is deliberately excluded: a room
-    that only reaches the headcount by taking the whole restaurant is a
-    different proposition and a different price.
-
-    basis is 'published' when the venue publishes a figure for this format,
-    'derived' when only a seated figure exists and it is being used as a floor
-    for a standing count (a room seating 40 holds at least 40 standing — this
-    understates and never overstates), and 'none' when there is nothing to go
-    on. 'unknown' is kept distinct from 'too_small': no published figure is not
-    the same as a bad fit.
-    """
-    seated = venue.get('seated_max') or 0
-    standing = venue.get('reception_max') or 0
-    if night.get('measure') == 'seated':
-        cap, basis = seated, 'published'
-    elif standing:
-        cap, basis = standing, 'published'
-    else:
-        cap, basis = seated, 'derived'
-
+def _room_fit(cap, basis, lo, hi):
     if not cap:
-        return 'unknown', 'none'
-    lo, hi = night.get('target_min') or 0, night.get('target_max') or 0
+        return 'unknown', basis
     if cap < lo:
-        # Within a short reach of the minimum is a negotiation, not a
-        # disqualification — a room quoted at 28 will often seat 30. Marked
-        # separately so the tooltip can say it is under while the badge stays
-        # calm; the figure itself is always on the card.
-        if cap >= lo * 0.85:
-            return 'just_under', basis
-        # Otherwise: several venues reach the headcount only by taking the
-        # whole restaurant. That is a real option at a different price, so say
-        # so rather than writing it off.
-        if night.get('measure') == 'seated':
-            bo = venue.get('buyout_seated') or 0
-        else:
-            bo = max(venue.get('buyout_reception') or 0, venue.get('buyout_seated') or 0)
-        if bo >= lo:
-            return 'buyout_only', basis
-        return 'too_small', basis
+        return ('just_under', basis) if cap >= lo * 0.85 else ('too_small', basis)
     if cap < hi:
         return 'tight', basis
     if cap > hi * 4:
         return 'oversized', basis
     return 'good', basis
+
+
+# Best outcome first. A venue is judged on the room that suits the night, not on
+# its largest room: Hudson VU's 250-capacity rooftop should not make it read as
+# oversized when its Sunroom takes exactly the number wanted.
+_RANK = ['good', 'tight', 'just_under', 'oversized', 'buyout_only', 'too_small', 'unknown']
+
+
+def _fit(venue, night):
+    """How well this venue covers the night, and which room does it.
+
+    Returns (level, basis, room). basis is 'published' when the venue quotes a
+    figure for this format, 'derived' when a seated figure stands in for a
+    standing one (a room seating 40 holds at least 40 standing, so it
+    understates), and 'none' when there is nothing to go on.
+    """
+    lo, hi = night.get('target_min') or 0, night.get('target_max') or 0
+    seated = night.get('measure') == 'seated'
+    best = ('unknown', 'none', '')
+
+    for room in venue.get('rooms') or []:
+        if seated:
+            cap, basis = room.get('seated') or 0, 'published'
+        elif room.get('standing'):
+            cap, basis = room['standing'], 'published'
+        else:
+            cap, basis = room.get('seated') or 0, 'derived'
+        level, basis = _room_fit(cap, basis, lo, hi)
+        # A room that is the whole restaurant is a buyout however well it fits.
+        if room.get('exclusive') and level in ('good', 'tight', 'just_under'):
+            level = 'buyout_only'
+        if _RANK.index(level) < _RANK.index(best[0]):
+            best = (level, basis, room.get('name', ''))
+
+    if best[0] in ('too_small', 'unknown'):
+        # A private room under the headcount is not the end of it — several
+        # venues reach it by taking the whole restaurant. Different
+        # proposition, different price, so it gets its own level.
+        bo = (venue.get('buyout_seated') or 0) if seated else max(
+            venue.get('buyout_reception') or 0, venue.get('buyout_seated') or 0)
+        if bo >= lo:
+            return 'buyout_only', best[1], 'full buyout'
+    return best
 
 
 def _decorate(catalog, with_links=False):
@@ -111,6 +116,7 @@ def _decorate(catalog, with_links=False):
         fits = {night: _fit(v, cfg) for night, cfg in catalog['event']['nights'].items()}
         v['fit'] = {n: f[0] for n, f in fits.items()}
         v['fit_basis'] = {n: f[1] for n, f in fits.items()}
+        v['fit_room'] = {n: f[2] for n, f in fits.items()}
         venues.append(v)
     venues.sort(key=lambda x: x.get('proximity_rank', 99))
     return venues

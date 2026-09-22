@@ -35,7 +35,7 @@
         "capacity_verb": "seats"
       }
     },
-    "links_verified": "2026-09-09",
+    "links_verified": "2026-09-22",
     "reference": "Sunday should feel like Nubeluz at the Ritz-Carlton NoMad — elevated, a sense of occasion, ideally a view — without that price point.",
     "capacity_note": "Seated and reception figures are the largest PRIVATE space, without a buyout. Buyout figures are shown separately — a venue that only reaches your headcount by taking the whole restaurant is a different proposition and a different price."
   },
@@ -71,13 +71,21 @@
         {
           "name": "Private dining room + terrace",
           "seated": 50,
-          "standing": 75
+          "standing": 75,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "ushg.com Ci Siamo",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Chef Hillary Sterling, JBF Best Chef NY State history"
+        }
+      ]
     },
     {
       "id": "zou-zous",
@@ -111,23 +119,33 @@
         {
           "name": "Mural + Parlour combined",
           "seated": 42,
-          "standing": 50
+          "standing": 50,
+          "exclusive": false
         },
         {
           "name": "Mural Room",
           "seated": 24,
-          "standing": 30
+          "standing": 30,
+          "exclusive": false
         },
         {
           "name": "Parlour Room",
           "seated": 18,
-          "standing": 20
+          "standing": 20,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 100,
       "capacity_source": "qualitybranded.com Zou Zou's / Chez Zou",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Marked James Beard in your sheet"
+        }
+      ]
     },
     {
       "id": "electric-lemon",
@@ -160,13 +178,15 @@
         {
           "name": "Private dining room",
           "seated": 72,
-          "standing": 100
+          "standing": 100,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "Sources disagree — one gives the PDR as 50 seated, another 72 seated / 100 standing. Confirm before relying on it.",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "keens-bullmoose",
@@ -198,28 +218,79 @@
         {
           "name": "Lambs Room",
           "seated": 80,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Lincoln Room",
           "seated": 45,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Bullmoose Room",
           "seated": 35,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Lillie Langtry Room",
           "seated": 25,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "keens.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
+    },
+    {
+      "id": "greywind",
+      "name": "Greywind",
+      "space": "The Loft · restaurant buyout",
+      "cuisine": "Seasonal American — Dan Kluger",
+      "address": "451 10th Ave, New York, NY 10018",
+      "neighborhood": "Hudson Yards",
+      "proximity_rank": 3,
+      "proximity": "≈9 min walk from Javits",
+      "website": "https://www.greywindnyc.com/private-events/",
+      "phone": "(347) 252-4012",
+      "email": "hello@greywindnyc.com",
+      "email_confidence": "verified",
+      "booking_note": "Greywind is closed on Sundays, so it offers Saturday only.",
+      "rooms": [
+        {
+          "name": "The Loft",
+          "seated": 40,
+          "standing": 60,
+          "exclusive": false
+        }
+      ],
+      "seated_max": 40,
+      "reception_max": 60,
+      "buyout_seated": 0,
+      "buyout_reception": 120,
+      "capacity_source": "greywindnyc.com private events",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday"
+      ],
+      "accent": "#136F52",
+      "awards": [
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Chef Dan Kluger, James Beard Award history"
+        }
+      ],
+      "why": "Nine minutes' walk from the show floor and the format is already what you asked for: their published buyout runs a standing cocktail reception with passed and stationed hors d'oeuvres in the bar, then a seated family-style dinner. The Loft takes 40 seated or 60 standing — your Saturday range exactly — and a buyout reaches 120 standing. Event menus start at $155 per person, which is the only published per-head figure on this board. Closed Sundays, so Saturday only.",
+      "sources": [
+        "https://www.greywindnyc.com/private-events/",
+        "https://www.greywindnyc.com/private-events-venue/restaurant-buyout/"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "milos-hudson-yards",
@@ -252,18 +323,21 @@
         {
           "name": "Terrace",
           "seated": 50,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Milos Wine Bar",
           "seated": 40,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "estiatoriomilos.com Hudson Yards events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "peak-hudson-yards",
@@ -295,18 +369,21 @@
         {
           "name": "Event space, 3,500 sq ft",
           "seated": 250,
-          "standing": 300
+          "standing": 300,
+          "exclusive": false
         },
         {
           "name": "Sky Cellar",
           "seated": 18,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "peaknyc.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "boqueria-w40",
@@ -338,13 +415,55 @@
         {
           "name": "Private dining room",
           "seated": 24,
-          "standing": 35
+          "standing": 35,
+          "exclusive": false
         }
       ],
       "buyout_seated": 100,
       "buyout_reception": 175,
       "capacity_source": "boqueriarestaurant.com NYC events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
+    },
+    {
+      "id": "queensyard",
+      "name": "Queensyard",
+      "space": "The Garden · restaurant buyout",
+      "cuisine": "New American / European",
+      "address": "20 Hudson Yards, Level 4, New York, NY 10001",
+      "neighborhood": "Hudson Yards",
+      "proximity_rank": 4,
+      "proximity": "≈10 min walk from Javits",
+      "website": "https://queensyardnyc.com/private-dining-events/",
+      "phone": "(929) 447-4700",
+      "email": "info@queensyardnyc.com",
+      "email_confidence": "verified",
+      "booking_note": "Published restaurant hours end at 9 PM — a 9:00 PM finish on Sunday needs confirming as a private event.",
+      "rooms": [
+        {
+          "name": "The Garden",
+          "seated": 50,
+          "standing": 65,
+          "exclusive": false
+        }
+      ],
+      "seated_max": 50,
+      "reception_max": 65,
+      "buyout_seated": 125,
+      "buyout_reception": 225,
+      "capacity_source": "queensyardnyc.com private dining & events",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#264CD7",
+      "awards": [],
+      "why": "The Garden takes 65 standing or 50 seated, so both nights sit inside one room without a buyout, ten minutes' walk from Javits. Unusually, they publish per-head pricing: three-course dinner packages from $85, four-course from $105, filet options at $115 and $135, before drinks, tax and service. That makes Queensyard the easiest venue on the board to sanity-check a budget against before anyone replies.",
+      "sources": [
+        "https://queensyardnyc.com/private-dining-events/"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "le-bernardin",
@@ -376,13 +495,68 @@
         {
           "name": "Les Salons Bernardin (dividable)",
           "seated": 80,
-          "standing": 80
+          "standing": 80,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "le-bernardin.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★★",
+          "detail": "Michelin Guide — 3 stars (your sheet)"
+        }
+      ]
+    },
+    {
+      "id": "hudson-vu",
+      "name": "Hudson VU",
+      "space": "The Sunroom · 360 VU",
+      "cuisine": "Rooftop American (Ink48)",
+      "address": "653 11th Ave, New York, NY 10036",
+      "neighborhood": "Hell's Kitchen",
+      "proximity_rank": 5,
+      "proximity": "≈12 min walk from Javits",
+      "website": "https://www.ink48.com/dining/private-events",
+      "phone": "(212) 757-0088",
+      "email": "privateevents@hudsonvunyc.com",
+      "email_confidence": "verified",
+      "booking_note": "",
+      "rooms": [
+        {
+          "name": "The Sunroom",
+          "seated": 40,
+          "standing": 60,
+          "exclusive": false
+        },
+        {
+          "name": "360 VU",
+          "seated": 0,
+          "standing": 250,
+          "exclusive": false
+        }
+      ],
+      "seated_max": 40,
+      "reception_max": 250,
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "ink48.com private events",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#6B4E9E",
+      "awards": [],
+      "why": "A rooftop on 11th Avenue, twelve minutes from Javits and on the right side of town. The Sunroom is quoted at 60 for a reception or 40 seated, which covers both briefs from one room, and 360 VU opens up to 250 standing if Saturday grows. The nearest thing on this board to the Nubeluz brief at a hotel-rooftop price rather than a sky-lounge one. Open daily to midnight, so the Sunday timeline is comfortable.",
+      "sources": [
+        "https://www.ink48.com/dining/private-events",
+        "https://www.hudsonvunyc.com/"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "cote",
@@ -414,18 +588,85 @@
         {
           "name": "Undercote",
           "seated": 0,
-          "standing": 55
+          "standing": 55,
+          "exclusive": false
         },
         {
           "name": "Group dining, main room",
           "seated": 100,
-          "standing": 0
+          "standing": 0,
+          "exclusive": true
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "cotekoreansteakhouse.com events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★",
+          "detail": "Michelin Guide — 1 star (your sheet)"
+        },
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Simon Kim, 2026 JBF Outstanding Restaurateur semifinalist"
+        }
+      ]
+    },
+    {
+      "id": "hav-and-mar",
+      "name": "Hav & Mar",
+      "space": "The Cove · main dining room buyout",
+      "cuisine": "Swedish-Ethiopian seafood — Marcus Samuelsson",
+      "address": "245 11th Ave, New York, NY 10001",
+      "neighborhood": "Chelsea / West Side",
+      "proximity_rank": 6,
+      "proximity": "≈8 min walk from Javits",
+      "website": "https://www.havandmar.com/private-dining/",
+      "phone": "(212) 205-0035",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "Enquiry form on havandmar.com — no events address published. The Cove seats only 16, so both of your nights mean the main dining room.",
+      "rooms": [
+        {
+          "name": "The Cove (private, own entrance)",
+          "seated": 16,
+          "standing": 22,
+          "exclusive": false
+        },
+        {
+          "name": "Main dining room",
+          "seated": 120,
+          "standing": 185,
+          "exclusive": true
+        }
+      ],
+      "seated_max": 16,
+      "reception_max": 22,
+      "buyout_seated": 120,
+      "buyout_reception": 185,
+      "capacity_source": "havandmar.com private dining and The Cove",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#A83A2E",
+      "awards": [
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Chef Fariyal Abdullahi, JBF Best Chef NY State 2026 semifinalist"
+        }
+      ],
+      "why": "Eight minutes' walk from Javits, which puts it among the closest on the board. Read the rooms carefully though: The Cove is a 16-seat private room with its own entrance — lovely, and too small for either night — so both briefs mean the main dining room at 120 seated or 185 standing, which is a buyout proposition and priced accordingly. Marcus Samuelsson's Swedish-Ethiopian seafood, with Fariyal Abdullahi in the kitchen.",
+      "sources": [
+        "https://www.havandmar.com/private-dining/",
+        "https://www.havandmar.com/private-events-venue/the-cove/"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "aquavit",
@@ -457,18 +698,73 @@
         {
           "name": "Nobel Room",
           "seated": 76,
-          "standing": 100
+          "standing": 100,
+          "exclusive": false
         },
         {
           "name": "Linné Salon",
           "seated": 30,
-          "standing": 50
+          "standing": 50,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "aquavit.org private dining kit (PDF)",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★",
+          "detail": "Verified earlier in this project"
+        }
+      ]
+    },
+    {
+      "id": "shukette",
+      "name": "Shukette",
+      "space": "Private dining room",
+      "cuisine": "Middle Eastern — Ayesha Nurdjaja",
+      "address": "230 9th Ave, New York, NY 10001",
+      "neighborhood": "Chelsea",
+      "proximity_rank": 7,
+      "proximity": "≈11 min car from Javits",
+      "website": "https://shukette.org/",
+      "phone": "(212) 242-1803",
+      "email": "",
+      "email_confidence": "form_only",
+      "booking_note": "No events address published — enquire through the site. The private room is 26 seated, just under your Sunday minimum.",
+      "rooms": [
+        {
+          "name": "Private dining room",
+          "seated": 26,
+          "standing": 30,
+          "exclusive": false
+        }
+      ],
+      "seated_max": 26,
+      "reception_max": 30,
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "Shukette private dining listings",
+      "capacity_confidence": "published",
+      "fits": [
+        "sunday"
+      ],
+      "accent": "#B8862F",
+      "awards": [
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Chef Ayesha Nurdjaja, JBF Best Chef NY State 2026 nominee"
+        }
+      ],
+      "why": "A bright 80-seat room off an open kitchen, with a private dining room quoted at 26 seated or 30 standing. That is just under your Sunday minimum — a room seating 26 may well take 30, but it is a question to settle first, not an assumption. Too small for Saturday, so Sunday only. Ayesha Nurdjaja is a current James Beard nominee.",
+      "sources": [
+        "https://shukette.org/",
+        "https://book.perfectvenue.com/venues/shukette"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "gramercy-tavern",
@@ -501,18 +797,32 @@
         {
           "name": "Vault Room",
           "seated": 40,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Private Dining Room",
           "seated": 22,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 120,
       "capacity_source": "gramercytavern.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★",
+          "detail": "Michelin Guide — 1 star (your sheet)"
+        },
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "JBF-recognised chef and restaurant history"
+        }
+      ]
     },
     {
       "id": "bad-roman",
@@ -545,23 +855,27 @@
         {
           "name": "Piazza + Lazzeri combined",
           "seated": 80,
-          "standing": 100
+          "standing": 100,
+          "exclusive": false
         },
         {
           "name": "Piazza Room",
           "seated": 48,
-          "standing": 60
+          "standing": 60,
+          "exclusive": false
         },
         {
           "name": "Lazzeri Room",
           "seated": 40,
-          "standing": 50
+          "standing": 50,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "qualitybranded.com Bad Roman",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "per-se",
@@ -581,12 +895,14 @@
         {
           "name": "West Room",
           "seated": 66,
-          "standing": 120
+          "standing": 120,
+          "exclusive": false
         },
         {
           "name": "East Room",
           "seated": 10,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "seated_max": 66,
@@ -605,7 +921,14 @@
         "https://thomaskeller.com/new-york-new-york/per-se/private-dining-events-general-information/",
         "https://thomaskeller.com/perseny/"
       ],
-      "verified_on": "2026-09-09"
+      "verified_on": "2026-09-09",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★★",
+          "detail": "Michelin Guide — 3 stars (your sheet)"
+        }
+      ]
     },
     {
       "id": "manhatta",
@@ -638,13 +961,15 @@
         {
           "name": "Private Dining Room",
           "seated": 35,
-          "standing": 40
+          "standing": 40,
+          "exclusive": false
         }
       ],
       "buyout_seated": 150,
       "buyout_reception": 250,
       "capacity_source": "manhattarestaurant.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "quality-italian",
@@ -677,18 +1002,62 @@
         {
           "name": "Trophy Room",
           "seated": 60,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "The 57 Room",
           "seated": 32,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "qualityitalian.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
+    },
+    {
+      "id": "markette",
+      "name": "Markette",
+      "space": "Main dining room · full buyout",
+      "cuisine": "Seasonal American",
+      "address": "326 7th Ave, New York, NY 10001",
+      "neighborhood": "Chelsea",
+      "proximity_rank": 9,
+      "proximity": "≈13 min car from Javits",
+      "website": "https://www.marketterestaurant.com/private-event-space-chelsea/",
+      "phone": "",
+      "email": "hello@marketterestaurant.com",
+      "email_confidence": "verified",
+      "booking_note": "Your sheet's summary tab marks Markette as James Beard; its own detail tab corrects this — Chef India Doris won the MICHELIN Young Chef Award, not a James Beard. No award tag applied.",
+      "rooms": [
+        {
+          "name": "Main dining room",
+          "seated": 75,
+          "standing": 100,
+          "exclusive": true
+        }
+      ],
+      "seated_max": 75,
+      "reception_max": 100,
+      "buyout_seated": 0,
+      "buyout_reception": 0,
+      "capacity_source": "marketterestaurant.com private events",
+      "capacity_confidence": "published",
+      "fits": [
+        "saturday",
+        "sunday"
+      ],
+      "accent": "#B8862F",
+      "awards": [],
+      "why": "The main dining room takes 100 for a cocktail reception or 75 seated, so both nights fit with room to spare, and Sunday hours run to 10 PM. Michelin Selected, and Chef India Doris took the Michelin Guide's Young Chef Award for the Northeast Cities 2025 — a genuine distinction, though not the James Beard one your summary tab records.",
+      "sources": [
+        "https://www.marketterestaurant.com/private-event-space-chelsea/",
+        "https://www.marketterestaurant.com/frequently-asked-questions/"
+      ],
+      "verified_on": "2026-09-22"
     },
     {
       "id": "saga",
@@ -721,13 +1090,21 @@
         {
           "name": "62nd-floor private rooms",
           "seated": 40,
-          "standing": 70
+          "standing": 70,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "saga-nyc.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★",
+          "detail": "Verified earlier in this project"
+        }
+      ]
     },
     {
       "id": "torrisi",
@@ -759,13 +1136,15 @@
         {
           "name": "Private dining room",
           "seated": 45,
-          "standing": 125
+          "standing": 125,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "torrisinyc.com",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "the-modern",
@@ -797,18 +1176,21 @@
         {
           "name": "Private Dining Room",
           "seated": 64,
-          "standing": 80
+          "standing": 80,
+          "exclusive": false
         },
         {
           "name": "PDR, one long table",
           "seated": 30,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 100,
       "buyout_reception": 250,
       "capacity_source": "themodernnyc.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "jungsik",
@@ -839,13 +1221,21 @@
         {
           "name": "Private dining room",
           "seated": 16,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 35,
       "buyout_reception": 0,
       "capacity_source": "jungsik.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★★",
+          "detail": "Verified earlier — third star awarded Dec 2024"
+        }
+      ]
     },
     {
       "id": "the-grill-pool",
@@ -878,18 +1268,21 @@
         {
           "name": "The Gallery",
           "seated": 22,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "The Salon",
           "seated": 15,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 180,
       "buyout_reception": 350,
       "capacity_source": "thegrillnewyork.com events overview (PDF)",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "marea",
@@ -921,23 +1314,27 @@
         {
           "name": "Salerno Lounge",
           "seated": 35,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Ravello",
           "seated": 30,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Praiano",
           "seated": 24,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 125,
       "buyout_reception": 200,
       "capacity_source": "marearestaurant.com catering & events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "semma",
@@ -968,13 +1365,26 @@
         {
           "name": "Semi-private room",
           "seated": 28,
-          "standing": 38
+          "standing": 38,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "semma.nyc private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★",
+          "detail": "Michelin Guide — 1 star (your sheet)"
+        },
+        {
+          "kind": "jbf",
+          "label": "James Beard",
+          "detail": "Chef Vijay Kumar, JBF-recognised"
+        }
+      ]
     },
     {
       "id": "smith-wollensky",
@@ -1006,13 +1416,15 @@
         {
           "name": "Second-floor skylit rooms, combined",
           "seated": 130,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "smithandwollenskynyc.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "kabawa",
@@ -1044,13 +1456,15 @@
         {
           "name": "Private dining room / full room",
           "seated": 48,
-          "standing": 60
+          "standing": 60,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "momofuku.com Kabawa events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "crown-shy",
@@ -1083,18 +1497,27 @@
         {
           "name": "Pearl + Cedar Rooms",
           "seated": 50,
-          "standing": 80
+          "standing": 80,
+          "exclusive": false
         },
         {
           "name": "The Nook",
           "seated": 18,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 125,
       "buyout_reception": 300,
       "capacity_source": "crownshy.nyc private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★",
+          "detail": "Verified earlier in this project"
+        }
+      ]
     },
     {
       "id": "aska",
@@ -1127,18 +1550,27 @@
         {
           "name": "Main dining room, privatized",
           "seated": 50,
-          "standing": 0
+          "standing": 0,
+          "exclusive": true
         },
         {
           "name": "Cellar lounge",
           "seated": 16,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "askanyc.com",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★",
+          "detail": "Verified earlier in this project"
+        }
+      ]
     },
     {
       "id": "temple-court",
@@ -1171,28 +1603,33 @@
         {
           "name": "Full Cellar",
           "seated": 0,
-          "standing": 225
+          "standing": 225,
+          "exclusive": false
         },
         {
           "name": "Farnsworth",
           "seated": 100,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         },
         {
           "name": "Kelly Room",
           "seated": 70,
-          "standing": 80
+          "standing": 80,
+          "exclusive": false
         },
         {
           "name": "Chapel Street",
           "seated": 20,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "templecourtnyc.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "amali",
@@ -1224,23 +1661,27 @@
         {
           "name": "Skylight Room",
           "seated": 40,
-          "standing": 65
+          "standing": 65,
+          "exclusive": false
         },
         {
           "name": "Sopra",
           "seated": 40,
-          "standing": 60
+          "standing": 60,
+          "exclusive": false
         },
         {
           "name": "Fireplace Room",
           "seated": 22,
-          "standing": 35
+          "standing": 35,
+          "exclusive": false
         }
       ],
       "buyout_seated": 120,
       "buyout_reception": 200,
       "capacity_source": "amalinyc.com events package (PDF)",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "eleven-madison-park",
@@ -1272,13 +1713,21 @@
         {
           "name": "Balcony private dining room",
           "seated": 27,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 0,
       "buyout_reception": 0,
       "capacity_source": "elevenmadisonpark.com events — post-renovation figure, confirm",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": [
+        {
+          "kind": "michelin",
+          "label": "Michelin ★★★",
+          "detail": "Verified earlier in this project"
+        }
+      ]
     },
     {
       "id": "tucci",
@@ -1310,18 +1759,21 @@
         {
           "name": "Bleecker Street Dining Room",
           "seated": 40,
-          "standing": 60
+          "standing": 60,
+          "exclusive": false
         },
         {
           "name": "Small Wine Cellar",
           "seated": 12,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 130,
       "buyout_reception": 290,
       "capacity_source": "tuccinyc.com private events",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "freemans",
@@ -1353,23 +1805,27 @@
         {
           "name": "Red Room",
           "seated": 30,
-          "standing": 35
+          "standing": 35,
+          "exclusive": false
         },
         {
           "name": "Blue Room",
           "seated": 20,
-          "standing": 25
+          "standing": 25,
+          "exclusive": false
         },
         {
           "name": "Wine Room",
           "seated": 12,
-          "standing": 0
+          "standing": 0,
+          "exclusive": false
         }
       ],
       "buyout_seated": 200,
       "buyout_reception": 200,
       "capacity_source": "freemansrestaurant.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     },
     {
       "id": "one-fifth",
@@ -1401,23 +1857,27 @@
         {
           "name": "Semi-private combination",
           "seated": 100,
-          "standing": 125
+          "standing": 125,
+          "exclusive": false
         },
         {
           "name": "The Mews",
           "seated": 45,
-          "standing": 70
+          "standing": 70,
+          "exclusive": false
         },
         {
           "name": "Lounge section",
           "seated": 0,
-          "standing": 30
+          "standing": 30,
+          "exclusive": false
         }
       ],
       "buyout_seated": 150,
       "buyout_reception": 225,
       "capacity_source": "onefifthnyc.com private dining",
-      "capacity_confidence": "published"
+      "capacity_confidence": "published",
+      "awards": []
     }
   ]
 }
