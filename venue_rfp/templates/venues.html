@@ -242,6 +242,13 @@ button.lnk:disabled{opacity:.55;cursor:progress}
 .go.done{background:transparent;color:var(--muted);border-color:var(--line)}
 .go.done:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
 .disc{padding:4px 8px;line-height:1}
+.sent{flex:none;font-size:11.5px;font-weight:600;padding:6px 11px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;
+  white-space:nowrap;transition:.18s;letter-spacing:.01em}
+.sent:hover{border-color:var(--green);color:var(--green);background:var(--green-50)}
+.sent.on{background:var(--green);border-color:var(--green);color:#fff}
+.sent.on:hover{background:#0E5C44;border-color:#0E5C44;color:#fff}
+.nrow select{max-width:150px}
 .detail{display:flex;flex-direction:column;gap:7px;padding:10px 0 5px 36px}
 .drow{display:flex;gap:7px}
 .detail input,.detail textarea{width:100%;font-size:12.5px;padding:8px 12px;
@@ -506,6 +513,9 @@ body.list .nrow select{width:120px;flex:none}
 >
               {% if v.outreach[key].status == 'not_contacted' %}Send RFP{% else %}Resend{% endif %}
             </a>
+            <button class="sent {% if v.outreach[key].status != 'not_contacted' %}on{% endif %}"
+                    type="button" data-sent aria-pressed="{{ 'true' if v.outreach[key].status != 'not_contacted' else 'false' }}"
+                    title="Mark as sent — use this if you sent it yourself, or the app lost track">✓ Sent</button>
             <button class="mini disc" type="button" data-toggle title="Quote and notes">▾</button>
           </div>
           <div class="detail" data-detail="{{ key }}" hidden>
@@ -631,17 +641,88 @@ function progress(){
 }
 
 /* ── status changes ────────────────────────────────────────── */
-grid.addEventListener('change', async e => {
+grid.addEventListener('change', e => {
   const sel = e.target.closest('[data-status]'); if (!sel) return;
-  const card = sel.closest('.card'), row = sel.closest('.nrow');
-  row.querySelector('[data-dot]').className = 'dot ' + sel.value;
-  const go = row.querySelector('[data-draft]');
-  go.textContent = sel.value === 'not_contacted' ? 'Send RFP' : 'Resend';
-  go.classList.toggle('done', sel.value !== 'not_contacted');
-  progress(); apply();
-  try { await post(`${BASE}/api/outreach/${card.dataset.id}/${row.dataset.night}`, {status: sel.value}); }
-  catch (err) { alert('Could not save status: ' + err.message); }
+  setStatus(sel.closest('.card'), sel.closest('.nrow').dataset.night, sel.value);
 });
+
+/* ── remembering what was sent ─────────────────────────────────
+   The tracker lives in a SQLite file inside the container. On a free Render
+   instance there is no persistent disk, so a restart or a spin-down wipes it.
+   The browser therefore keeps its own copy: on load anything the server has
+   forgotten is pushed back into it, so the count survives a reset either side.
+*/
+const LS_KEY = 'venueOutreach.v1';
+
+function lsRead(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+  catch { return {}; }
+}
+function lsWrite(map){
+  try { localStorage.setItem(LS_KEY, JSON.stringify(map)); } catch {}
+}
+function lsSet(venueId, night, patch){
+  const m = lsRead();
+  const k = `${venueId}/${night}`;
+  m[k] = Object.assign({}, m[k], patch, {ts: Date.now()});
+  lsWrite(m);
+}
+
+/* Paint a night row to match a status, without saving anything. */
+function paintStatus(card, night, status){
+  const row = card.querySelector(`.nrow[data-night="${night}"]`);
+  if (!row) return;
+  row.querySelector('[data-status]').value = status;
+  row.querySelector('[data-dot]').className = 'dot ' + status;
+  const sent = status !== 'not_contacted';
+  const go = row.querySelector('[data-draft]');
+  go.textContent = sent ? 'Resend' : 'Send RFP';
+  go.classList.toggle('done', sent);
+  const btn = row.querySelector('[data-sent]');
+  btn.classList.toggle('on', sent);
+  btn.setAttribute('aria-pressed', String(sent));
+}
+
+/* Save a status everywhere: the DOM, this browser, and the server. */
+async function setStatus(card, night, status){
+  paintStatus(card, night, status);
+  lsSet(card.dataset.id, night, {status});
+  progress(); rollup(); apply();
+  try { await post(`${BASE}/api/outreach/${card.dataset.id}/${night}`, {status}); }
+  catch (err) { toast(`Saved in this browser, but the server did not take it — ${err.message}`); }
+}
+
+/* On load, restore anything the server lost. */
+async function restoreFromBrowser(){
+  const mem = lsRead();
+  const restored = [];
+  for (const [key, val] of Object.entries(mem)) {
+    const [venueId, night] = key.split('/');
+    const card = document.querySelector(`.card[data-id="${venueId}"]`);
+    const row = card && card.querySelector(`.nrow[data-night="${night}"]`);
+    if (!row) continue;                                  // venue or night is gone
+    const server = row.querySelector('[data-status]').value;
+    const patch = {};
+    if (val.status && val.status !== 'not_contacted' && server === 'not_contacted') {
+      paintStatus(card, night, val.status);
+      patch.status = val.status;
+    }
+    for (const f of ['quote', 'fees', 'notes']) {
+      const el = card.querySelector(`.detail[data-detail="${night}"] [data-${f}]`);
+      if (el && val[f] && !el.value) { el.value = val[f]; patch[f] = val[f]; }
+    }
+    if (!Object.keys(patch).length) continue;
+    restored.push(card.querySelector('h3').textContent.trim());
+    try { await post(`${BASE}/api/outreach/${venueId}/${night}`, patch); } catch {}
+  }
+  if (restored.length) {
+    progress(); rollup(); apply();
+    const names = [...new Set(restored)];
+    toast(`The server had lost <b>${restored.length}</b> update${restored.length>1?'s':''} — ` +
+          `restored from this browser: ${names.slice(0,4).join(', ')}` +
+          `${names.length>4 ? ` and ${names.length-4} more` : ''}.`, 9000);
+  }
+}
 
 /* ── shortlist, quotes and notes ───────────────────────────── */
 function rollup(){
@@ -664,8 +745,9 @@ function saveDetail(card, night, field, value){
   clearTimeout(saveTimers.get(key));
   saveTimers.set(key, setTimeout(async () => {
     saveTimers.delete(key);
+    lsSet(card.dataset.id, night, {[field]: value});
     try { await post(`${BASE}/api/outreach/${card.dataset.id}/${night}`, {[field]: value}); }
-    catch (err) { toast(`Could not save — ${err.message}`); }
+    catch (err) { toast(`Saved in this browser, but the server did not take it — ${err.message}`); }
     rollup();
   }, 450));
 }
@@ -692,12 +774,9 @@ on('resetBtn', 'click', async e => {
   btn.disabled = true; btn.textContent = 'Resetting…';
   try {
     const d = await post(`${BASE}/api/reset`, {});
-    cards.forEach(card => card.querySelectorAll('.nrow').forEach(row => {
-      row.querySelector('[data-status]').value = 'not_contacted';
-      row.querySelector('[data-dot]').className = 'dot';
-      const go = row.querySelector('[data-draft]');
-      go.textContent = 'Send RFP'; go.classList.remove('done');
-    }));
+    try { localStorage.removeItem(LS_KEY); } catch {}   // else it restores itself
+    cards.forEach(card => card.querySelectorAll('.nrow').forEach(row =>
+      paintStatus(card, row.dataset.night, 'not_contacted')));
     progress(); rollup(); apply();
     toast(`Reset — <b>${d.cleared}</b> cleared. Every venue reads as not contacted.`, 4500);
   } catch (err) { toast(`Could not reset — ${err.message}`); }
@@ -765,17 +844,10 @@ on('getAll', 'click', async e => {
 });
 
 /* ── the Send RFP link opens Gmail; we record that it went ─── */
-async function markSent(card, night){
+function markSent(card, night){
   const row = card.querySelector(`.nrow[data-night="${night}"]`);
-  const sel = row.querySelector('[data-status]');
-  if (sel.value !== 'not_contacted') return;        // already tracked
-  sel.value = 'rfp_sent';
-  row.querySelector('[data-dot]').className = 'dot rfp_sent';
-  const go = row.querySelector('[data-draft]');
-  go.textContent = 'Resend'; go.classList.add('done');
-  progress(); apply();
-  try { await post(`${BASE}/api/outreach/${card.dataset.id}/${night}`, {status: 'rfp_sent'}); }
-  catch (err) { alert('Opened Gmail, but could not save the status: ' + err.message); }
+  if (!row || row.querySelector('[data-status]').value !== 'not_contacted') return;
+  return setStatus(card, night, 'rfp_sent');        // already tracked → leave it
 }
 
 grid.addEventListener('click', async e => {
@@ -831,6 +903,14 @@ grid.addEventListener('click', async e => {
     return;
   }
 
+  const mark = e.target.closest('[data-sent]');
+  if (mark) {
+    const night = mark.closest('.nrow').dataset.night;
+    const now = card.querySelector(`.nrow[data-night="${night}"] [data-status]`).value;
+    setStatus(card, night, now === 'not_contacted' ? 'rfp_sent' : 'not_contacted');
+    return;
+  }
+
   const go = e.target.closest('[data-draft]');
   if (go) markSent(card, go.closest('.nrow').dataset.night);
 });
@@ -844,6 +924,7 @@ try {
 } catch {}
 cards.forEach(c => { if (c.dataset.starred === '1') c.classList.add('starred'); });
 sortCards(); progress(); rollup(); apply();
+restoreFromBrowser();
 </script>
 </body>
 </html>

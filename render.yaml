@@ -20,9 +20,14 @@ services:
       # - key: GMAIL_SENDING_ACCOUNT
       #   value: "maggie.dryden@impactanalytics.ai"
 
-      # Outreach tracker (SQLite). Free instances cannot mount a disk, so this
-      # resets on redeploy and spin-down — use the "Export tracker" button, or
-      # move to a paid instance and uncomment this and the `disk:` block.
+      # Outreach tracker (SQLite). On the free plan there is no persistent
+      # disk, so the container filesystem — and this file with it — is wiped on
+      # every restart and spin-down. The board mirrors what it knows into the
+      # browser and pushes it back on load, which covers the common case, but
+      # that copy lives in one browser on one machine.
+      #
+      # For state that survives on the server, switch `plan: free` to
+      # `plan: starter` above, then uncomment both this and the `disk:` block.
       # - key: VENUE_DB_PATH
       #   value: /var/data/outreach.db
 

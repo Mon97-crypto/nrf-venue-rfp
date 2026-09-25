@@ -33,18 +33,26 @@ STATUSES = [
 _DEFAULT_DB = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'outreach.db')
 DB_PATH = os.environ.get('VENUE_DB_PATH', _DEFAULT_DB)
 
-_lock = threading.Lock()
+# Reentrant: the write helpers hold this and then call _connect(), which
+# asserts the schema under the same lock. A plain Lock deadlocks there.
+_lock = threading.RLock()
 
 
 def _connect():
     os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH, timeout=10)
     conn.row_factory = sqlite3.Row
+    # The schema is asserted on every connection, not just at start-up. On a
+    # host with no persistent disk the file can vanish underneath a running
+    # process; without this the next query raises "no such table" and every
+    # request 500s until the service is restarted. The statements are all
+    # IF NOT EXISTS, so this costs almost nothing.
+    _ensure_schema(conn)
     return conn
 
 
-def init_db():
-    with _lock, _connect() as conn:
+def _ensure_schema(conn):
+    with _lock:
         conn.execute("""
             CREATE TABLE IF NOT EXISTS outreach (
                 venue_id     TEXT NOT NULL,
@@ -73,6 +81,13 @@ def init_db():
         """)
         for col in ('starred', 'owner'):
             _ensure_column(conn, 'venue_meta', col)
+        conn.commit()
+
+
+def init_db():
+    """Kept for callers that want the schema built eagerly at start-up."""
+    with _connect():
+        pass
 
 
 def _ensure_column(conn, table, column):

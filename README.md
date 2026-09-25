@@ -95,6 +95,26 @@ with `GMAIL_SENDING_ACCOUNT`, `RFP_SENDER_NAME` or `RFP_SENDER_ORG`.
 notes, starred venues and cover photos are research rather than send state, so
 they survive it.
 
+## Where the tracker lives, and why it forgets
+
+Outreach is a SQLite file inside the container. A free Render instance has no
+persistent disk and spins down after fifteen minutes idle, so that file is wiped
+on every restart — which is why the counters used to return to zero on their own.
+
+Two things address it:
+
+- **The browser keeps its own copy.** Every status, quote, fee and note is
+  mirrored to `localStorage`. On load the board compares the two and pushes
+  anything the server has lost back into it, telling you what it restored. This
+  needs no paid plan, but the copy lives in one browser on one machine — it will
+  not follow you to another laptop, and a cleared cache clears it.
+- **A persistent disk fixes it properly.** Move the service to `plan: starter`
+  in `render.yaml` and uncomment the `disk:` block and `VENUE_DB_PATH`. State
+  then lives on the server for everyone, through restarts.
+
+**✓ Sent** on each night row marks an RFP as sent by hand — for when you sent it
+yourself, or the server lost track. Pressing it again clears the mark.
+
 ## Venue photos
 
 Each card can show the venue's own photograph. **Get photos** in the toolbar
